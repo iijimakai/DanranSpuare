@@ -77,7 +77,15 @@ namespace Player
 
 namespace Enemy
 
-##git運用
+## Unity運用
+
+・各フォルダ直下に自分の名前のフォルダを作ってその下に保存
+
+・パラメーター調整のScriptableObjectはParameterフォルダの各機能フォルダに保存
+
+・CreateAssetMenuはDatas/から各データ名にする。
+
+## git運用
 
 自身のブランチを切る
 
