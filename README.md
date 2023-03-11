@@ -33,16 +33,24 @@ get/setアクセサを使うがsetはprivateを宣言する
 public int temp {get; private set;} = 10;
 
 #### 関数
+
 パスカルケース
-関数に/// <summary>を入れる
-<param name = "">や<return>の記述
+
+関数に\<summary>を入れる
+
+\<param name = "">や\<return>の記述
 
 例
-/// <summary>
+/// \<summary>
+
 /// isNewGameのセッター
-/// </summary>
-/// <param name="temp">引数の役割</param>
+
+/// \</summary>
+
+/// \<param name="temp">引数の役割</param>
+
 public void Test(int temp)
+
 {
 
 }
