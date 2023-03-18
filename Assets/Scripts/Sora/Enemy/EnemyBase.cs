@@ -15,18 +15,6 @@ namespace Spra_Enemy
         private void Init(EnemyData enemydata)
         {
             data = enemydata;
-            switch (data.enemyType)
-            {
-                case EnemyType.E1:
-                case EnemyType.E2:
-                    break;
-                case EnemyType.E3:
-                case EnemyType.E4:
-                    this.UpdateAsObservable()
-                        .Subscribe(_ => Move())
-                        .AddTo(disposables);
-                    break;
-            }
         }
 
         /// <summary>
