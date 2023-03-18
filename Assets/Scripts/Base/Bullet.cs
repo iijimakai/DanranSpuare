@@ -13,10 +13,15 @@ namespace Bullet
         [SerializeField, Header("敵かプレイヤーか"), Tooltip("プレイヤーならチェックを入れない")] private bool isEnemy;
 
         private Vector3 initalPosition = new Vector3();
+        [SerializeField]
+        private Transform pos;
 
         private Subject<Unit> isRangeOutSide = new Subject<Unit>();
         private CompositeDisposable disposables = new CompositeDisposable();
-
+        private void Start()
+        {
+            Init(5, 5, 5);
+        }
         /// <summary>
         /// 生成時の初期化
         /// </summary>
@@ -30,6 +35,7 @@ namespace Bullet
             firingRange = _firingRange;
             isRangeOutSide.Subscribe(_ => RemoveBullet())
                 .AddTo(this);
+            Shot(pos);
         }
 
         /// <summary>
