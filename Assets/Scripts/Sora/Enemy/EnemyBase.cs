@@ -1,6 +1,5 @@
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 using Sora_Constants;
 using System;
 using Bullet;
@@ -11,9 +10,12 @@ namespace Sora_Enemy
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class EnemyBase : MonoBehaviour
     {
+        private int hp;
+        private int attackPoint;
+
         private EnemyData data;
 
-        private Subject<Unit> attack = new Subject<Unit>();
+        private Subject<Unit> deadFlag = new Subject<Unit>();
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -38,7 +40,9 @@ namespace Sora_Enemy
                     data = await AddressLoader.AddressLoad<EnemyData>(AddressableAssetAddress.E4_DATA);
                     break;
             }
-            Debug.Log(data);
+
+            deadFlag.Subscribe(_ => Dead())
+                .AddTo(disposables);
         }
 
         /// <summary>
@@ -60,26 +64,41 @@ namespace Sora_Enemy
         /// 弾の初期値を入力
         /// </summary>
         /// <param name="bullet">弾のスクリプト</param>
-        public void ShotInit(BulletMove bullet)
+        public void ShotInit(BulletMove bullet, Transform shotPos)
         {
-            Debug.Log(bullet);
-            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, transform);
+            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, shotPos);
+        }
+
+        /// <summary>
+        /// 被弾処理
+        /// </summary>
+        /// <param name="damage">ダメージ</param>
+        public void Damage(int damage)
+        {
+            hp -= damage;
+            if (hp <= 0)
+            {
+                deadFlag.OnNext(Unit.Default);
+            }
+        }
+
+        public IObservable<Unit> GetDeadFlag()
+        {
+            return deadFlag;
+        }
+
+        public abstract void Spawn();
+        public abstract void Attack();
+        public abstract void Dead();
+
+        private void OnDestroy()
+        {
+            disposables.Dispose();
         }
 
         private void OnDisable()
         {
             disposables.Clear();
-        }
-
-        public abstract void Spawn();
-        public abstract void Attack();
-
-        /// <summary>
-        /// オブジェクトが消えたときの処理を強制
-        /// </summary>
-        private void OnDestroy()
-        {
-            disposables.Dispose();
         }
     }
 }

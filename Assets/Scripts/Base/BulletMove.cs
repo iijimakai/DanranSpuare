@@ -1,6 +1,7 @@
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using Sora_Enemy;
 
 namespace Bullet
 {
@@ -52,7 +53,7 @@ namespace Bullet
         /// </summary>
         private void Move()
         {
-            transform.Translate(bulletSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(0, bulletSpeed * Time.deltaTime, 0);
             float currentDistance = Vector3.Distance(initalPosition, transform.position);
 
             if (firingRange <= Mathf.Abs(currentDistance))
@@ -79,6 +80,7 @@ namespace Bullet
                 if (other.CompareTag(TagName.Enemy))
                 {
                     //TODO: エネミーの被弾処理
+                    other.GetComponent<EnemyBase>().Damage(attackPoint);
                     RemoveBullet();
                 }
             }
