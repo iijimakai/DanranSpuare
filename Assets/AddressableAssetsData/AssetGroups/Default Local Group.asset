@@ -18,19 +18,51 @@ MonoBehaviour:
   m_GUID: e1ecbc236041e7549bbd653c1f6c3d29
   m_SerializeEntries:
   - m_GUID: 725511f376d3d364ba4f21506b4753dc
-    m_Address: E4
+    m_Address: E4Data
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 9700a714776bc4b4ba045f8a43393707
-    m_Address: E3
+    m_Address: E3Data
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: ae6a0557a484f724596bf6c03a659168
-    m_Address: E2
+    m_Address: E2Data
     m_ReadOnly: 0
     m_SerializedLabels: []
   - m_GUID: 309cddae805f95745aeb281133601802
-    m_Address: E1
+    m_Address: E1Data
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b08e90d89764e3d4983dce57e59d958a
+    m_Address: BulletPoolData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 87cf4cb6eace92a49ad02500c8de4d85
+    m_Address: TemBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c6abe152e22afd24e9cbec5f605c5fb0
+    m_Address: SysBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 472165f48cdfada41a9b9a1fdad3494d
+    m_Address: LagBullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a0847727ae74b3a4eb5e174fdde343e1
+    m_Address: E1Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 759cd3df44309ef409cfa2e5d8bb1bef
+    m_Address: E2Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7ca73168c38c8e8478b293c95899b60e
+    m_Address: E3Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: c60edb866925e4547986b952b3babdfc
+    m_Address: E4Bullet
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

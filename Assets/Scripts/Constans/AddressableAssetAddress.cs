@@ -3,10 +3,18 @@
 /// </summary>
 public static class AddressableAssetAddress
 {
-	public const string E1 = "E1";
-	public const string E2 = "E2";
-	public const string E3 = "E3";
-	public const string E4 = "E4";
+	public const string BULLET_POOL_DATA = "BulletPoolData";
+	public const string E1_BULLET = "E1Bullet";
+	public const string E1_DATA = "E1Data";
+	public const string E2_BULLET = "E2Bullet";
+	public const string E2_DATA = "E2Data";
+	public const string E3_BULLET = "E3Bullet";
+	public const string E3_DATA = "E3Data";
+	public const string E4_BULLET = "E4Bullet";
+	public const string E4_DATA = "E4Data";
 	public const string EDITOR_SCENE_LIST = "EditorSceneList";
+	public const string LAG_BULLET = "LagBullet";
 	public const string RESOURCES = "Resources";
+	public const string SYS_BULLET = "SysBullet";
+	public const string TEM_BULLET = "TemBullet";
 }

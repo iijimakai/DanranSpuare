@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8893247c11aa74fb2613b96e74dacd, type: 3}
   m_Name: E1
   m_EditorClassIdentifier: 
+  <enemyType>k__BackingField: 0
+  <hp>k__BackingField: 3
+  <speed>k__BackingField: 3
+  <attackPoint>k__BackingField: 3
+  <bulletSpeed>k__BackingField: 3
+  <firingRange>k__BackingField: 50
+  <attackInterval>k__BackingField: 3
