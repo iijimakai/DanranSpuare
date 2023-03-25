@@ -13,20 +13,28 @@ namespace Sora_Enemy
         [SerializeField] private GameObject shotPos;
         [SerializeField] private BulletPool pool;
 
+        private CompositeDisposable disposables = new CompositeDisposable();
+
         // TODO: EnemyPool完成時に変更
         /// <summary>
         /// Instantiate時に実行
         /// </summary>
-        public void Awake()
+        public async void Awake()
         {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
+
+            await base.Init(EnemyType.E1);
+        }
+
+        private void OnEnable()
+        {
             this.UpdateAsObservable()
                 .Subscribe(_ => TargetLockShotPos())
-                .AddTo(this);
+                .AddTo(disposables);
 
             pool.GetCreateEnd()
                 .Subscribe(_ => Spawn())
-                .AddTo(this);
+                .AddTo(disposables);
         }
 
         /// <summary>
@@ -41,15 +49,16 @@ namespace Sora_Enemy
         /// <summary>
         /// 攻撃間隔の開始
         /// </summary>
-        public async override void Spawn()
+        public override void Spawn()
         {
-            await base.Init(EnemyType.E1);
+            base.SubscriptionStart(player);
             base.AttackInterval();
         }
 
         public override void Dead()
         {
             Debug.Log("Daed");
+            disposables.Clear();
         }
 
         /// <summary>

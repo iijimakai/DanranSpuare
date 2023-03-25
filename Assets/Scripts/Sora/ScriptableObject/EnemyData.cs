@@ -6,10 +6,6 @@ namespace Sora_Constants
     public class EnemyData : ScriptableObject
     {
         /// <summary>
-        /// 敵の種類
-        /// </summary>
-        [field: SerializeField, Header("敵の種類")] public EnemyType enemyType { get; private set; }
-        /// <summary>
         /// 体力
         /// </summary>
         [field: SerializeField, Header("体力")] public int hp { get; private set; }
@@ -33,6 +29,10 @@ namespace Sora_Constants
         /// 攻撃間隔
         /// </summary>
         [field: SerializeField, Header("攻撃間隔")] public float attackInterval { get; private set; }
+        /// <summary>
+        /// 瞬間移動できる距離
+        /// </summary>
+        [field: SerializeField, Header("瞬間移動距離")] public float teleportationDistance { get; private set; }
 
     }
 }
