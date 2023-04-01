@@ -33,6 +33,10 @@ namespace Sora_Constants
         /// 瞬間移動できる距離
         /// </summary>
         [field: SerializeField, Header("瞬間移動距離")] public float teleportationDistance { get; private set; }
+        /// <summary>
+        /// 画面外で弾が消えるまでの時間
+        /// </summary>
+        [field: SerializeField, Header("弾が消える時間")] public float deleteTime { get; private set; }
 
     }
 }

@@ -145,7 +145,7 @@ namespace Sora_Enemy
         /// <param name="bullet">弾のスクリプト</param>
         public void ShotInit(BulletMove bullet, Transform shotPos)
         {
-            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, shotPos);
+            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, data.deleteTime, shotPos);
         }
 
         public void DisposableClear()
