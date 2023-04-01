@@ -16,6 +16,6 @@ MonoBehaviour:
   <speed>k__BackingField: 3
   <attackPoint>k__BackingField: 3
   <bulletSpeed>k__BackingField: 3
-  <firingRange>k__BackingField: 5
+  <firingRange>k__BackingField: 10
   <attackInterval>k__BackingField: 2
   <teleportationDistance>k__BackingField: 1
