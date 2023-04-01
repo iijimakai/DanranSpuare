@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Sora_Constants;
 using Cysharp.Threading.Tasks;
