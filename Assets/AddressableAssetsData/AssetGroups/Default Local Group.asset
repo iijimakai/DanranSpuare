@@ -65,6 +65,26 @@ MonoBehaviour:
     m_Address: E4Bullet
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: f4660823137bdef46b8ecf1dd2ad089c
+    m_Address: P3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 657d34ece7746b144adbdf9635b4b31e
+    m_Address: P2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5a464707163ffa148843f7d97b4bdada
+    m_Address: P1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7629ab7251c47854eb09bd56b1703f0e
+    m_Address: PBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bb58c1caf6fe60d429b086618486dddf
+    m_Address: PInput
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f8385f1964914444ca37ef33c7b61b5c, type: 2}
   m_SchemaSet:
