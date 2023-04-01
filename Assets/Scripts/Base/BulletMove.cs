@@ -41,7 +41,7 @@ namespace Bullet
         public void Shot(Transform parentPos)
         {
             transform.position = parentPos.position;
-            transform.localEulerAngles = parentPos.localEulerAngles;
+            transform.localEulerAngles = parentPos.eulerAngles;
             initalPosition = transform.position;
             this.UpdateAsObservable()
                 .Subscribe(_ => Move())

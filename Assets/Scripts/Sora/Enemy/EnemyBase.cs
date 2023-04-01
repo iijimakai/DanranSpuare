@@ -56,7 +56,6 @@ namespace Sora_Enemy
         /// </summary>
         public void SubscriptionStart(GameObject player)
         {
-            Debug.Log("Subscrible" + isMove);
             this.UpdateAsObservable()
                 .Where(_ => IsAattackRange(player))
                 .Subscribe(_ => isAttack.OnNext(true))
@@ -88,7 +87,6 @@ namespace Sora_Enemy
         /// <returns>攻撃範囲内か</returns>
         public bool IsAattackRange(GameObject player)
         {
-            Debug.Log(gameObject.name + "ISATTACKRANGE");
             float distance = Vector3.Distance(player.transform.position, transform.position);
             if (distance <= data.firingRange)
             {
@@ -126,7 +124,6 @@ namespace Sora_Enemy
         {
             isMove = false;
             spriteRenderer.color = new Color(255, 0, 0);
-            Debug.Log("zz");
             Observable.Interval(TimeSpan.FromSeconds(data.attackInterval))
                 .Subscribe(_ => Attack())
                 .AddTo(disposables);
