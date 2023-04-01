@@ -33,10 +33,6 @@ MonoBehaviour:
     m_Address: E1Data
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: b08e90d89764e3d4983dce57e59d958a
-    m_Address: BulletPoolData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 87cf4cb6eace92a49ad02500c8de4d85
     m_Address: TemBullet
     m_ReadOnly: 0
@@ -83,6 +79,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: bb58c1caf6fe60d429b086618486dddf
     m_Address: PInput
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 786fe143915f0f947bc064c200a67d14
+    m_Address: BulletPoolData
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

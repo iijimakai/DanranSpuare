@@ -2,6 +2,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using Sora_Enemy;
+using System;
 
 namespace Bullet
 {
@@ -11,12 +12,14 @@ namespace Bullet
         private int attackPoint;
         private float bulletSpeed;
         private float firingRange;
+        private float deleteTime;
         [SerializeField, Header("敵かプレイヤーか"), Tooltip("プレイヤーならチェックを入れない")] private bool isEnemy;
 
         private Vector3 initalPosition = new Vector3();
 
         private Subject<Unit> isRangeOutSide = new Subject<Unit>();
         private CompositeDisposable disposables = new CompositeDisposable();
+        private CompositeDisposable deleteTimedisposables = new CompositeDisposable();
 
         /// <summary>
         /// 生成時の初期化
@@ -24,15 +27,35 @@ namespace Bullet
         /// <param name="_attackPoint">攻撃力</param>
         /// <param name="_bulletSpeed">スピード</param>
         /// <param name="_firingRange">射程</param>
-        public void Init(int _attackPoint, float _bulletSpeed, float _firingRange, Transform pos)
+        public void Init(int _attackPoint, float _bulletSpeed, float _firingRange, float _deleteTime, Transform pos)
         {
             attackPoint = _attackPoint;
             bulletSpeed = _bulletSpeed;
             firingRange = _firingRange;
+            deleteTime = _deleteTime;
             isRangeOutSide.Subscribe(_ => RemoveBullet())
                 .AddTo(disposables);
             Shot(pos);
         }
+
+        /// <summary>
+        /// 画面内に映ったら
+        /// </summary>
+        private void OnBecameVisible()
+        {
+            deleteTimedisposables.Clear();
+        }
+
+        /// <summary>
+        /// 画面外に行ったら
+        /// </summary>
+        private void OnBecameInvisible()
+        {
+            Observable.Timer(TimeSpan.FromSeconds(deleteTime))
+                .Subscribe(_ => RemoveBullet())
+                .AddTo(deleteTimedisposables);
+        }
+
 
         /// <summary>
         /// 弾の発射
@@ -92,7 +115,9 @@ namespace Bullet
         private void RemoveBullet()
         {
             disposables.Clear();
+            deleteTimedisposables.Clear();
             //TODO: ObjectPoolを実装したら追加
+            BulletPoolUtile.RemoveBullet(gameObject);
         }
     }
 }

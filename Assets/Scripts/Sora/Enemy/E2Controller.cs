@@ -1,7 +1,6 @@
 using UnityEngine;
 using Sora_Constants;
 using Cysharp.Threading.Tasks;
-using Sora_Bullet;
 using Bullet;
 
 namespace Sora_Enemy
@@ -9,11 +8,9 @@ namespace Sora_Enemy
     public class E2Controller : EnemyBase
     {
         private GameObject player;
-        private BulletPool pool;
         private async void Awake()
         {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
-            pool = GameObject.FindGameObjectWithTag(TagName.BulletPoolParent).GetComponent<BulletPool>();
             await base.Init(EnemyType.E2);
             await UniTask.WaitUntil(() => player != null);
         }
@@ -40,9 +37,9 @@ namespace Sora_Enemy
         /// <summary>
         /// 攻撃処理
         /// </summary>
-        public override void Attack()
+        public override async void Attack()
         {
-            GameObject bullet = pool.GetBullet(transform);
+            GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E2_BULLET);
             base.ShotInit(bullet.GetComponent<BulletMove>(), transform);
         }
 

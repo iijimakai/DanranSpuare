@@ -1,6 +1,5 @@
 using UnityEngine;
 using Sora_Constants;
-using Sora_Bullet;
 using Bullet;
 using UniRx;
 using UniRx.Triggers;
@@ -11,7 +10,6 @@ namespace Sora_Enemy
     {
         private GameObject player;
         [SerializeField] private GameObject shotPos;
-        [SerializeField] private BulletPool pool;
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -30,10 +28,6 @@ namespace Sora_Enemy
         {
             this.UpdateAsObservable()
                 .Subscribe(_ => TargetLockShotPos())
-                .AddTo(disposables);
-
-            pool.GetCreateEnd()
-                .Subscribe(_ => Spawn())
                 .AddTo(disposables);
         }
 
@@ -64,9 +58,9 @@ namespace Sora_Enemy
         /// <summary>
         /// 攻撃
         /// </summary>
-        public override void Attack()
+        public override async void Attack()
         {
-            GameObject bullet = pool.GetBullet(transform);
+            GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E1_BULLET);
             base.ShotInit(bullet.GetComponent<BulletMove>(), shotPos.transform);
         }
     }
