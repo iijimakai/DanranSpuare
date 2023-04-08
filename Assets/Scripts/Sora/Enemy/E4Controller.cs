@@ -1,5 +1,6 @@
 using UnityEngine;
 using Sora_Constants;
+using Lean.Pool;
 
 namespace Sora_Enemy
 {
@@ -43,14 +44,15 @@ namespace Sora_Enemy
         /// </summary>
         public override void Dead()
         {
-            // TODO: 死亡処理
-            throw new System.NotImplementedException();
+            // TODO: 死亡エフェクト
+            LeanPool.Despawn(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             // TODO: 攻撃処理
             Debug.Log("攻撃処理");
+            Dead();
         }
     }
 }
