@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8893247c11aa74fb2613b96e74dacd, type: 3}
   m_Name: E4
   m_EditorClassIdentifier: 
-  <hp>k__BackingField: 0
-  <speed>k__BackingField: 0
-  <attackPoint>k__BackingField: 0
+  <hp>k__BackingField: 3
+  <speed>k__BackingField: 3
+  <accelerationSpeed>k__BackingField: 5
+  <attackPoint>k__BackingField: 5
   <bulletSpeed>k__BackingField: 0
   <firingRange>k__BackingField: 0
   <attackInterval>k__BackingField: 0
+  <teleportationDistance>k__BackingField: 0
+  <deleteTime>k__BackingField: 0

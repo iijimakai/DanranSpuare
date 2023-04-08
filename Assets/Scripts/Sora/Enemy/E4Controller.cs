@@ -1,54 +1,56 @@
 using UnityEngine;
 using Sora_Constants;
-using Cysharp.Threading.Tasks;
-using Bullet;
 
 namespace Sora_Enemy
 {
-    public class E2Controller : EnemyBase
+    public class E4Controller : EnemyBase
     {
         private GameObject player;
+
         private async void Awake()
         {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
-            await base.Init(EnemyType.E2);
+            await Init(EnemyType.E4);
+            Spawn();
         }
 
         private void OnBecameVisible()
         {
-            Spawn();
+            Attack();
         }
 
         private void OnBecameInvisible()
         {
-            DisposableClear();
+            SpeedChenge(false);
         }
 
         /// <summary>
-        /// エネミー表示時に実行
+        /// 生成時の処理
         /// </summary>
-        public override async void Spawn()
+        public override void Spawn()
         {
-            await UniTask.WaitUntil(() => player != null);
             SubscriptionStart(player);
-            AttackInterval();
         }
-
         /// <summary>
         /// 攻撃処理
         /// </summary>
-        public override async void Attack()
+        public override void Attack()
         {
-            GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E2_BULLET);
-            base.ShotInit(bullet.GetComponent<BulletMove>(), transform);
+            SpeedChenge(true);
         }
-
         /// <summary>
         /// 死亡処理
         /// </summary>
         public override void Dead()
         {
-            // TODO: Pool完成時に追記
+            // TODO: 死亡処理
+            throw new System.NotImplementedException();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            // TODO: 攻撃処理
+            Debug.Log("攻撃処理");
         }
     }
 }
