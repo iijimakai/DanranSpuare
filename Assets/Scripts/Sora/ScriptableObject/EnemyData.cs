@@ -12,7 +12,11 @@ namespace Sora_Constants
         /// <summary>
         /// スピード
         /// </summary>
-        [field: SerializeField, Header("スピード")] public int speed { get; private set; }
+        [field: SerializeField, Header("スピード")] public float speed { get; private set; }
+        /// <summary>
+        /// 弾の攻撃力
+        /// </summary>
+        [field: SerializeField, Header("加速後のスピード")] public float accelerationSpeed { get; private set; }
         /// <summary>
         /// 弾の攻撃力
         /// </summary>

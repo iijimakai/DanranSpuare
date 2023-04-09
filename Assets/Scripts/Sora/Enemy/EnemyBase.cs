@@ -13,6 +13,8 @@ namespace Sora_Enemy
     {
         private int hp;
         private int attackPoint;
+
+        private float speed;
         private bool isMove = true;
         private EnemyData data;
 
@@ -49,6 +51,7 @@ namespace Sora_Enemy
                     data = await AddressLoader.AddressLoad<EnemyData>(AddressableAssetAddress.E4_DATA);
                     break;
             }
+            speed = data.speed;
         }
 
         /// <summary>
@@ -107,6 +110,23 @@ namespace Sora_Enemy
             transform.position = Vector3.MoveTowards(transform.position
             , player.transform.position, data.speed * Time.deltaTime);
         }
+
+        /// <summary>
+        /// 動く速さを変える
+        /// </summary>
+        /// <param name="isSpeedChenge">早くするか遅くするか</param>
+        public void SpeedChenge(bool isSpeedChenge)
+        {
+            if (isSpeedChenge)
+            {
+                speed = data.accelerationSpeed;
+            }
+            else
+            {
+                speed = data.speed;
+            }
+        }
+
         /// <summary>
         /// プレイヤーの方向を向く
         /// </summary>
