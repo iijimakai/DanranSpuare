@@ -85,6 +85,22 @@ MonoBehaviour:
     m_Address: BulletPoolData
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 14034b43a28a55a4783e98fed84702c5
+    m_Address: UIManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 380babf8568308843b1df8f1cddaa8d6
+    m_Address: Rod1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: d53885cc9ebc36144a7b0d509584b741
+    m_Address: Rod2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 7410c1e3c2a2df8408cbd9b40e1a5e03
+    m_Address: Rod3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f8385f1964914444ca37ef33c7b61b5c, type: 2}
   m_SchemaSet:

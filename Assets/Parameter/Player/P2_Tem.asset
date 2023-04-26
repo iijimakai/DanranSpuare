@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09f3264b7855cd8438cf475bc4e6a320, type: 3}
-  m_Name: P2
+  m_Name: P2_Tem
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 2
   <hp>k__BackingField: 150
   <speed>k__BackingField: 2
+  <rodStock>k__BackingField: 10
+  <chargeMax>k__BackingField: 0

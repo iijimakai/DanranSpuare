@@ -10,8 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09f3264b7855cd8438cf475bc4e6a320, type: 3}
-  m_Name: P3
+  m_Name: P1_Sys
   m_EditorClassIdentifier: 
-  <characterType>k__BackingField: 3
-  <hp>k__BackingField: 60
-  <speed>k__BackingField: 6
+  <characterType>k__BackingField: 1
+  <hp>k__BackingField: 100
+  <hpBuff>k__BackingField: 0.5
+  <chargeDmg>k__BackingField: 0
+  <chargeDmgBuff>k__BackingField: 0
+  <speed>k__BackingField: 4
+  <speedBuff>k__BackingField: 0
+  <rodStock>k__BackingField: 10
+  <chargeMax>k__BackingField: 500

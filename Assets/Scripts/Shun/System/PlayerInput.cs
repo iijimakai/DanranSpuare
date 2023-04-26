@@ -2,6 +2,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using Shun_Player;
+using Shun_UI;
 
 namespace Shun_System
 {
@@ -9,52 +10,101 @@ namespace Shun_System
     {
         private PlayerBase playerBase;
 
-        private Vector2 mouseVector = Vector2.zero;
         private Vector2 defaultPos = Vector2.zero;
+
+        private bool isCharging = false;
+
+        private CompositeDisposable moveDisposables = new CompositeDisposable();
+        private CompositeDisposable rodDisposables = new CompositeDisposable();
 
         public void Init(PlayerBase _playerBase)
         {
             playerBase = _playerBase;
 
+            //ここから
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButton(0))
-                .Subscribe(_ => { MouseMove(); })
-                .AddTo(this);
+                .Where(_ => Input.GetMouseButtonDown(0) && !isCharging)
+                .Subscribe(_ => { 
+                    defaultPos = Input.mousePosition;
+                })
+                .AddTo(moveDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonDown(0))
-                .Subscribe(_ => { MouseOnDown(); })
-                .AddTo(this);
+                .Where(_ => Input.GetMouseButton(0) && !isCharging)
+                .Subscribe(_ => { 
+                    playerBase.Move(MouseMove().normalized);
+                    //UIにスティックの座標を渡す
+                })
+                .AddTo(moveDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonUp(0))
-                .Subscribe(_ => { MouseOnUp(); })
-                .AddTo(this);
+                .Where(_ => Input.GetMouseButtonUp(0) && !isCharging)
+                .Subscribe(_ => { 
+                    defaultPos = Vector2.zero;
+                })
+                .AddTo(moveDisposables);
+            //ここまで移動用
+
+            this.UpdateAsObservable()
+                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging)
+                .Subscribe(_ => { 
+                    playerBase.SetRod();
+                    defaultPos = Input.mousePosition;
+                    isCharging = true;
+                })
+                .AddTo(rodDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetMouseButtonDown(0) && isCharging)
+                .Subscribe(_ => { defaultPos = Input.mousePosition; })
+                .AddTo(rodDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetMouseButton(0) && isCharging)
+                .Subscribe(_ => { playerBase.SetChargeRatio(Charge()); })
+                .AddTo(rodDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetMouseButtonUp(0) && isCharging)
+                .Subscribe(_ => {
+                    defaultPos = Vector2.zero;
+                    isCharging = false;
+                })
+                .AddTo(rodDisposables);
         }
 
         /// <summary>
-        /// ボタン押した時の処理
+        /// チャージ中の中心からの距離を算出
         /// </summary>
-        private void MouseOnDown()
+        /// <returns>距離</returns>
+        private float Charge()
         {
-            defaultPos = Input.mousePosition;
+            var vector = MouseMove();
+            var charge = vector.x * vector.x + vector.y * vector.y;
+            return Mathf.Sqrt(charge);
         }
+
         /// <summary>
-        /// ボタン離した時の処理
+        /// /// 移動ベクトルを出す
         /// </summary>
-        private void MouseOnUp()
-        {
-            defaultPos = Vector2.zero;
-            mouseVector = Vector2.zero;
-        }
-        /// <summary>
-        /// 移動ベクトルを出す
-        /// </summary>
-        private void MouseMove()
+        /// // <returns>ベクトル</returns>
+        private Vector2 MouseMove()
         {
             Vector2 mousePos = Input.mousePosition;
-            mouseVector = (mousePos - defaultPos);
-            playerBase.Move(mouseVector.normalized);
+            var mouseVector = (mousePos - defaultPos);
+            return mouseVector;
+        }
+
+        private void OnDestroy()
+        {
+            moveDisposables.Dispose();
+            rodDisposables.Dispose();
+        }
+
+        private void OnDisable()
+        {
+            moveDisposables.Clear();
+            rodDisposables.Clear();
         }
     }
 }
