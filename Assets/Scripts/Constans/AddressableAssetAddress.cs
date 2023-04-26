@@ -14,7 +14,16 @@ public static class AddressableAssetAddress
 	public const string E4_DATA = "E4Data";
 	public const string EDITOR_SCENE_LIST = "EditorSceneList";
 	public const string LAG_BULLET = "LagBullet";
+	public const string P1 = "P1";
+	public const string P2 = "P2";
+	public const string P3 = "P3";
+	public const string PBASE = "PBase";
+	public const string PINPUT = "PInput";
 	public const string RESOURCES = "Resources";
+	public const string ROD1 = "Rod1";
+	public const string ROD2 = "Rod2";
+	public const string ROD3 = "Rod3";
 	public const string SYS_BULLET = "SysBullet";
 	public const string TEM_BULLET = "TemBullet";
+	public const string UIMANAGER = "UIManager";
 }
