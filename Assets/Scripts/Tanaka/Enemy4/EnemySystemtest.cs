@@ -28,9 +28,9 @@ public class EnemySystemtest : MonoBehaviour
     }
 
     // 敵が破壊されたときに呼ばれる関数
-    public void DestroyEnemy()
-    {
-        OnDestroyed.OnNext(Unit.Default);
-        OnDestroyed.OnCompleted();
-    }
+    //public void DestroyEnemy()
+    //{
+    //    OnDestroyed.OnNext(Unit.Default);
+    //    OnDestroyed.OnCompleted();
+    //}
 }

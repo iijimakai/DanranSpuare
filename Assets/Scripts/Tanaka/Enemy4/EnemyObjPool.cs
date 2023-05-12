@@ -6,23 +6,29 @@ namespace pool
     public class EnemyObjPool : MonoBehaviour
     {
         [SerializeField] private GameObject objectPrefab;
-        [SerializeField] private int poolSize = 5;
-
+        private int poolSize;
         private List<GameObject> pooledObjects;
 
-        public void SetPrefab(GameObject prefab)
+        public void Initialize(GameObject prefab, int size)
         {
             objectPrefab = prefab;
-        }
-
-        private void Awake()
-        {
+            poolSize = size;
             pooledObjects = new List<GameObject>();
+
             for (int i = 0; i < poolSize; i++)
             {
                 CreateNewObject();
             }
         }
+
+        //private void Awake()
+        //{
+        //    pooledObjects = new List<GameObject>();
+        //    for (int i = 0; i < poolSize; i++)
+        //    {
+        //        CreateNewObject();
+        //    }
+        //}
 
         public GameObject GetObject()
         {

@@ -168,7 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
-  poolSize: 0
 --- !u!1 &234894474
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,39 +731,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - totalEnemies: 80
+  - totalEnemies: 10
     enemies:
-    - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
-    - enemyPrefab: {fileID: 7824733794820519041, guid: e8009bcb1f56f2e4891f67e097e5f7cb, type: 3}
+      currentSpawnCount: 0
+    - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
-    - enemyPrefab: {fileID: 2228289916768243146, guid: d82b280cbd698884f818b57e7b5817aa, type: 3}
+      currentSpawnCount: 0
+    - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
+      currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
-  - totalEnemies: 110
+      currentSpawnCount: 0
+  - totalEnemies: 20
     enemies:
-    - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
-    - enemyPrefab: {fileID: 7824733794820519041, guid: e8009bcb1f56f2e4891f67e097e5f7cb, type: 3}
+      currentSpawnCount: 0
+    - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
-    - enemyPrefab: {fileID: 2228289916768243146, guid: d82b280cbd698884f818b57e7b5817aa, type: 3}
+      currentSpawnCount: 0
+    - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
+      currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 100
       maxSpawnCount: 20
+      currentSpawnCount: 0
   - totalEnemies: 1
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 100
       maxSpawnCount: 1
+      currentSpawnCount: 0
+  poolSize: 5
 --- !u!4 &1681743050
 Transform:
   m_ObjectHideFlags: 0

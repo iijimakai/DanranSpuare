@@ -13,6 +13,7 @@ public class WaveController : MonoBehaviour
         public GameObject enemyPrefab; //敵のプレハブ
         public float spawnChance; //出現確率
         public int maxSpawnCount; //最大出現数
+        [HideInInspector] public int currentSpawnCount; //現在の出現数
     }
 
     [System.Serializable]
@@ -24,23 +25,32 @@ public class WaveController : MonoBehaviour
 
     public Wave[] waves; //Waveの配列
     private int currentWaveIndex = 0; //現在のWaveのインデックス
-
+    [SerializeField] private int poolSize = 5; // プールサイズ
     private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
+
 
     void Start()
     {
-        foreach(var wave in waves)
+        enemyPools = new Dictionary<GameObject, EnemyObjPool>();
+        foreach (Wave wave in waves)
         {
-            foreach(var enemyType in wave.enemies)
+            foreach (EnemyType enemyType in wave.enemies)
             {
-                var pool = new GameObject(enemyType.enemyPrefab.name + " Pool").AddComponent<EnemyObjPool>();
-                pool.SetPrefab(enemyType.enemyPrefab);
-                enemyPools[enemyType.enemyPrefab] = pool;
+                if (!enemyPools.ContainsKey(enemyType.enemyPrefab))
+                {
+                    EnemyObjPool pool = gameObject.AddComponent<EnemyObjPool>();
+                    pool.Initialize(enemyType.enemyPrefab, poolSize);
+                    enemyPools.Add(enemyType.enemyPrefab, pool);
+                }
+
+                // 初期化
+                enemyType.currentSpawnCount = 0;
             }
         }
 
-        SpawnWave();
+        Observable.NextFrame().Subscribe(_ => SpawnWave());
     }
+
 
     private void SpawnWave()
     {
@@ -48,8 +58,7 @@ public class WaveController : MonoBehaviour
         {
             Wave currentWave = waves[currentWaveIndex];
             int[] spawnCount = new int[currentWave.enemies.Length];
-
-            for(int i = 0; i < currentWave.totalEnemies; i++)
+            for (int i = 0; i < currentWave.totalEnemies; i++)
             {
                 int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
                 if(spawnCount[enemyIndex] < currentWave.enemies[enemyIndex].maxSpawnCount)
@@ -86,8 +95,12 @@ public class WaveController : MonoBehaviour
 
     private void SpawnEnemy(EnemyType enemyType)
     {
+        Debug.Log("Trying to spawn enemy: " + enemyType.enemyPrefab.name);
         GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
+        Debug.Log("Got enemy object from pool: " + spawnedEnemyObject.name);
+
         EnemySystemtest spawnedEnemy = spawnedEnemyObject.GetComponent<EnemySystemtest>();
+        Debug.Log("Got EnemySystemtest from enemy object: " + spawnedEnemy);
 
         //敵の出現位置をランダムに設定
         //ここでスポーン位置を設定
