@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
-public class EnemySystemtest : MonoBehaviour
+public class Enemy4Controller : MonoBehaviour
 {
     public float speed;
     [SerializeField] private GameObject playerObject;

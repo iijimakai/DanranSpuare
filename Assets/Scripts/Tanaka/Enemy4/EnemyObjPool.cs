@@ -3,12 +3,22 @@ using UnityEngine;
 
 namespace pool
 {
+    // 敵のオブジェクトプールを管理するクラス
     public class EnemyObjPool : MonoBehaviour
     {
-        [SerializeField] private GameObject objectPrefab;
+        [SerializeField]
+        // プールする敵のプレハブ
+        private GameObject objectPrefab;
+        // プールする敵の最大数
         private int poolSize;
+        // プールされた敵のリスト
         private List<GameObject> pooledObjects;
 
+        /// <summary>
+        /// 敵のプールを初期化する
+        /// </summary>
+        /// <param name="prefab">プールする敵のプレハブ</param>
+        /// <param name="size">プールする敵の最大数</param>
         public void Initialize(GameObject prefab, int size)
         {
             objectPrefab = prefab;
@@ -20,16 +30,10 @@ namespace pool
                 CreateNewObject();
             }
         }
-
-        //private void Awake()
-        //{
-        //    pooledObjects = new List<GameObject>();
-        //    for (int i = 0; i < poolSize; i++)
-        //    {
-        //        CreateNewObject();
-        //    }
-        //}
-
+        /// <summary>
+        /// アクティブでない敵をプールから取得する
+        /// </summary>
+        /// <returns>アクティブでない敵のGameObject</returns>
         public GameObject GetObject()
         {
             foreach (var obj in pooledObjects)
@@ -45,7 +49,10 @@ namespace pool
             newObj.SetActive(true);
             return newObj;
         }
-
+        /// <summary>
+        /// 新しい敵のGameObjectを作成し、プールに追加する
+        /// </summary>
+        /// <returns>作成された敵のGameObject</returns>
         private GameObject CreateNewObject()
         {
             GameObject newObj = Instantiate(objectPrefab);

@@ -10,19 +10,13 @@ public class ObjectController : MonoBehaviour
     //[SerializeField] private float lifeTime = 3f;
     void Start()
     {
-        //OnDeathCountChanged.OnNext(deathcount.Value);
     }
     void OnTriggerEnter2D(Collider2D col)
     {
         if(col.CompareTag("Player"))
         {
             gameObject.SetActive(false);
-            //OnEnemyDeath();
         }
     }
-    //public void OnEnemyDeath()
-    //{
-    //    deathcount.Value++;
-    //    //Debug.Log(deathcount.Value);
-    //}
+
 }

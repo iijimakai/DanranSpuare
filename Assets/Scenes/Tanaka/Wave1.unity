@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a5f56471058b249909d1d7e7a6f75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPool: {fileID: 0}
+  objectPool: {fileID: 50311616}
   spawnPoints:
   - {fileID: 1612654636}
   - {fileID: 1431322925}

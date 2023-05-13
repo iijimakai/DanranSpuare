@@ -3,7 +3,7 @@ using UnityEngine;
 using pool;
 public class ObjectSpawner : MonoBehaviour
 {
-    [SerializeField] private Enemy4ObjPoolTest objectPool;
+    [SerializeField] private EnemyObjPool objectPool;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private float spawnInterval = 1f;
 
