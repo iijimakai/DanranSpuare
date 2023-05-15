@@ -10,7 +10,7 @@ public class Enemy4Controller : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
     public Subject<Unit> OnDestroyed = new Subject<Unit>();
-    void Start() 
+    void Start()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         PlayerTracking(playerObject);
@@ -19,18 +19,24 @@ public class Enemy4Controller : MonoBehaviour
     public void PlayerTracking(GameObject targetObject)
     {
         this.UpdateAsObservable()
-            .Subscribe(_ => 
+            .Subscribe(_ =>
             {
                 Vector3 toDirection = targetObject.transform.position - transform.position;
                 transform.rotation = Quaternion.FromToRotation(-Vector3.up, toDirection);
                 transform.position -= transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
     }
-
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            DestroyEnemy();
+        }
+    }
     // 敵が破壊されたときに呼ばれる関数
-    //public void DestroyEnemy()
-    //{
-    //    OnDestroyed.OnNext(Unit.Default);
-    //    OnDestroyed.OnCompleted();
-    //}
+    public void DestroyEnemy()
+    {
+        OnDestroyed.OnNext(Unit.Default);
+        OnDestroyed.OnCompleted();
+    }
 }

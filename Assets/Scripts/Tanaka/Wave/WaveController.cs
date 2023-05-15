@@ -18,7 +18,7 @@ namespace wave
             [SerializeField, Header("出現上限")]
             public int maxSpawnCount; //最大出現数
             [SerializeField, Header("現在の出現数")]
-            /*[HideInInspector]*/
+            [HideInInspector]
             public int currentSpawnCount; //現在の出現数
         }
 
@@ -52,12 +52,10 @@ namespace wave
                         pool.Initialize(enemyType.enemyPrefab, poolSize);
                         enemyPools.Add(enemyType.enemyPrefab, pool);
                     }
-
                     // 初期化
                     enemyType.currentSpawnCount = 0;
                 }
             }
-
             Observable.NextFrame().Subscribe(_ => SpawnWave());
         }
 
@@ -66,24 +64,23 @@ namespace wave
         /// </summary>
         private void SpawnWave()
         {
-            if (currentWaveIndex < waves.Length)
+            if(currentWaveIndex < waves.Length)
             {
                 Wave currentWave = waves[currentWaveIndex];
-                int[] spawnCount = new int[currentWave.enemies.Length];
-                for (int i = 0; i < currentWave.totalEnemies; i++)
+                for(int i = 0; i < currentWave.totalEnemies; i++)
                 {
                     int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
-                    if (spawnCount[enemyIndex] < currentWave.enemies[enemyIndex].maxSpawnCount)
+                    EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
+                    if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
                     {
-                        SpawnEnemy(currentWave.enemies[enemyIndex]);
-                        spawnCount[enemyIndex]++;
+                        SpawnEnemy(chosenEnemy);
+                        chosenEnemy.currentSpawnCount++;
                     }
                     else
                     {
                         i--;
                     }
                 }
-
                 currentWaveIndex++;
             }
         }
@@ -102,11 +99,12 @@ namespace wave
                 total += enemies[i].spawnChance;
                 if (randomPoint <= total)
                 {
+                    Debug.Log(i);
                     return i;
                 }
             }
-
-            return enemies.Length - 1;
+            throw new System.Exception("a");
+            //return enemies.Length - 1;
         }
         /// <summary>
         /// 指定したタイプの敵を1体生成する。
@@ -127,9 +125,12 @@ namespace wave
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {
+                Debug.Log("OnDestroyed" + spawnedEnemyObject.name);
                 spawnedEnemyObject.SetActive(false);
+                Debug.Log("Is active?: " + spawnedEnemyObject.activeSelf);
                 if (CheckAllEnemiesDestroyed())
                 {
+                    Debug.Log("SpawnWave");
                     SpawnWave();
                 }
             });
@@ -142,11 +143,18 @@ namespace wave
         {
             foreach (var pool in enemyPools.Values)
             {
-                if (pool.GetComponentsInChildren<Transform>(true).Any(t => t.gameObject.activeSelf))
+                var activeEnemies = pool.GetComponentsInChildren<Enemy4Controller>(true)
+                .Where(t => t.gameObject.activeSelf);
+                foreach(var activeEnemy in activeEnemies)
+                {
+                    Debug.Log("Active enemy in pool: " + activeEnemy.name);
+                }
+                if(activeEnemies.Any())
                 {
                     return false;
                 }
             }
+            Debug.Log("All Enemies Destroy");
             return true;
         }
     }
