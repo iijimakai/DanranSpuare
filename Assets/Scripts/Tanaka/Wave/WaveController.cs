@@ -4,6 +4,7 @@ using UnityEngine;
 using UniRx;
 using pool;
 using System.Linq;
+using System.Threading.Tasks;
 namespace wave
 {
     public class WaveController : MonoBehaviour
@@ -53,16 +54,21 @@ namespace wave
                         enemyPools.Add(enemyType.enemyPrefab, pool);
                     }
                     // 初期化
-                    enemyType.currentSpawnCount = 0;
+                    //enemyType.currentSpawnCount = 0;
                 }
             }
             Observable.NextFrame().Subscribe(_ => SpawnWave());
+            //StartCoroutine(WaitForPoolInitialization());
         }
-
+        // private IEnumerator WaitForPoolInitialization()
+        // {
+        //     yield return new WaitForSeconds(3f);  // プールの初期化を待つための遅延
+        //     SpawnWave();
+        // }
         /// <summary>
         /// 敵のウェーブを生成。
         /// </summary>
-        private void SpawnWave()
+        private async void SpawnWave()
         {
             if(currentWaveIndex < waves.Length)
             {
@@ -75,6 +81,7 @@ namespace wave
                     {
                         SpawnEnemy(chosenEnemy);
                         chosenEnemy.currentSpawnCount++;
+                        await Task.Delay(2000);
                     }
                     else
                     {
@@ -82,6 +89,9 @@ namespace wave
                     }
                 }
                 currentWaveIndex++;
+
+                await Task.Delay(2000);
+
             }
         }
         /// <summary>
@@ -112,12 +122,17 @@ namespace wave
         /// <param name="enemyType">生成する敵のタイプ。</param>
         private void SpawnEnemy(EnemyType enemyType)
         {
-            Debug.Log(enemyType.enemyPrefab.name);
+            //Debug.Log(enemyType.enemyPrefab.name);
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
-            Debug.Log(spawnedEnemyObject.name);
-
+            //Debug.Log(spawnedEnemyObject.name);
+            if(spawnedEnemyObject == null)
+            {
+                // エラーログを出力するなど、適切な処理を行う。
+                Debug.LogError("Enemy object is null.");
+                return;
+            }
             Enemy4Controller spawnedEnemy = spawnedEnemyObject.GetComponent<Enemy4Controller>();
-            Debug.Log(spawnedEnemy);
+            //Debug.Log(spawnedEnemy);
 
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
@@ -125,9 +140,11 @@ namespace wave
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {
-                Debug.Log("OnDestroyed" + spawnedEnemyObject.name);
+                //再サブスクライブしたときに消えない
+                //消えて再利用されたオブジェクトが消えない
+                //Debug.Log("OnDestroyed" + spawnedEnemyObject.name);
                 spawnedEnemyObject.SetActive(false);
-                Debug.Log("Is active?: " + spawnedEnemyObject.activeSelf);
+                //Debug.Log("Is active: " + spawnedEnemyObject.activeSelf);
                 if (CheckAllEnemiesDestroyed())
                 {
                     Debug.Log("SpawnWave");

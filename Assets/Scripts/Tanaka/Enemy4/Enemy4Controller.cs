@@ -26,16 +26,22 @@ public class Enemy4Controller : MonoBehaviour
                 transform.position -= transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if(other.CompareTag("Player"))
+        if(col.gameObject.tag == "Player")
         {
+            //すり抜けてしまうのはOnTriggerEnterだったから
+            //当たり判定は正常
+            //このDebug.Log()は呼ばれた
+            Debug.Log("当たった");
             DestroyEnemy();
         }
     }
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()
     {
+        //当たった時このDebug.Logが呼ばれなかった
+        Debug.Log("OnNext");
         OnDestroyed.OnNext(Unit.Default);
         OnDestroyed.OnCompleted();
     }

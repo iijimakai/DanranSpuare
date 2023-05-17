@@ -41,12 +41,15 @@ namespace pool
                 if (!obj.activeInHierarchy)
                 {
                     obj.SetActive(true);
+                    obj.transform.position = Vector3.zero;  // 座標をリセット
+                    obj.transform.rotation = Quaternion.identity;  // 回転をリセット
                     return obj;
                 }
             }
-
             GameObject newObj = CreateNewObject();
             newObj.SetActive(true);
+            newObj.transform.position = Vector3.zero;  // 座標をリセット
+            newObj.transform.rotation = Quaternion.identity;  // 回転をリセット
             return newObj;
         }
         /// <summary>

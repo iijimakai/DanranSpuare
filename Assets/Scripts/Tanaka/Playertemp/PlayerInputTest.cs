@@ -39,6 +39,6 @@ public class PlayerInputTest : MonoBehaviour
 
     public void PlayerInput(InputAction.CallbackContext context) {
         inputValue = context.ReadValue<Vector2>();
-        Debug.Log(inputValue);
+        //Debug.Log(inputValue);
     }
 }

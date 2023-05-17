@@ -545,7 +545,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &1223343897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -735,19 +735,19 @@ MonoBehaviour:
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 10
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 10
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 10
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 10
+      maxSpawnCount: 40
       currentSpawnCount: 0
   - totalEnemies: 20
     enemies:
@@ -773,7 +773,7 @@ MonoBehaviour:
       spawnChance: 1
       maxSpawnCount: 1
       currentSpawnCount: 0
-  poolSize: 5
+  poolSize: 40
 --- !u!4 &1681743050
 Transform:
   m_ObjectHideFlags: 0
