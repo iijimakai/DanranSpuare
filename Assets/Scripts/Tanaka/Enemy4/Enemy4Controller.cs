@@ -44,5 +44,12 @@ public class Enemy4Controller : MonoBehaviour
         Debug.Log("OnNext");
         OnDestroyed.OnNext(Unit.Default);
         OnDestroyed.OnCompleted();
+
+        gameObject.SetActive(false);
     }
+    public void SubscriptionReset()
+    {
+        OnDestroyed = new Subject<Unit>();
+    }
+
 }

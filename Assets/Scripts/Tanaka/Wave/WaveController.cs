@@ -133,7 +133,7 @@ namespace wave
             }
             Enemy4Controller spawnedEnemy = spawnedEnemyObject.GetComponent<Enemy4Controller>();
             //Debug.Log(spawnedEnemy);
-
+            spawnedEnemy.SubscriptionReset();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
 

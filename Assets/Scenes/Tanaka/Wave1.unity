@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26be44d8f930ddd418061307527e532c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
+  objectPrefab: {fileID: 0}
 --- !u!1 &234894474
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,41 +731,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - totalEnemies: 10
+  - totalEnemies: 5
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
-  - totalEnemies: 20
+  - totalEnemies: 40
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
-      spawnChance: 100
-      maxSpawnCount: 20
+      spawnChance: 0.25
+      maxSpawnCount: 40
       currentSpawnCount: 0
   - totalEnemies: 1
     enemies:
