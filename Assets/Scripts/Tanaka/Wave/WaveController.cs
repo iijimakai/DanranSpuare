@@ -58,13 +58,8 @@ namespace wave
                 }
             }
             Observable.NextFrame().Subscribe(_ => SpawnWave());
-            //StartCoroutine(WaitForPoolInitialization());
         }
-        // private IEnumerator WaitForPoolInitialization()
-        // {
-        //     yield return new WaitForSeconds(3f);  // プールの初期化を待つための遅延
-        //     SpawnWave();
-        // }
+
         /// <summary>
         /// 敵のウェーブを生成。
         /// </summary>
@@ -122,7 +117,8 @@ namespace wave
         /// <param name="enemyType">生成する敵のタイプ。</param>
         private void SpawnEnemy(EnemyType enemyType)
         {
-            //Debug.Log(enemyType.enemyPrefab.name);
+            Debug.Log(enemyPools.ContainsKey(enemyType.enemyPrefab)); // enemyPoolsにenemyPrefabのキーが存在するか確認
+            Debug.Log(enemyPools[enemyType.enemyPrefab]); // enemyPools[enemyType.enemyPrefab]自体がnullでないことを確認
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             //Debug.Log(spawnedEnemyObject.name);
             if(spawnedEnemyObject == null)
@@ -140,8 +136,6 @@ namespace wave
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {
-                //再サブスクライブしたときに消えない
-                //消えて再利用されたオブジェクトが消えない
                 //Debug.Log("OnDestroyed" + spawnedEnemyObject.name);
                 spawnedEnemyObject.SetActive(false);
                 //Debug.Log("Is active: " + spawnedEnemyObject.activeSelf);
@@ -164,7 +158,7 @@ namespace wave
                 .Where(t => t.gameObject.activeSelf);
                 foreach(var activeEnemy in activeEnemies)
                 {
-                    Debug.Log("Active enemy in pool: " + activeEnemy.name);
+                    //Debug.Log("Active enemy in pool: " + activeEnemy.name);
                 }
                 if(activeEnemies.Any())
                 {
