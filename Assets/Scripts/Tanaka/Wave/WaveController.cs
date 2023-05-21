@@ -5,6 +5,8 @@ using UniRx;
 using pool;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+
 namespace wave
 {
     public class WaveController : MonoBehaviour
@@ -36,7 +38,7 @@ namespace wave
         private int currentWaveIndex = 0; //現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
-
+        private CancellationTokenSource cts;
         /// <summary>
         /// 最初のウェーブを生成。
         /// </summary>
@@ -57,13 +59,14 @@ namespace wave
                     //enemyType.currentSpawnCount = 0;
                 }
             }
-            Observable.NextFrame().Subscribe(_ => SpawnWave());
+            cts = new CancellationTokenSource();
+            Observable.NextFrame().Subscribe(_ => SpawnWave(cts.Token));
         }
 
         /// <summary>
         /// 敵のウェーブを生成。
         /// </summary>
-        private async void SpawnWave()
+        private async Task SpawnWave(CancellationToken token)
         {
             if(currentWaveIndex < waves.Length)
             {
@@ -76,7 +79,7 @@ namespace wave
                     {
                         SpawnEnemy(chosenEnemy);
                         chosenEnemy.currentSpawnCount++;
-                        await Task.Delay(2000);
+                        await Task.Delay(2000,token);
                     }
                     else
                     {
@@ -85,7 +88,7 @@ namespace wave
                 }
                 currentWaveIndex++;
 
-                await Task.Delay(2000);
+                await Task.Delay(2000,token);
 
             }
         }
@@ -142,7 +145,7 @@ namespace wave
                 if (CheckAllEnemiesDestroyed())
                 {
                     Debug.Log("SpawnWave");
-                    SpawnWave();
+                    SpawnWave(cts.Token);
                 }
             });
         }
@@ -167,6 +170,10 @@ namespace wave
             }
             Debug.Log("All Enemies Destroy");
             return true;
+        }
+        void OnDisable()  // ゲーム停止時に呼び出されるメソッド
+        {
+            cts.Cancel();  // 非同期タスクを停止する
         }
     }
 

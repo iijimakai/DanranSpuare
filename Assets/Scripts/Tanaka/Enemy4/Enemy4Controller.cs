@@ -10,6 +10,7 @@ public class Enemy4Controller : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
     public Subject<Unit> OnDestroyed = new Subject<Unit>();
+
     void Start()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
