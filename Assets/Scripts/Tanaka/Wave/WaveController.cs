@@ -39,8 +39,10 @@ namespace wave
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CancellationTokenSource cancelToken;
+        private CompositeDisposable enemySubscriptions = new CompositeDisposable();
         // 現在アクティブな敵の数を記録するカウンター
         private int totalActiveEnemies = 0;
+        int tempCount = 0;
         /// <summary>
         /// 最初のウェーブを生成。
         /// </summary>
@@ -62,7 +64,7 @@ namespace wave
                 }
             }
             cancelToken = new CancellationTokenSource();
-            Observable.NextFrame().Subscribe(_ => SpawnWave(cancelToken.Token));
+            Observable.NextFrame().Subscribe(async _ => await SpawnWave(cancelToken.Token));
         }
 
         /// <summary>
@@ -122,8 +124,8 @@ namespace wave
         /// <param name="enemyType">生成する敵のタイプ。</param>
         private void SpawnEnemy(EnemyType enemyType)
         {
-            Debug.Log(enemyPools.ContainsKey(enemyType.enemyPrefab)); // enemyPoolsにenemyPrefabのキーが存在するか確認
-            Debug.Log(enemyPools[enemyType.enemyPrefab]); // enemyPools[enemyType.enemyPrefab]自体がnullでないことを確認
+            //Debug.Log(enemyPools.ContainsKey(enemyType.enemyPrefab)); // enemyPoolsにenemyPrefabのキーが存在するか確認
+            //Debug.Log(enemyPools[enemyType.enemyPrefab]); // enemyPools[enemyType.enemyPrefab]自体がnullでないことを確認
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null)
             {
@@ -131,25 +133,27 @@ namespace wave
                 Debug.LogError("Enemy object is null.");
                 return;
             }
-            Enemy4Controller spawnedEnemy = spawnedEnemyObject.GetComponent<Enemy4Controller>();
-            spawnedEnemy.SubscriptionReset();
+            IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             totalActiveEnemies++;
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
 
             //敵が破壊されたときにプールに戻るように設定
-            spawnedEnemy.OnDestroyed.Subscribe(_ =>
+            spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
                 // 敵が破壊されたので、カウンターを減らす
                 totalActiveEnemies--;
                 spawnedEnemyObject.SetActive(false);
+                tempCount++;
+                Debug.Log("DeathCount" + tempCount);
                 if (totalActiveEnemies == 0)
                 {
                     Debug.Log("All Enemies Destroy");
-                    Debug.Log("SpawnWave");
-                    SpawnWave(cancelToken.Token);
+                    Debug.Log("NextWave");
+                    await SpawnWave(cancelToken.Token);
                 }
-            });
+                spawnedEnemy.ResetSubscription();
+            }).AddTo(this);
         }
         void OnDisable()  // ゲーム停止時に呼び出されるメソッド
         {

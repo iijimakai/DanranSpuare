@@ -4,13 +4,19 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
-public class Enemy4Controller : MonoBehaviour
+// IEnemyインターフェースを定義
+public interface IEnemy
+{
+    IObservable<Unit> OnDestroyed { get; }
+    void ResetSubscription();
+}
+public class Enemy4Controller : MonoBehaviour,IEnemy
 {
     public float speed;
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
-    public Subject<Unit> OnDestroyed = new Subject<Unit>();
-
+    private Subject<Unit> onDestroyed = new Subject<Unit>();
+    public IObservable<Unit> OnDestroyed => onDestroyed;
     void Start()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -37,14 +43,14 @@ public class Enemy4Controller : MonoBehaviour
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()
     {
-        OnDestroyed.OnNext(Unit.Default);
-        OnDestroyed.OnCompleted();
+        onDestroyed.OnNext(Unit.Default);
+        //onDestroyed.OnCompleted();
 
         gameObject.SetActive(false);
     }
-    public void SubscriptionReset()
+    public void ResetSubscription()
     {
-        OnDestroyed = new Subject<Unit>();
+        onDestroyed.Dispose();
+        onDestroyed = new Subject<Unit>();
     }
-
 }

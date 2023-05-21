@@ -22,7 +22,7 @@ namespace pool
         public void Initialize(GameObject prefab, int size)
         {
             objectPrefab = prefab;
-            Debug.Log("Initializing pool with prefab: " + (objectPrefab != null ? objectPrefab.name : "null"));
+            //Debug.Log("Initializing pool with prefab: " + (objectPrefab != null ? objectPrefab.name : "null"));
             poolSize = size;
             pooledObjects = new List<GameObject>();
 
@@ -47,7 +47,7 @@ namespace pool
                     return obj;
                 }
             }
-            Debug.Log("Finish check");
+            //Debug.Log("Finish check");
             GameObject newObj = CreateNewObject();
             newObj.SetActive(true);
             newObj.transform.position = Vector3.zero;  // 座標をリセット
@@ -60,12 +60,12 @@ namespace pool
         /// <returns>作成された敵のGameObject</returns>
         private GameObject CreateNewObject()
         {
-            Debug.Log("Creating new object from prefab: " + (objectPrefab != null ? objectPrefab.name : "null"));
+            //Debug.Log("Creating new object from prefab: " + (objectPrefab != null ? objectPrefab.name : "null"));
             GameObject newObj = Instantiate(objectPrefab);
             newObj.transform.SetParent(transform);
             newObj.SetActive(false);
             pooledObjects.Add(newObj);
-            Debug.Log("Created new object: " + newObj.name);
+            //Debug.Log("Created new object: " + newObj.name);
             return newObj;
         }
     }
