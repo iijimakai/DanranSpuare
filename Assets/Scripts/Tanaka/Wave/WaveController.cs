@@ -15,30 +15,32 @@ namespace wave
         public class EnemyType
         {
             [SerializeField, Header("敵の種類を設定")]
-            public GameObject enemyPrefab; //敵のプレハブ
+            public GameObject enemyPrefab; // 敵のプレハブ
             [SerializeField, Header("出現確率")]
-            public float spawnChance; //出現確率
+            public float spawnChance; // 出現確率
             [SerializeField, Header("出現上限")]
-            public int maxSpawnCount; //最大出現数
+            public int maxSpawnCount; // 最大出現数
             [SerializeField, Header("現在の出現数")]
             [HideInInspector]
-            public int currentSpawnCount; //現在の出現数
+            public int currentSpawnCount; // 現在の出現数
         }
 
         [System.Serializable]
         public class Wave
         {
             [SerializeField, Header("このWaveでの敵の合計数")]
-            public int totalEnemies; //Waveの敵の合計数
+            public int totalEnemies; // Waveの敵の合計数
             [SerializeField, Header("Waveで出現可能な敵の種類の数")]
-            public EnemyType[] enemies; //Waveで出現可能な敵の種類の配列
+            public EnemyType[] enemies; // Waveで出現可能な敵の種類の配列
         }
         [SerializeField, Header("Wave数")]
-        public Wave[] waves; //Waveの配列
-        private int currentWaveIndex = 0; //現在のWaveのインデックス
+        public Wave[] waves; // Waveの配列
+        private int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
-        private CancellationTokenSource cts;
+        private CancellationTokenSource cancelToken;
+        // 現在アクティブな敵の数を記録するカウンター
+        private int totalActiveEnemies = 0;
         /// <summary>
         /// 最初のウェーブを生成。
         /// </summary>
@@ -59,8 +61,8 @@ namespace wave
                     //enemyType.currentSpawnCount = 0;
                 }
             }
-            cts = new CancellationTokenSource();
-            Observable.NextFrame().Subscribe(_ => SpawnWave(cts.Token));
+            cancelToken = new CancellationTokenSource();
+            Observable.NextFrame().Subscribe(_ => SpawnWave(cancelToken.Token));
         }
 
         /// <summary>
@@ -123,7 +125,6 @@ namespace wave
             Debug.Log(enemyPools.ContainsKey(enemyType.enemyPrefab)); // enemyPoolsにenemyPrefabのキーが存在するか確認
             Debug.Log(enemyPools[enemyType.enemyPrefab]); // enemyPools[enemyType.enemyPrefab]自体がnullでないことを確認
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
-            //Debug.Log(spawnedEnemyObject.name);
             if(spawnedEnemyObject == null)
             {
                 // エラーログを出力するなど、適切な処理を行う。
@@ -131,49 +132,28 @@ namespace wave
                 return;
             }
             Enemy4Controller spawnedEnemy = spawnedEnemyObject.GetComponent<Enemy4Controller>();
-            //Debug.Log(spawnedEnemy);
             spawnedEnemy.SubscriptionReset();
+            totalActiveEnemies++;
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
 
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {
-                //Debug.Log("OnDestroyed" + spawnedEnemyObject.name);
+                // 敵が破壊されたので、カウンターを減らす
+                totalActiveEnemies--;
                 spawnedEnemyObject.SetActive(false);
-                //Debug.Log("Is active: " + spawnedEnemyObject.activeSelf);
-                if (CheckAllEnemiesDestroyed())
+                if (totalActiveEnemies == 0)
                 {
+                    Debug.Log("All Enemies Destroy");
                     Debug.Log("SpawnWave");
-                    SpawnWave(cts.Token);
+                    SpawnWave(cancelToken.Token);
                 }
             });
         }
-        /// <summary>
-        /// すべての敵が破壊されたかどうかを確認する。
-        /// </summary>
-        /// <returns>すべての敵が破壊されていればtrue、そうじゃなかったらfalseを返す。</returns>
-        private bool CheckAllEnemiesDestroyed()
-        {
-            foreach (var pool in enemyPools.Values)
-            {
-                var activeEnemies = pool.GetComponentsInChildren<Enemy4Controller>(true)
-                .Where(t => t.gameObject.activeSelf);
-                foreach(var activeEnemy in activeEnemies)
-                {
-                    //Debug.Log("Active enemy in pool: " + activeEnemy.name);
-                }
-                if(activeEnemies.Any())
-                {
-                    return false;
-                }
-            }
-            Debug.Log("All Enemies Destroy");
-            return true;
-        }
         void OnDisable()  // ゲーム停止時に呼び出されるメソッド
         {
-            cts.Cancel();  // 非同期タスクを停止する
+            cancelToken.Cancel();  // 非同期タスクを停止する
         }
     }
 

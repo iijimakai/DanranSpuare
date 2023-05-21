@@ -524,7 +524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - totalEnemies: 40
+  - totalEnemies: 20
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
       spawnChance: 0.25
