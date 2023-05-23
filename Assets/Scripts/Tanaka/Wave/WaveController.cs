@@ -6,6 +6,7 @@ using pool;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace wave
 {
@@ -64,39 +65,42 @@ namespace wave
                 }
             }
             cancelToken = new CancellationTokenSource();
-            Observable.NextFrame().Subscribe(async _ => await SpawnWave(cancelToken.Token));
+            Observable.NextFrame().Subscribe(_ => SpawnWave(cancelToken.Token).Forget());
         }
 
         /// <summary>
         /// 敵のウェーブを生成。
         /// </summary>
-        private async Task SpawnWave(CancellationToken token)
+private async UniTaskVoid SpawnWave(CancellationToken token)
+{
+    if(currentWaveIndex < waves.Length)
+    {
+        Wave currentWave = waves[currentWaveIndex];
+        for(int i = 0; i < currentWave.totalEnemies; i++)
         {
-            if(currentWaveIndex < waves.Length)
+            int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
+            EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
+            if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
             {
-                Wave currentWave = waves[currentWaveIndex];
-                for(int i = 0; i < currentWave.totalEnemies; i++)
-                {
-                    int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
-                    EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
-                    if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
-                    {
-                        SpawnEnemy(chosenEnemy);
-                        chosenEnemy.currentSpawnCount++;
-                        await Task.Delay(2000,token);
-                    }
-                    else
-                    {
-                        i--;
-                    }
-                }
-                currentWaveIndex++;
+                SpawnEnemy(chosenEnemy);
+                chosenEnemy.currentSpawnCount++;
 
-                await Task.Delay(2000,token);
+                await UniTask.Delay(2000, cancellationToken: token);
 
+                token.ThrowIfCancellationRequested();
+            }
+            else
+            {
+                i--;
             }
         }
-        /// <summary>
+        currentWaveIndex++;
+
+        await UniTask.Delay(2000, cancellationToken: token);
+
+        token.ThrowIfCancellationRequested();
+    }
+}        /// <summary>
         /// 生成する敵のたいぷのインデックスを、その生成確率に基づいてかえす。
         /// </summary>
         /// <param name="enemies">生成可能な敵のタイプの配列。</param>
@@ -124,8 +128,6 @@ namespace wave
         /// <param name="enemyType">生成する敵のタイプ。</param>
         private void SpawnEnemy(EnemyType enemyType)
         {
-            //Debug.Log(enemyPools.ContainsKey(enemyType.enemyPrefab)); // enemyPoolsにenemyPrefabのキーが存在するか確認
-            //Debug.Log(enemyPools[enemyType.enemyPrefab]); // enemyPools[enemyType.enemyPrefab]自体がnullでないことを確認
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null)
             {
@@ -139,7 +141,7 @@ namespace wave
             //ここでスポーン位置を設定
 
             //敵が破壊されたときにプールに戻るように設定
-            spawnedEnemy.OnDestroyed.Subscribe(async _ =>
+            spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {
                 // 敵が破壊されたので、カウンターを減らす
                 totalActiveEnemies--;
@@ -150,7 +152,7 @@ namespace wave
                 {
                     Debug.Log("All Enemies Destroy");
                     Debug.Log("NextWave");
-                    await SpawnWave(cancelToken.Token);
+                    SpawnWave(cancelToken.Token).Forget(); // UniTaskを呼び出し、その結果を破棄
                 }
                 spawnedEnemy.ResetSubscription();
             }).AddTo(this);
