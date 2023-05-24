@@ -13,11 +13,6 @@ public class PlayerInputTest : MonoBehaviour
     private Vector2 move = new Vector2();
 
     private Rigidbody2D rb;
-
-    float xLimit = 10.0f;
-
-    float yLimit = 10.0f;
-
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -25,10 +20,6 @@ public class PlayerInputTest : MonoBehaviour
     void Update() {
         PlayerMove();
         Vector3 currentPos = transform.position;
-
-        currentPos.x = Mathf.Clamp(currentPos.x, -xLimit, xLimit);
-        currentPos.y = Mathf.Clamp(currentPos.y, -yLimit, yLimit);
-
         transform.position = currentPos;
     }
 

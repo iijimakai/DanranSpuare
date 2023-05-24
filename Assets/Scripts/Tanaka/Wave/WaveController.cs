@@ -41,9 +41,13 @@ namespace wave
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CancellationTokenSource cancelToken;
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
+        [SerializeField] private PlayerInputTest playerObject;
         // 現在アクティブな敵の数を記録するカウンター
         private int totalActiveEnemies = 0;
         int tempCount = 0;
+
+        private int waveCurrentAppearanceLimit = 0;
+        //int waveEnemySpawnMaxCount = 0;
         /// <summary>
         /// 最初のウェーブを生成。
         /// </summary>
@@ -75,23 +79,27 @@ private async UniTaskVoid SpawnWave(CancellationToken token)
 {
     if(currentWaveIndex < waves.Length)
     {
-        Wave currentWave = waves[currentWaveIndex];
-        for(int i = 0; i < currentWave.totalEnemies; i++)
+        if(waveCurrentAppearanceLimit < 20)
         {
-            int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
-            EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
-            if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
+            Wave currentWave = waves[currentWaveIndex];
+            for(int i = 0; i < currentWave.totalEnemies; i++)
             {
-                SpawnEnemy(chosenEnemy);
-                chosenEnemy.currentSpawnCount++;
+                int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
+                EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
+                if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
+                {
+                    SpawnEnemy(chosenEnemy);
+                    chosenEnemy.currentSpawnCount++;
+                    waveCurrentAppearanceLimit++;
+                    Debug.Log("appearancelimit" + waveCurrentAppearanceLimit);
+                    await UniTask.Delay(2000, cancellationToken: token);
 
-                await UniTask.Delay(2000, cancellationToken: token);
-
-                token.ThrowIfCancellationRequested();
-            }
-            else
-            {
-                i--;
+                    token.ThrowIfCancellationRequested();
+                }
+                else
+                {
+                    i--;
+                }
             }
         }
         currentWaveIndex++;
@@ -139,7 +147,14 @@ private async UniTaskVoid SpawnWave(CancellationToken token)
             totalActiveEnemies++;
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
-
+            float spawnRadius = 15.0f;
+            Vector3 playerPosition = playerObject.transform.position;
+            Vector3 spawnPosition = playerPosition + new Vector3(
+                Random.Range(-spawnRadius,spawnRadius),
+                Random.Range(-spawnRadius,spawnRadius),
+                Random.Range(-spawnRadius,spawnRadius)
+            );
+            spawnedEnemyObject.transform.position = spawnPosition;
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(_ =>
             {

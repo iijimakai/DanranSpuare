@@ -28,9 +28,10 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
-                Vector3 toDirection = targetObject.transform.position - transform.position;
-                transform.rotation = Quaternion.FromToRotation(-Vector3.up, toDirection);
-                transform.position -= transform.up * speed * Time.deltaTime;
+                Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
+                float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
+                transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+                transform.position += transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
     }
     void OnCollisionEnter2D(Collision2D col)
