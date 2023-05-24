@@ -568,6 +568,7 @@ MonoBehaviour:
       currentSpawnCount: 0
   poolSize: 40
   playerObject: {fileID: 1223343894}
+  maxActiveEnemies: 20
 --- !u!4 &1681743050
 Transform:
   m_ObjectHideFlags: 0
