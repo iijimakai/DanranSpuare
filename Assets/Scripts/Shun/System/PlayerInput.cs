@@ -3,6 +3,8 @@ using UniRx;
 using UniRx.Triggers;
 using Shun_Player;
 using Shun_UI;
+using Cysharp.Threading.Tasks;
+using System;
 
 namespace Shun_System
 {
@@ -13,6 +15,7 @@ namespace Shun_System
         private Vector2 defaultPos = Vector2.zero;
 
         private bool isCharging = false;
+        private bool isCoolTime = false;
 
         private CompositeDisposable moveDisposables = new CompositeDisposable();
         private CompositeDisposable rodDisposables = new CompositeDisposable();
@@ -46,7 +49,7 @@ namespace Shun_System
             //‚±‚±‚Ü‚ÅˆÚ“®—p
 
             this.UpdateAsObservable()
-                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging)
+                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging && !isCoolTime)
                 .Subscribe(_ => {
                     if (playerBase.havingRod <= 0 ) 
                     {
@@ -75,6 +78,7 @@ namespace Shun_System
                 .Subscribe(_ => {
                     defaultPos = Vector2.zero;
                     playerBase.SetRod();
+                    CoolTime();
                     isCharging = false;
                 })
                 .AddTo(rodDisposables);
@@ -86,6 +90,15 @@ namespace Shun_System
                     isCharging = false;
                 })
                 .AddTo(rodDisposables);
+        }
+
+        private async void CoolTime()
+        {
+            isCoolTime = true;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(PlayerParameter.rodSetCoolTime));
+
+            isCoolTime = false;
         }
 
         /// <summary>

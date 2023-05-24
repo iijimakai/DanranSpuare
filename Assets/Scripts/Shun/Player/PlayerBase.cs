@@ -15,6 +15,7 @@ namespace Shun_Player
         public float havingRod { get; private set; }
 
         private string rodAddress;
+        private bool rodCharge = false;
 
         private float chargeRatio = 0;
         private List<GameObject> rodStock = new List<GameObject>();
@@ -36,26 +37,28 @@ namespace Shun_Player
 
             direction.Value = Direction.Right;
             direction.Subscribe(_ => ChangeDirection()).AddTo(disposables);
-
-            GiveRod();
         }
 
         private async void GiveRod()
         {
-            while (true)
-            {
-                if (havingRod < parameter.rodStock)
-                {
-                    havingRod++;
-                }
+            if (rodCharge) return;
 
+            rodCharge = true;
+
+            while (havingRod < parameter.rodStock)
+            {
                 await UniTask.Delay(TimeSpan.FromSeconds(parameter.rodRecastTime));
+
+                havingRod++;
             }
+
+            rodCharge = false;
         }
 
         public async void SetRod()
         {
             havingRod--;
+            GiveRod();
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
             rod.transform.position = transform.position;
             rodStock.Add(rod);
