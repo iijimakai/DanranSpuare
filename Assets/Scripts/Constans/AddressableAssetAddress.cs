@@ -15,8 +15,11 @@ public static class AddressableAssetAddress
 	public const string EDITOR_SCENE_LIST = "EditorSceneList";
 	public const string LAG_BULLET = "LagBullet";
 	public const string P1 = "P1";
+	public const string P1_OBJECT = "P1Object";
 	public const string P2 = "P2";
+	public const string P2_OBJECT = "P2Object";
 	public const string P3 = "P3";
+	public const string P3_OBJECT = "P3Object";
 	public const string PBASE = "PBase";
 	public const string PINPUT = "PInput";
 	public const string RESOURCES = "Resources";
