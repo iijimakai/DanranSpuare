@@ -3,6 +3,8 @@ using UniRx;
 using Shun_Constants;
 using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
+using Cysharp.Threading.Tasks;
+using System;
 
 namespace Shun_Player
 {
@@ -34,6 +36,21 @@ namespace Shun_Player
 
             direction.Value = Direction.Right;
             direction.Subscribe(_ => ChangeDirection()).AddTo(disposables);
+
+            GiveRod();
+        }
+
+        private async void GiveRod()
+        {
+            while (true)
+            {
+                if (havingRod < parameter.rodStock)
+                {
+                    havingRod++;
+                }
+
+                await UniTask.Delay(TimeSpan.FromSeconds(parameter.rodRecastTime));
+            }
         }
 
         public async void SetRod()
@@ -97,6 +114,11 @@ namespace Shun_Player
         private void OnDisable()
         {
             disposables.Clear();
+        }
+
+        private void Update()
+        {
+            Debug.Log(havingRod);
         }
     }
 }
