@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &50311616
 MonoBehaviour:
@@ -244,12 +244,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234894474}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1223343899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1223343893
@@ -490,9 +490,10 @@ Transform:
   m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 234894477}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681743048
 GameObject:
@@ -524,41 +525,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
-  - totalEnemies: 40
+  - totalEnemies: 80
     enemies:
     - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 40
+      maxSpawnCount: 80
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 40
+      maxSpawnCount: 80
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 40
+      maxSpawnCount: 80
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 0.25
-      maxSpawnCount: 40
+      maxSpawnCount: 80
       currentSpawnCount: 0
-  - totalEnemies: 20
+  - totalEnemies: 10
     enemies:
-    - enemyPrefab: {fileID: 7592025330046263569, guid: 17de05f7c9d1f344c81e89876ed21486, type: 3}
-      spawnChance: 0
-      maxSpawnCount: 20
-      currentSpawnCount: 0
-    - enemyPrefab: {fileID: 7592025330046263569, guid: da01095ca3439774283942146c7ed837, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 1
-      maxSpawnCount: 20
-      currentSpawnCount: 0
-    - enemyPrefab: {fileID: 7592025330046263569, guid: d7f3d82520c1f3145bade9836acb3f4b, type: 3}
-      spawnChance: 0
-      maxSpawnCount: 20
-      currentSpawnCount: 0
-    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
-      spawnChance: 0
-      maxSpawnCount: 20
+      maxSpawnCount: 10
       currentSpawnCount: 0
   - totalEnemies: 1
     enemies:
@@ -566,7 +555,7 @@ MonoBehaviour:
       spawnChance: 1
       maxSpawnCount: 1
       currentSpawnCount: 0
-  poolSize: 40
+  poolSize: 5
   playerObject: {fileID: 1223343894}
   maxActiveEnemies: 20
 --- !u!4 &1681743050
@@ -582,5 +571,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
