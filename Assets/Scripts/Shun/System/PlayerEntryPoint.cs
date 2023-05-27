@@ -41,7 +41,7 @@ namespace Shun_System
             }
 
             var playerData = await Addressables.LoadAssetAsync<PlayerData>(playerType);
-            var playerBase = await Addressables.LoadAssetAsync<GameObject>(AddressableAssetAddress.PBASE);
+            var playerBase = await Addressables.LoadAssetAsync<GameObject>(playerType + "Object");
             var playerInput = await Addressables.LoadAssetAsync<GameObject>(AddressableAssetAddress.PINPUT);
 
             _playerBase = Instantiate(playerBase).GetComponent<PlayerBase>();

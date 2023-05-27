@@ -47,10 +47,16 @@ namespace Shun_System
 
             this.UpdateAsObservable()
                 .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging)
-                .Subscribe(_ => { 
-                    playerBase.SetRod();
-                    defaultPos = Input.mousePosition;
-                    isCharging = true;
+                .Subscribe(_ => {
+                    if (playerBase.havingRod <= 0 ) 
+                    {
+                        Debug.Log("ñ‚ðŠŽ‚µ‚Ä‚¢‚Ü‚¹‚ñB");
+                    }
+                    else
+                    {
+                        defaultPos = Input.mousePosition;
+                        isCharging = true;
+                    }
                 })
                 .AddTo(rodDisposables);
 
@@ -66,6 +72,15 @@ namespace Shun_System
 
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButtonUp(0) && isCharging)
+                .Subscribe(_ => {
+                    defaultPos = Vector2.zero;
+                    playerBase.SetRod();
+                    isCharging = false;
+                })
+                .AddTo(rodDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(KeyCode.Escape) && isCharging)
                 .Subscribe(_ => {
                     defaultPos = Vector2.zero;
                     isCharging = false;

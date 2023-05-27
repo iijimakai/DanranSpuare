@@ -9,6 +9,9 @@ namespace Shun_Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerBase : MonoBehaviour
     {
+        public float hp {  get; private set; }
+        public float havingRod { get; private set; }
+
         private string rodAddress;
 
         private float chargeRatio = 0;
@@ -21,6 +24,11 @@ namespace Shun_Player
         {
             parameter.Init(_data);
             ParameterBuff.Init();
+
+            ParameterBuff.hpLevel.Subscribe(_ => hp += _data.hp * _data.hpBuff).AddTo(disposables);
+
+            hp = 60;
+            havingRod = parameter.rodStock;
  
             rodAddress = _rodAddress;
 
@@ -30,9 +38,7 @@ namespace Shun_Player
 
         public async void SetRod()
         {
-            Debug.Log(parameter.hp);
-            ParameterBuff.Up();
-            Debug.Log(parameter.hp);
+            havingRod--;
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
             rod.transform.position = transform.position;
             rodStock.Add(rod);
@@ -48,7 +54,7 @@ namespace Shun_Player
         {
             charge = charge > parameter.chargeMax ? parameter.chargeMax : charge;
             chargeRatio = charge / parameter.chargeMax * 100;
-            Debug.Log(chargeRatio); //UIにチャージ割合を反映
+            //UIにチャージ割合を反映
         }
 
         /// <summary>
@@ -67,15 +73,20 @@ namespace Shun_Player
         /// <param name="moveVec">移動ベクトル</param>
         public void Move(Vector2 moveVec)
         {
-            if (moveVec.x >= 0)
+            if (moveVec.x > 0)
             {
                 direction.Value = Direction.Right;
             }
-            else
+            else if (moveVec.x < 0)
             {
                 direction.Value = Direction.Left;
             }
             transform.Translate(moveVec * parameter.speed * Time.deltaTime);
+        }
+
+        public void Damage(float damage)
+        {
+            
         }
 
         private void OnDestroy()

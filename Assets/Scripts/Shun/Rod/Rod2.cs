@@ -6,6 +6,10 @@ namespace Shun_Rod
 {
     public class Rod2 : RodBase
     {
+        [SerializeField] private GameObject shotPos;
+        public override void AttackInterval()
+        {
 
+        }
     }
 }

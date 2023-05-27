@@ -4,11 +4,12 @@ namespace Shun_Player
 {
     public enum Parameter
     {
-        hp = 0,
+        maxHp = 0,
         chargeDmg,
         speed,
-        rodHp,
+        rodMaxHp,
         rodDmg,
+        shotSpeed,
         rodRange,
         rodInterval,
         rodDuration,
@@ -23,41 +24,49 @@ namespace Shun_Player
         public static float rodRecastTime { get; private set; }
         public static float rodSetCoolTime { get; private set; }
         public static float chargeMax { get; private set; }
-        public static float hp { get; private set; }
+        public static float maxHp { get; private set; }
         public static float chargeDmg { get; private set; }
         public static float speed { get; private set; }
-        public static float rodHp { get; private set; }
+        public static float maxRodHp { get; private set; }
         public static float rodDmg { get; private set; }
+        public static float shotSpeed { get; private set; }
         public static float rodRange { get; private set; }
         public static float rodInterval { get; private set; }
         public static float rodDuration { get; private set; }
         public static float rodAmount { get; private set; }
 
 
-        public static void Init(PlayerData data)
+        public static void Init(PlayerData _data)
         {
-            PlayerParameter.data = data;
-            SetData();
+            data = _data;
+            SetData(_data);
         }
 
-        private static void SetData()
+        private static void SetData(PlayerData _data)
         {
-            characterType = data.characterType;
-            rodStock = data.rodStock;
-            chargeMax = data.chargeMax;
-            hp = data.hp;
-            chargeDmg = data.chargeDmg;
-            speed = data.speed;
-            
-
+            characterType = _data.characterType;
+            rodStock = _data.rodStock;
+            rodRecastTime = _data.rodRecastTime;
+            rodSetCoolTime = _data.rodSetCoolTime;
+            chargeMax = _data.chargeMax;
+            maxHp = _data.hp;
+            chargeDmg = _data.chargeDmg;
+            speed = _data.speed;
+            maxRodHp = _data.rodHp;
+            rodDmg = _data.rodDmg;
+            shotSpeed = _data.shotSpeed;
+            rodRange = _data.rodRange;
+            rodInterval = _data.rodInterval;
+            rodDuration = _data.rodDuration;
+            rodAmount = _data.rodAmount;
         }
 
         public static void ChangeValue(Parameter parameter, int buffLevel)
         {
             switch (parameter)
             {
-                case Parameter.hp:
-                    hp = data.hp + data.hp * data.hpBuff * buffLevel;
+                case Parameter.maxHp:
+                    maxHp = data.hp + data.hp * data.hpBuff * buffLevel;
                     break;
                 case Parameter.chargeDmg:
                     chargeDmg = data.chargeDmg + data.chargeDmg * data.chargeDmgBuff * buffLevel;
@@ -65,11 +74,14 @@ namespace Shun_Player
                 case Parameter.speed:
                     speed = data.speed + data.speed * data.speedBuff * buffLevel;
                     break;
-                case Parameter.rodHp:
-                    rodHp = data.rodHp + data.rodHp * data.rodHpBuff * buffLevel;
+                case Parameter.rodMaxHp:
+                    maxRodHp = data.rodHp + data.rodHp * data.rodHpBuff * buffLevel;
                     break;
                 case Parameter.rodDmg:
                     rodDmg = data.rodDmg + data.rodDmg * data.rodDmgBuff * buffLevel;
+                    break;
+                case Parameter.shotSpeed:
+                    shotSpeed = data.shotSpeed + data.shotSpeed * data.shotSpeedBuff * buffLevel;
                     break;
                 case Parameter.rodRange:
                     rodRange = data.rodRange + data.rodRange * data.rodRangeBuff * buffLevel;
