@@ -84,47 +84,56 @@ namespace wave
         {
             if(currentWaveIndex < waves.Length)
             {
-                // 新しいWaveの敵が生成される前に一定時間の遅延を導入する
-                await Task.Delay(TimeSpan.FromSeconds(3), token);
-                Wave currentWave = waves[currentWaveIndex];
-                int i = 0;
-                while(i < currentWave.totalEnemies)
+                //きゃんせるえらー通知キャンセル処理
+                var cancellationTask = new TaskCompletionSource<bool>();
+                using (token.Register(() => cancellationTask.TrySetResult(true)))
                 {
-                    if (token.IsCancellationRequested)
+                    if (await Task.WhenAny(Task.Delay(TimeSpan.FromSeconds(3)), cancellationTask.Task) != cancellationTask.Task)
                     {
-                        Debug.Log("task cancel.");
-                        return;
-                    }
-                    if (totalActiveEnemies.Value >= maxActiveEnemies)
-                    {
-                        await Observable.EveryUpdate()
-                            .Where(_ => totalActiveEnemies.Value < maxActiveEnemies && !token.IsCancellationRequested)
+                        Wave currentWave = waves[currentWaveIndex];
+                        int i = 0;
+                        while(i < currentWave.totalEnemies)
+                        {
+                            if (token.IsCancellationRequested)
+                            {
+                                Debug.Log("task cancel.");
+                                return;
+                            }
+                            if (totalActiveEnemies.Value >= maxActiveEnemies)
+                            {
+                                await Observable.EveryUpdate()
+                                    .Where(_ => totalActiveEnemies.Value < maxActiveEnemies && !token.IsCancellationRequested)
+                                    .First()
+                                    .ToTask(token);
+                                    //.ConfigureAwait(false); // エラー通知を無効にする
+                            }
+                            int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
+                            EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
+                            if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
+                            {
+                                SpawnEnemy(chosenEnemy);
+                                chosenEnemy.currentSpawnCount++;
+                                if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task)
+                                {
+                                    return;
+                                }
+                            }
+                            i++;
+                        }
+                        await totalActiveEnemies
+                            .Where(activeEnemies => activeEnemies == 0)
                             .First()
                             .ToTask(token);
-                            //.ConfigureAwait(false); // エラー通知を無効にする
+                        //allEnemiesSpawned = false; // フラグをリセット
+                        currentWaveIndex++;
+                        Debug.Log(currentWaveIndex);
+                        // 全ての敵がスポーンした後に遅延を入れてからフラグを更新
+                        allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
+                        Debug.Log("allEnemiesSpawned;"+allEnemiesSpawned);
                     }
-                    int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
-                    EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
-                    if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
-                    {
-                        SpawnEnemy(chosenEnemy);
-                        chosenEnemy.currentSpawnCount++;
-                        await Task.Delay(2000, token);//.ConfigureAwait(false); // エラー通知を無効にする
-                    }
-                    i++;
                 }
-                await totalActiveEnemies
-                    .Where(activeEnemies => activeEnemies == 0)
-                    .First()
-                    .ToTask(token);
-                //allEnemiesSpawned = false; // フラグをリセット
-                currentWaveIndex++;
-                Debug.Log(currentWaveIndex);
-                // 全ての敵がスポーンした後に遅延を入れてからフラグを更新
-                allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
-                Debug.Log("allEnemiesSpawned;"+allEnemiesSpawned);
             }
-        }
+    }
 
         /// <summary>
         /// 敵のタイプのインデックスをランダムに選択。
