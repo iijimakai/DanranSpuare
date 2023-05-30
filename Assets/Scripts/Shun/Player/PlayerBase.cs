@@ -3,6 +3,8 @@ using UniRx;
 using Shun_Constants;
 using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
+using Cysharp.Threading.Tasks;
+using System;
 
 namespace Shun_Player
 {
@@ -13,6 +15,7 @@ namespace Shun_Player
         public float havingRod { get; private set; }
 
         private string rodAddress;
+        private bool rodCharge = false;
 
         private float chargeRatio = 0;
         private List<GameObject> rodStock = new List<GameObject>();
@@ -36,9 +39,26 @@ namespace Shun_Player
             direction.Subscribe(_ => ChangeDirection()).AddTo(disposables);
         }
 
+        private async void GiveRod()
+        {
+            if (rodCharge) return;
+
+            rodCharge = true;
+
+            while (havingRod < parameter.rodStock)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(parameter.rodRecastTime));
+
+                havingRod++;
+            }
+
+            rodCharge = false;
+        }
+
         public async void SetRod()
         {
             havingRod--;
+            GiveRod();
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
             rod.transform.position = transform.position;
             rodStock.Add(rod);
@@ -97,6 +117,11 @@ namespace Shun_Player
         private void OnDisable()
         {
             disposables.Clear();
+        }
+
+        private void Update()
+        {
+            Debug.Log(havingRod);
         }
     }
 }
