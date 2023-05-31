@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4255514812306598044}
   m_Layer: 0
   m_Name: P3_Lag
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

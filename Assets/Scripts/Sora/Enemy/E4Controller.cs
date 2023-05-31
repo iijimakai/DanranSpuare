@@ -8,9 +8,10 @@ namespace Sora_Enemy
     {
         private GameObject player;
 
-        private async void Awake()
+        private async void Start()
         {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
+            Debug.Log(player.name);
             await Init(EnemyType.E4);
             Spawn();
         }

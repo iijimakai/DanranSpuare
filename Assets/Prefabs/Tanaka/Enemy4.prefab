@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.5
-  playerObject: {fileID: 0}
+  playerObject: {fileID: 1081565991272496456, guid: cd898536178785442935804b202293f5, type: 3}
 --- !u!61 &-8261403850463647723
 BoxCollider2D:
   m_ObjectHideFlags: 0

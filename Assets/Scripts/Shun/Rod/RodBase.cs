@@ -2,21 +2,27 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using Bullet;
-using System;
 using Shun_Player;
 
 namespace Shun_Rod
 {
     using parameter = Shun_Player.PlayerParameter;
+
     public abstract class RodBase : MonoBehaviour
     {
         public float hp { get; private set; }
 
+        private PlayerBase player;
+
+        public ReactiveProperty<bool> isDead { get; private set; } = new ReactiveProperty<bool>(false);
+
         private CompositeDisposable disposables = new CompositeDisposable();
 
-        private void Start()
+        public void Init(PlayerBase owner)
         {
-            
+            transform.position = owner.transform.position;
+            player = owner;
+
             hp = parameter.maxRodHp;
 
             this.UpdateAsObservable()
@@ -46,13 +52,17 @@ namespace Shun_Rod
 
         public void Damage(int damage)
         {
-
+            hp -= damage;
+            if (hp <= 0)
+            {
+                Dead();
+            }
         }
 
-        public Transform SearchNearEnemy(string tagName)
+        public GameObject SearchNearEnemy(string tagName)
         {
             var targets = GameObject.FindGameObjectsWithTag(tagName);
-            if (targets.Length == 1) return targets[0].transform;
+            if (targets.Length == 1) return targets[0];
 
             GameObject result = null;
             var minTargetDistance = float.MaxValue;
@@ -61,10 +71,27 @@ namespace Shun_Rod
                 var targetDistance = Vector3.Distance(transform.position, target.transform.position);
                 if (!(targetDistance < minTargetDistance)) continue;
                 minTargetDistance = targetDistance;
-                result = target.transform.gameObject;
+                result = target;
+            }
+            return result;
+        }
+
+        public Transform CheckRange(GameObject target, float distance)
+        {
+            if (target == null) return null;
+
+            var targetDistance = Vector3.Distance(transform.position, target.transform.position);
+            if (targetDistance <= distance)
+            {
+                return target.transform;
             }
 
-            return result?.transform;
+            return null;
+        }
+
+        private void Dead()
+        {
+            player.RodClear(this);
         }
 
         private void OnDestroy()

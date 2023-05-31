@@ -41,6 +41,12 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
             DestroyEnemy();
         }
     }
+
+    public void Damage()
+    {
+        Debug.Log("Dead");
+        DestroyEnemy();
+    }
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()
     {
