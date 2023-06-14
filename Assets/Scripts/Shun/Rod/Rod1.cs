@@ -16,12 +16,13 @@ namespace Shun_Rod
             if (timeCounter >= parameter.rodInterval)
             {
                 timeCounter = 0;
-                Shot(SearchNearEnemy("Enemy"));
+                Shot(CheckRange(SearchNearEnemy(TagName.Enemy), parameter.rodRange));
             }
         }
 
         private async void Shot(Transform target)
         {
+            if (target == null) return;
             Vector3 toDirection = target.transform.position - shotPos.transform.position;
             shotPos.transform.rotation = Quaternion.FromToRotation(Vector3.up, toDirection);
 

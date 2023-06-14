@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
 using Cysharp.Threading.Tasks;
 using System;
+using Shun_Rod;
 
 namespace Shun_Player
 {
@@ -18,7 +19,7 @@ namespace Shun_Player
         private bool rodCharge = false;
 
         private float chargeRatio = 0;
-        private List<GameObject> rodStock = new List<GameObject>();
+        public static List<GameObject> rodStock = new List<GameObject>();
 
         private ReactiveProperty<Direction> direction = new ReactiveProperty<Direction>();
         private CompositeDisposable disposables = new CompositeDisposable();
@@ -55,19 +56,32 @@ namespace Shun_Player
             rodCharge = false;
         }
 
+        /// <summary>
+        /// èÒÇÃê›íu
+        /// </summary>
         public async void SetRod()
         {
             havingRod--;
             GiveRod();
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
+            rod.GetComponent<RodBase>().Init(this);
             rod.transform.position = transform.position;
             rodStock.Add(rod);
 
             if (rodStock.Count > parameter.rodStock)
             {
                 BulletPoolUtile.RemoveBullet(rodStock[0]);
-                rodStock.RemoveAt(0);
+                Debug.Log(rodStock.Count);
+                //rodStock.RemoveAt(0);
             }
+        }
+        /// <summary>
+        /// èÒè¡ñ≈éûÇÃèàóù
+        /// </summary>
+        /// <param name="rod">èàóùëŒè€ÇÃèÒ</param>
+        public void RodClear(RodBase rod)
+        {
+            BulletPoolUtile.RemoveBullet(rod.gameObject);
         }
 
         public void SetChargeRatio(float charge)
@@ -117,11 +131,6 @@ namespace Shun_Player
         private void OnDisable()
         {
             disposables.Clear();
-        }
-
-        private void Update()
-        {
-            Debug.Log(havingRod);
         }
     }
 }
