@@ -101,6 +101,18 @@ MonoBehaviour:
     m_Address: Rod3
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: cd898536178785442935804b202293f5
+    m_Address: P1Object
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 561f5f2db3389a5438beb97e42545094
+    m_Address: P2Object
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 891cd80ba65a6f14185238406d6e8140
+    m_Address: P3Object
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f8385f1964914444ca37ef33c7b61b5c, type: 2}
   m_SchemaSet:

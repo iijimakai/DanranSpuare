@@ -3,6 +3,8 @@ using UniRx;
 using UniRx.Triggers;
 using Shun_Player;
 using Shun_UI;
+using Cysharp.Threading.Tasks;
+using System;
 
 namespace Shun_System
 {
@@ -13,6 +15,7 @@ namespace Shun_System
         private Vector2 defaultPos = Vector2.zero;
 
         private bool isCharging = false;
+        private bool isCoolTime = false;
 
         private CompositeDisposable moveDisposables = new CompositeDisposable();
         private CompositeDisposable rodDisposables = new CompositeDisposable();
@@ -46,11 +49,17 @@ namespace Shun_System
             //‚±‚±‚Ü‚ÅˆÚ“®—p
 
             this.UpdateAsObservable()
-                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging)
-                .Subscribe(_ => { 
-                    playerBase.SetRod();
-                    defaultPos = Input.mousePosition;
-                    isCharging = true;
+                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging && !isCoolTime)
+                .Subscribe(_ => {
+                    if (playerBase.havingRod <= 0 ) 
+                    {
+                        Debug.Log("ñ‚ðŠŽ‚µ‚Ä‚¢‚Ü‚¹‚ñB");
+                    }
+                    else
+                    {
+                        defaultPos = Input.mousePosition;
+                        isCharging = true;
+                    }
                 })
                 .AddTo(rodDisposables);
 
@@ -68,9 +77,28 @@ namespace Shun_System
                 .Where(_ => Input.GetMouseButtonUp(0) && isCharging)
                 .Subscribe(_ => {
                     defaultPos = Vector2.zero;
+                    playerBase.SetRod();
+                    CoolTime();
                     isCharging = false;
                 })
                 .AddTo(rodDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetKeyDown(KeyCode.Escape) && isCharging)
+                .Subscribe(_ => {
+                    defaultPos = Vector2.zero;
+                    isCharging = false;
+                })
+                .AddTo(rodDisposables);
+        }
+
+        private async void CoolTime()
+        {
+            isCoolTime = true;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(PlayerParameter.rodSetCoolTime));
+
+            isCoolTime = false;
         }
 
         /// <summary>

@@ -3,16 +3,23 @@ using UniRx;
 using Shun_Constants;
 using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
+using Cysharp.Threading.Tasks;
+using System;
+using Shun_Rod;
 
 namespace Shun_Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerBase : MonoBehaviour
     {
+        public float hp {  get; private set; }
+        public float havingRod { get; private set; }
+
         private string rodAddress;
+        private bool rodCharge = false;
 
         private float chargeRatio = 0;
-        private List<GameObject> rodStock = new List<GameObject>();
+        public static List<GameObject> rodStock = new List<GameObject>();
 
         private ReactiveProperty<Direction> direction = new ReactiveProperty<Direction>();
         private CompositeDisposable disposables = new CompositeDisposable();
@@ -21,6 +28,11 @@ namespace Shun_Player
         {
             parameter.Init(_data);
             ParameterBuff.Init();
+
+            ParameterBuff.hpLevel.Subscribe(_ => hp += _data.hp * _data.hpBuff).AddTo(disposables);
+
+            hp = 60;
+            havingRod = parameter.rodStock;
  
             rodAddress = _rodAddress;
 
@@ -28,27 +40,55 @@ namespace Shun_Player
             direction.Subscribe(_ => ChangeDirection()).AddTo(disposables);
         }
 
+        private async void GiveRod()
+        {
+            if (rodCharge) return;
+
+            rodCharge = true;
+
+            while (havingRod < parameter.rodStock)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(parameter.rodRecastTime));
+
+                havingRod++;
+            }
+
+            rodCharge = false;
+        }
+
+        /// <summary>
+        /// 杖の設置
+        /// </summary>
         public async void SetRod()
         {
-            Debug.Log(parameter.hp);
-            ParameterBuff.Up();
-            Debug.Log(parameter.hp);
+            havingRod--;
+            GiveRod();
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
+            rod.GetComponent<RodBase>().Init(this);
             rod.transform.position = transform.position;
             rodStock.Add(rod);
 
             if (rodStock.Count > parameter.rodStock)
             {
                 BulletPoolUtile.RemoveBullet(rodStock[0]);
-                rodStock.RemoveAt(0);
+                Debug.Log(rodStock.Count);
+                //rodStock.RemoveAt(0);
             }
+        }
+        /// <summary>
+        /// 杖消滅時の処理
+        /// </summary>
+        /// <param name="rod">処理対象の杖</param>
+        public void RodClear(RodBase rod)
+        {
+            BulletPoolUtile.RemoveBullet(rod.gameObject);
         }
 
         public void SetChargeRatio(float charge)
         {
             charge = charge > parameter.chargeMax ? parameter.chargeMax : charge;
             chargeRatio = charge / parameter.chargeMax * 100;
-            Debug.Log(chargeRatio); //UIにチャージ割合を反映
+            //UIにチャージ割合を反映
         }
 
         /// <summary>
@@ -67,15 +107,20 @@ namespace Shun_Player
         /// <param name="moveVec">移動ベクトル</param>
         public void Move(Vector2 moveVec)
         {
-            if (moveVec.x >= 0)
+            if (moveVec.x > 0)
             {
                 direction.Value = Direction.Right;
             }
-            else
+            else if (moveVec.x < 0)
             {
                 direction.Value = Direction.Left;
             }
             transform.Translate(moveVec * parameter.speed * Time.deltaTime);
+        }
+
+        public void Damage(float damage)
+        {
+            
         }
 
         private void OnDestroy()
