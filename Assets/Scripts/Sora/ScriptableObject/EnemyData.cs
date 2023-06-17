@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sora_Constants
+namespace Constants
 {
     [CreateAssetMenu(menuName = "Datas/EnemyData")]
     public class EnemyData : ScriptableObject
