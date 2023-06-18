@@ -44,13 +44,13 @@ namespace wave
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
         [SerializeField] private PlayerInputTest playerObject;
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
-        private bool allEnemiesSpawned = false; // 追加: ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
+        private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         int tempCount = 0;
 
         [SerializeField]
         private int maxActiveEnemies;
         /// <summary>
-        /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化を行います。
+        /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
         void Start()
         {
@@ -76,7 +76,7 @@ namespace wave
                 //Observable.NextFrame().Subscribe(async _ => await SpawnWave(cancelToken.Token));
         }
         /// <summary>
-        /// 指定されたウェーブの敵をスポーン。
+        /// 指定されたウェーブの敵をスポーン
         /// </summary>
         /// <param name="token">非同期タスクのキャンセルトークン</param>
         /// <returns>ウェーブのスポーンが完了したら完了するタスク</returns>
@@ -137,7 +137,7 @@ namespace wave
 
         /// <summary>
         /// 敵のタイプのインデックスをランダムに選択。
-        /// 選択は敵のスポーン確率に基づく。
+        /// 敵の選択は敵のスポーン確率に基づく。
         /// </summary>
         /// <param name="enemies">敵のタイプの配列</param>
         /// <returns>選択された敵のタイプのインデックス</returns>
@@ -158,7 +158,7 @@ namespace wave
             throw new System.Exception("a");
         }
         /// <summary>
-        /// 指定されたタイプの敵をスポーンします。
+        /// 指定されたタイプの敵をスポーン
         /// </summary>
         /// <param name="enemyType">スポーンさせる敵のタイプ</param>
         private void SpawnEnemy(EnemyType enemyType)
@@ -190,7 +190,7 @@ namespace wave
             }).AddTo(this);
         }
             /// <summary>
-        /// 指定された敵オブジェクトを破壊します。
+        /// 指定された敵オブジェクトを破壊
         /// </summary>
         /// <param name="enemyObject">破壊する敵オブジェクト</param>
         /// <param name="enemy">破壊する敵</param>
@@ -220,7 +220,6 @@ namespace wave
             cancelToken.Cancel();  // 非同期タスクを停止する
         }
     }
-
 }
 
 
