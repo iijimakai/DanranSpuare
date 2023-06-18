@@ -32,18 +32,18 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
         playerObject = GameObject.FindGameObjectWithTag("Player");
         PlayerTracking(playerObject);
         // 可視状態になった時に呼ばれる
-        targetRenderer.OnBecameVisibleAsObservable()
-            .Subscribe(_ =>
-            {
-                isVisible = true;
-            });
+        // targetRenderer.OnBecameVisibleAsObservable()
+        //     .Subscribe(_ =>
+        //     {
+        //         isVisible = true;
+        //     });
 
         // 不可視状態になった時に呼ばれる
-        targetRenderer.OnBecameInvisibleAsObservable()
-            .Subscribe(_ =>
-            {
-                isVisible = false;
-            });
+        // targetRenderer.OnBecameInvisibleAsObservable()
+        //     .Subscribe(_ =>
+        //     {
+        //         isVisible = false;
+        //     });
     }
 
     public void PlayerTracking(GameObject targetObject)
@@ -54,9 +54,24 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
                 Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
                 float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
                 transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-                float currentSpeed = isVisible ? speed * 10 : speed;// isVisibleがtrueの時にspeedが1.5x;
+                //float currentSpeed = isVisible ? speed * 10 : speed;// isVisibleがtrueの時にspeedが1.5x;
                 transform.position += transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("inCamera"))
+        {
+            speed *= 2;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("inCamera"))
+        {
+            speed /= 2;
+        }
     }
     void OnCollisionEnter2D(Collision2D col)
     {
