@@ -1,8 +1,8 @@
 using UnityEngine;
-using Sora_Constants;
+using Constants;
 using Lean.Pool;
 
-namespace Sora_Enemy
+namespace Enemy
 {
     public class E4Controller : EnemyBase
     {
@@ -46,6 +46,8 @@ namespace Sora_Enemy
         public override void Dead()
         {
             // TODO: 死亡エフェクト
+            Debug.Log("Daed");
+            base.DisposableClear();
             LeanPool.Despawn(gameObject);
         }
 

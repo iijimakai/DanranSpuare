@@ -12,6 +12,15 @@ public interface IEnemy
 }
 public class Enemy4Controller : MonoBehaviour,IEnemy
 {
+    [SerializeField]
+    private bool isVisible;
+
+	// 可視状態か
+	public bool IsVisible
+	{
+        get { return isVisible; }
+    }
+
     public float speed;
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -34,14 +43,28 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
                 transform.position += transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
     }
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if(col.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("inCamera"))
         {
-            DestroyEnemy();
+            speed *= 1.5f;
         }
     }
 
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("inCamera"))
+        {
+            speed /= 1.5f;
+        }
+    }
+    // void OnCollisionEnter2D(Collision2D col)
+    // {
+    //     if(col.gameObject.tag == "Player")
+    //     {
+    //         DestroyEnemy();
+    //     }
+    // }
     public void Damage()
     {
         Debug.Log("Dead");

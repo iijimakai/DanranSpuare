@@ -1,12 +1,12 @@
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
-using Sora_Constants;
+using Constants;
 using System;
 using Bullet;
 using Cysharp.Threading.Tasks;
 
-namespace Sora_Enemy
+namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class EnemyBase : MonoBehaviour
@@ -25,8 +25,8 @@ namespace Sora_Enemy
         private Subject<bool> isAttack = new Subject<bool>();
         private Subject<Unit> deadFlag = new Subject<Unit>();
 
-        private CompositeDisposable moveDispose = new CompositeDisposable();
-        private CompositeDisposable disposables = new CompositeDisposable();
+        public CompositeDisposable moveDispose = new CompositeDisposable();
+        public CompositeDisposable disposables = new CompositeDisposable();
 
         /// <summary>
         /// 初期化
@@ -168,6 +168,9 @@ namespace Sora_Enemy
             bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, data.deleteTime, shotPos);
         }
 
+        /// <summary>
+        /// すべての購読を停止する
+        /// </summary>
         public void DisposableClear()
         {
             isMove = true;
