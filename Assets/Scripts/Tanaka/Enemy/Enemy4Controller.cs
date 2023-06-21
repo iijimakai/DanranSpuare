@@ -13,7 +13,6 @@ public interface IEnemy
 public class Enemy4Controller : MonoBehaviour,IEnemy
 {
     [SerializeField]
-	private Renderer targetRenderer;
     private bool isVisible;
 
 	// 可視状態か
@@ -31,19 +30,6 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         PlayerTracking(playerObject);
-        // 可視状態になった時に呼ばれる
-        // targetRenderer.OnBecameVisibleAsObservable()
-        //     .Subscribe(_ =>
-        //     {
-        //         isVisible = true;
-        //     });
-
-        // 不可視状態になった時に呼ばれる
-        // targetRenderer.OnBecameInvisibleAsObservable()
-        //     .Subscribe(_ =>
-        //     {
-        //         isVisible = false;
-        //     });
     }
 
     public void PlayerTracking(GameObject targetObject)
@@ -54,7 +40,6 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
                 Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
                 float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
                 transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-                //float currentSpeed = isVisible ? speed * 10 : speed;// isVisibleがtrueの時にspeedが1.5x;
                 transform.position += transform.up * speed * Time.deltaTime;
             }).AddTo(disposables);
     }
@@ -62,7 +47,7 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     {
         if (other.gameObject.CompareTag("inCamera"))
         {
-            speed *= 2;
+            speed *= 1.5f;
         }
     }
 
@@ -70,17 +55,16 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     {
         if (other.gameObject.CompareTag("inCamera"))
         {
-            speed /= 2;
+            speed /= 1.5f;
         }
     }
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col.gameObject.tag == "Player")
-        {
-            DestroyEnemy();
-        }
-    }
-
+    // void OnCollisionEnter2D(Collision2D col)
+    // {
+    //     if(col.gameObject.tag == "Player")
+    //     {
+    //         DestroyEnemy();
+    //     }
+    // }
     public void Damage()
     {
         Debug.Log("Dead");
