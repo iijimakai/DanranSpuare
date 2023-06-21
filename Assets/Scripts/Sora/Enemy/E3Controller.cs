@@ -1,17 +1,16 @@
 using UnityEngine;
-using Sora_Constants;
+using Constants;
 using UniRx;
 using System;
 using Cysharp.Threading.Tasks;
+using Lean.Pool;
 
-namespace Sora_Enemy
+namespace Enemy
 {
     public class E3Controller : EnemyBase
     {
         [SerializeField] private GameObject attackObj;
         private GameObject player;
-
-        private CompositeDisposable disposables = new CompositeDisposable();
 
         private async void Awake()
         {
@@ -33,13 +32,13 @@ namespace Sora_Enemy
                 .DistinctUntilChanged()
                 .Where(flag => flag)
                 .Subscribe(_ => base.AttackInterval())
-                .AddTo(disposables);
+                .AddTo(base.disposables);
 
             base.GetIsAttack()
                 .DistinctUntilChanged()
                 .Where(flag => !flag)
                 .Subscribe(_ => AttackIntervalClear())
-                .AddTo(disposables);
+                .AddTo(base.disposables);
         }
         /// <summary>
         /// 攻撃
@@ -52,7 +51,7 @@ namespace Sora_Enemy
             // TODO: アニメーションができ次第消す時間を取得して消す。
             Observable.Timer(TimeSpan.FromSeconds(1f))
                 .Subscribe(_ => AttackEnd())
-                .AddTo(disposables);
+                .AddTo(base.disposables);
         }
 
         /// <summary>
@@ -63,7 +62,6 @@ namespace Sora_Enemy
             await UniTask.WaitUntil(() => !attackObj.activeSelf);
             // AttackIntervalを止めるため
             base.DisposableClear();
-            disposables.Clear();
             Spawn();
             base.SubscriptionStart(player);
         }
@@ -76,9 +74,9 @@ namespace Sora_Enemy
 
         public override void Dead()
         {
-            disposables.Clear();
             base.DisposableClear();
             Debug.Log("Daed");
+            LeanPool.Despawn(gameObject);
         }
     }
 }
