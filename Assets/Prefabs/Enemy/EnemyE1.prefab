@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3663951043678429360}
   m_Layer: 0
   m_Name: EnemyE1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotPos: {fileID: 3663951043985119824}
-  pool: {fileID: 0}
 --- !u!1 &3663951043985119824
 GameObject:
   m_ObjectHideFlags: 0
