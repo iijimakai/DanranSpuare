@@ -4,6 +4,7 @@ using UniRx;
 using System;
 using Cysharp.Threading.Tasks;
 using Lean.Pool;
+using System.Threading.Tasks;
 
 namespace Enemy
 {
@@ -16,6 +17,8 @@ namespace Enemy
 
         private async void Awake()
         {
+            await Task.Delay(500);
+            Debug.Log("Start");
             // TODO: EnemyPoolができたら変更
             attackObj.SetActive(false);
             player = GameObject.FindGameObjectWithTag(TagName.Player);

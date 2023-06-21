@@ -6,6 +6,7 @@ using Lean.Pool;
 using System;
 using UniRx;
 using UniRx.Triggers;
+using System.Threading.Tasks;
 
 namespace Enemy
 {
@@ -17,6 +18,8 @@ namespace Enemy
         private GameObject player;
         private async void Awake()
         {
+            await Task.Delay(500);
+            Debug.Log("Start");
             player = GameObject.FindGameObjectWithTag(TagName.Player);
             await base.Init(EnemyType.E2);
         }
