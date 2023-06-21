@@ -4,6 +4,8 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+using System.Threading.Tasks;
+
 // IEnemyインターフェースを定義
 public interface IEnemy
 {
@@ -26,8 +28,10 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     private CompositeDisposable disposables = new CompositeDisposable();
     private Subject<Unit> onDestroyed = new Subject<Unit>();
     public IObservable<Unit> OnDestroyed => onDestroyed;
-    void Start()
+    private async void Start()
     {
+        await Task.Delay(500);
+        Debug.Log("Start");
         playerObject = GameObject.FindGameObjectWithTag("Player");
         PlayerTracking(playerObject);
     }
