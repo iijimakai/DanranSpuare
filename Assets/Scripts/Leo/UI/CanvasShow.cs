@@ -31,7 +31,7 @@ public class CanvasShow : MonoBehaviour
     public void OnClickContinueButton() // 続けるボタン
     {
         canvasMenu.SetActive(false);
-        isPaused = !isPaused;
+        //isPaused = isPaused;
         Time.timeScale = isPaused ? 0f : 1f; // ゲームの時間の進行を一時停止または再開する
     }
 }
