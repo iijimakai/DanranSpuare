@@ -3,11 +3,17 @@ using Constants;
 using Cysharp.Threading.Tasks;
 using Bullet;
 using Lean.Pool;
+using System;
+using UniRx;
+using UniRx.Triggers;
 
 namespace Enemy
 {
-    public class E2Controller : EnemyBase
+    public class E2Controller : EnemyBase,IEnemy
     {
+        private Subject<Unit> onDestroyed = new Subject<Unit>();
+        public IObservable<Unit> OnDestroyed => onDestroyed;
+
         private GameObject player;
         private async void Awake()
         {
@@ -53,6 +59,26 @@ namespace Enemy
             Debug.Log("Daed");
             base.DisposableClear();
             LeanPool.Despawn(gameObject);
+        }
+        // void OnCollisionEnter2D(Collision2D col)
+        // {
+        //     if(col.gameObject.CompareTag("Player"))
+        //     {
+        //         DestroyEnemy();
+        //     }
+        // }
+            // 敵が破壊されたときに呼ばれる関数
+        public void DestroyEnemy()
+        {
+            onDestroyed.OnNext(Unit.Default);
+            //onDestroyed.OnCompleted();
+
+            gameObject.SetActive(false);
+        }
+        public void ResetSubscription()
+        {
+            onDestroyed.Dispose();
+            onDestroyed = new Subject<Unit>();
         }
     }
 }

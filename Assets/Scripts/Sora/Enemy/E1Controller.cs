@@ -4,11 +4,15 @@ using Bullet;
 using UniRx;
 using UniRx.Triggers;
 using Lean.Pool;
+using System;
 
 namespace Enemy
 {
-    public class E1Controller : EnemyBase
+    public class E1Controller : EnemyBase,IEnemy
     {
+        private Subject<Unit> onDestroyed = new Subject<Unit>();
+        public IObservable<Unit> OnDestroyed => onDestroyed;
+
         private GameObject player;
         [SerializeField] private GameObject shotPos;
 
@@ -54,7 +58,13 @@ namespace Enemy
             base.DisposableClear();
             LeanPool.Despawn(gameObject);
         }
-
+        // void OnCollisionEnter2D(Collision2D col)
+        // {
+        //     if(col.gameObject.tag == "Player")
+        //     {
+        //         DestroyEnemy();
+        //     }
+        // }
         /// <summary>
         /// 攻撃
         /// </summary>
@@ -62,6 +72,19 @@ namespace Enemy
         {
             GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E1_BULLET);
             base.ShotInit(bullet.GetComponent<BulletMove>(), shotPos.transform);
+        }
+        // 敵が破壊されたときに呼ばれる関数
+        public void DestroyEnemy()
+        {
+            onDestroyed.OnNext(Unit.Default);
+            //onDestroyed.OnCompleted();
+
+            gameObject.SetActive(false);
+        }
+        public void ResetSubscription()
+        {
+            onDestroyed.Dispose();
+            onDestroyed = new Subject<Unit>();
         }
     }
 }

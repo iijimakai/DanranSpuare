@@ -7,8 +7,10 @@ using Lean.Pool;
 
 namespace Enemy
 {
-    public class E3Controller : EnemyBase
+    public class E3Controller : EnemyBase,IEnemy
     {
+        private Subject<Unit> onDestroyed = new Subject<Unit>();
+        public IObservable<Unit> OnDestroyed => onDestroyed;
         [SerializeField] private GameObject attackObj;
         private GameObject player;
 
@@ -77,6 +79,26 @@ namespace Enemy
             base.DisposableClear();
             Debug.Log("Daed");
             LeanPool.Despawn(gameObject);
+        }
+        // void OnCollisionEnter2D(Collision2D col)
+        // {
+        //     if(col.gameObject.CompareTag("Player"))
+        //     {
+        //         DestroyEnemy();
+        //     }
+        // }
+        // 敵が破壊されたときに呼ばれる関数
+        public void DestroyEnemy()
+        {
+            onDestroyed.OnNext(Unit.Default);
+            //onDestroyed.OnCompleted();
+
+            gameObject.SetActive(false);
+        }
+        public void ResetSubscription()
+        {
+            onDestroyed.Dispose();
+            onDestroyed = new Subject<Unit>();
         }
     }
 }
