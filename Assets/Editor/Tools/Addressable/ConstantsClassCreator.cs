@@ -166,16 +166,13 @@ public static class ConstantsClassCreator
     {
         string conversionStr = "";
 
-
         for (int strNo = 0; strNo < str.Length; strNo++)
         {
-
             bool isSetDelimiter = true;
-
-            //最初には設定しない
+            //最初は大文字に
             if (strNo == 0)
             {
-                isSetDelimiter = false;
+                isSetDelimiter = true;
             }
             //小文字か数字なら設定しない
             else if (char.IsLower(str[strNo]) || char.IsNumber(str[strNo]))
@@ -196,10 +193,13 @@ public static class ConstantsClassCreator
             //文字設定
             if (isSetDelimiter)
             {
-                conversionStr += DELIMITER.ToString();
+                conversionStr += "";
+                conversionStr += str.ToUpper()[strNo];
             }
-            conversionStr += str.ToUpper()[strNo];
-
+            else
+            {
+                conversionStr += str[strNo];
+            }
         }
 
         return conversionStr;

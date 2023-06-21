@@ -1,7 +1,7 @@
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
-using Sora_Enemy;
+using Enemy;
 using System;
 
 namespace Bullet
@@ -104,7 +104,6 @@ namespace Bullet
                 {
                     RemoveBullet();
                     //TODO: エネミーの被弾処理
-                    other.GetComponent<Enemy4Controller>().Damage();
                     other.GetComponent<EnemyBase>().Damage(attackPoint);
                 }
             }

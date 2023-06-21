@@ -1,17 +1,16 @@
 using UnityEngine;
-using Sora_Constants;
+using Constants;
 using Bullet;
 using UniRx;
 using UniRx.Triggers;
+using Lean.Pool;
 
-namespace Sora_Enemy
+namespace Enemy
 {
     public class E1Controller : EnemyBase
     {
         private GameObject player;
         [SerializeField] private GameObject shotPos;
-
-        private CompositeDisposable disposables = new CompositeDisposable();
 
         // TODO: EnemyPool完成時に変更
         /// <summary>
@@ -28,7 +27,7 @@ namespace Sora_Enemy
         {
             this.UpdateAsObservable()
                 .Subscribe(_ => TargetLockShotPos())
-                .AddTo(disposables);
+                .AddTo(base.disposables);
         }
 
         /// <summary>
@@ -52,7 +51,8 @@ namespace Sora_Enemy
         public override void Dead()
         {
             Debug.Log("Daed");
-            disposables.Clear();
+            base.DisposableClear();
+            LeanPool.Despawn(gameObject);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 
 public class BulletPoolUtile
 {
+    private static GameObject bulletObj;
     /// <summary>
     /// Poolを取り出す
     /// </summary>
@@ -11,8 +12,11 @@ public class BulletPoolUtile
     /// <returns>GameObject</returns>
     public static async UniTask<GameObject> GetBullet(string address)
     {
-        GameObject loadObj = await AddressLoader.AddressLoad<GameObject>(address);
-        GameObject bullet = LeanPool.Spawn(loadObj);
+        if (bulletObj == null)
+        {
+            bulletObj = await AddressLoader.AddressLoad<GameObject>(address);
+        }
+        GameObject bullet = LeanPool.Spawn(bulletObj);
         return bullet;
     }
 

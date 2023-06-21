@@ -1,9 +1,10 @@
 using UnityEngine;
-using Sora_Constants;
+using Constants;
 using Cysharp.Threading.Tasks;
 using Bullet;
+using Lean.Pool;
 
-namespace Sora_Enemy
+namespace Enemy
 {
     public class E2Controller : EnemyBase
     {
@@ -49,6 +50,9 @@ namespace Sora_Enemy
         public override void Dead()
         {
             // TODO: Pool完成時に追記
+            Debug.Log("Daed");
+            base.DisposableClear();
+            LeanPool.Despawn(gameObject);
         }
     }
 }

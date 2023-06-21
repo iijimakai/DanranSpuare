@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Sora_Constants
+namespace Constants
 {
     [CreateAssetMenu(menuName = "Datas/PoolData")]
     public class PoolData : ScriptableObject

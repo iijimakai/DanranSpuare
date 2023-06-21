@@ -1,4 +1,4 @@
-namespace Sora_Constants
+namespace Constants
 {
     public enum BulletType
     {
