@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Shun_Player;
 
 namespace wave
 {
@@ -42,7 +43,7 @@ namespace wave
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CancellationTokenSource cancelToken;
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
-        [SerializeField] private PlayerInputTest playerObject;
+        [SerializeField] private PlayerBase playerObject;
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         int tempCount = 0;
@@ -52,8 +53,10 @@ namespace wave
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
-        void Start()
+        public void Init(PlayerBase playerBase)
         {
+            Debug.Log(playerBase);
+            playerObject = playerBase;
             enemyPools = new Dictionary<GameObject, EnemyObjPool>();
             foreach (Wave wave in waves)
             {
