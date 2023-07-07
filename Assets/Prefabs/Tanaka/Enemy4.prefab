@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753f2db3e795eac4dbeddaaf9376e802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRenderer: {fileID: 7592025330046263568}
+  attackRange: 3
   speed: 1
   playerObject: {fileID: 1081565991272496456, guid: cd898536178785442935804b202293f5, type: 3}
 --- !u!61 &-8261403850463647723

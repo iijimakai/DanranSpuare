@@ -14,15 +14,8 @@ public interface IEnemy
 }
 public class Enemy4Controller : MonoBehaviour,IEnemy
 {
-    [SerializeField]
-    private bool isVisible;
-
-	// 可視状態か
-	public bool IsVisible
-	{
-        get { return isVisible; }
-    }
-
+    [SerializeField] private float attackRange = 2f;
+    private bool isAttacking = false;
     public float speed;
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -39,13 +32,32 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     public void PlayerTracking(GameObject targetObject)
     {
         this.UpdateAsObservable()
+            .Where(_ => !isAttacking)
             .Subscribe(_ =>
             {
                 Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
                 float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
                 transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-                transform.position += transform.up * speed * Time.deltaTime;
+
+                float distance = Vector3.Distance(transform.position, targetObject.transform.position);
+                if (distance <= attackRange)
+                {
+                    Attack();
+                }
+                else
+                {
+                    transform.position += transform.up * speed * Time.deltaTime;
+                }
             }).AddTo(disposables);
+    }
+    private async void Attack()
+    {
+        isAttacking = true;
+        // 攻撃処理
+        Debug.Log("攻撃");
+        await Task.Delay(2000);
+        // 攻撃後の処理
+        isAttacking = false;
     }
     void OnTriggerEnter2D(Collider2D other)
     {
