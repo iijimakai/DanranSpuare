@@ -230,6 +230,7 @@ MonoBehaviour:
       currentSpawnCount: 0
   poolSize: 5
   playerObject: {fileID: 0}
+  mainCamera: {fileID: 538003300}
   maxActiveEnemies: 20
 --- !u!4 &307888189
 Transform:

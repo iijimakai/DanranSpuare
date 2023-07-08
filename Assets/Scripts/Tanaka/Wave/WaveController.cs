@@ -46,6 +46,7 @@ namespace wave
         [SerializeField] private PlayerBase playerObject;
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
+        public Camera mainCamera; // メインカメラ
         int tempCount = 0;
 
         [SerializeField]
@@ -129,10 +130,10 @@ namespace wave
                             .ToTask(token);
                         //allEnemiesSpawned = false; // フラグをリセット
                         currentWaveIndex++;
-                        Debug.Log(currentWaveIndex);
+                        //Debug.Log(currentWaveIndex);
                         // 全ての敵がスポーンした後に遅延を入れてからフラグを更新
                         allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
-                        Debug.Log("allEnemiesSpawned;"+allEnemiesSpawned);
+                        //Debug.Log("allEnemiesSpawned;"+allEnemiesSpawned);
                     }
                 }
             }
@@ -167,25 +168,30 @@ namespace wave
         private void SpawnEnemy(EnemyType enemyType)
         {
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
-            if(spawnedEnemyObject == null)
-            {
-                // エラーログを出力するなど、適切な処理を行う。
-                Debug.LogError("Enemy object is null.");
-                return;
-            }
+            if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
-            Debug.Log("Total Active Enemies after spawn: " + totalActiveEnemies.Value);
+            //Debug.Log("Total Active Enemies after spawn: " + totalActiveEnemies.Value);
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
             float spawnRadius = 15.0f;
             Vector3 playerPosition = playerObject.transform.position;
-            Vector3 spawnPosition = playerPosition + new Vector3(
-                UnityEngine.Random.Range(-spawnRadius,spawnRadius),
-                UnityEngine.Random.Range(-spawnRadius,spawnRadius),
-                UnityEngine.Random.Range(-spawnRadius,spawnRadius)
+            Vector3 spawnOffset = new Vector3(
+                UnityEngine.Random.Range(-spawnRadius, spawnRadius),
+                UnityEngine.Random.Range(-spawnRadius, spawnRadius),
+                0
             );
-            spawnedEnemyObject.transform.position = spawnPosition;
+            Vector3 spawnPosition = playerPosition + spawnOffset;
+            Vector3 cameraPosition = mainCamera.transform.position;
+            float distanceToCamera = Vector3.Distance(spawnPosition, cameraPosition);
+            // カメラの範囲外のしきい値(範囲)を計算する
+            float spawnThreshold = mainCamera.orthographicSize + spawnRadius;
+            // カメラの範囲内に敵がいる場合、出現位置を調整する
+            if (distanceToCamera < spawnThreshold)
+            {
+                spawnPosition += (spawnPosition - cameraPosition).normalized * (spawnThreshold - distanceToCamera);
+            }
+            spawnedEnemyObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
@@ -204,15 +210,15 @@ namespace wave
             //
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
-                Debug.Log("All Enemies Destroy");
+                //Debug.Log("All Enemies Destroy");
                 Debug.Log("NextWave");
                 allEnemiesSpawned = false; // フラグをリセット
-                Debug.Log("allEnemiesSpawned" + allEnemiesSpawned);
+                //Debug.Log("allEnemiesSpawned" + allEnemiesSpawned);
                 await SpawnWave(cancelToken.Token);
             }
             enemyObject.SetActive(false);
             tempCount++;
-            Debug.Log("DeathCount" + tempCount);
+            //Debug.Log("DeathCount" + tempCount);
             enemy.ResetSubscription();
         }
         /// <summary>
