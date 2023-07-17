@@ -12,11 +12,13 @@ public class BulletPoolUtile
     /// <returns>GameObject</returns>
     public static async UniTask<GameObject> GetBullet(string address)
     {
-        if (bulletObj == null)
-        {
-            bulletObj = await AddressLoader.AddressLoad<GameObject>(address);
-        }
-        GameObject bullet = LeanPool.Spawn(bulletObj);
+        GameObject loadObj = await AddressLoader.AddressLoad<GameObject>(address);
+        GameObject bullet = LeanPool.Spawn(loadObj);
+        // if (bulletObj == null)
+        // {
+        //     bulletObj = await AddressLoader.AddressLoad<GameObject>(address);
+        // }
+        // GameObject bullet = LeanPool.Spawn(bulletObj);
         return bullet;
     }
 
