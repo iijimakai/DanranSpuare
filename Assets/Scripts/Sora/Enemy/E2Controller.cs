@@ -61,7 +61,7 @@ namespace Enemy
             // TODO: Pool完成時に追記
             Debug.Log("Daed");
             base.DisposableClear();
-            LeanPool.Despawn(gameObject);
+            //LeanPool.Despawn(gameObject);
         }
         // void OnCollisionEnter2D(Collision2D col)
         // {
