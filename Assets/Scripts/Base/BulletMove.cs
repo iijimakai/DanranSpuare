@@ -104,7 +104,7 @@ namespace Bullet
                 {
                     RemoveBullet();
                     //TODO: エネミーの被弾処理
-                    other.GetComponent<EnemyBase>().Damage(attackPoint);
+                    other.GetComponent<IDamaged>().Damage(attackPoint);
                 }
             }
         }

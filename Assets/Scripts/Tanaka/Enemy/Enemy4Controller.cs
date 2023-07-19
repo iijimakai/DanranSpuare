@@ -12,7 +12,7 @@ public interface IEnemy
     IObservable<Unit> OnDestroyed { get; }
     void ResetSubscription();
 }
-public class Enemy4Controller : MonoBehaviour,IEnemy
+public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
 {
     [SerializeField] private float attackRange = 2f;
     private bool isAttacking = false;
@@ -76,12 +76,12 @@ public class Enemy4Controller : MonoBehaviour,IEnemy
     }
     // void OnCollisionEnter2D(Collision2D col)
     // {
-    //     if(col.gameObject.tag == "Player")
+    //     if(col.gameObject.tag == "Bullet")
     //     {
     //         DestroyEnemy();
     //     }
     // }
-    public void Damage()
+    public void Damage(int damage)
     {
         Debug.Log("Dead");
         DestroyEnemy();
