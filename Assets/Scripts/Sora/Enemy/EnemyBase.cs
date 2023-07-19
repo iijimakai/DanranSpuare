@@ -9,7 +9,7 @@ using Cysharp.Threading.Tasks;
 namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class EnemyBase : MonoBehaviour
+    public abstract class EnemyBase : MonoBehaviour,IDamaged
     {
         private int hp;
         private int attackPoint;
