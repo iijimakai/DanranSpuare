@@ -42,9 +42,23 @@ public class CharacterSelect : MonoBehaviour
             // 選択されているオブジェクトの場合
             if (targetIndex[i] == 0)
             {
-                // TODO:Scene名を入力する
-                // 移動したいシーン
-                SceneManager.LoadScene("シーン名入れてください");
+                // タグに基づいてシーンをロード
+                switch (Characters[i].tag)
+                {
+                    // 三体のキャラクターのそれぞれにcaseの中のTagをアタッチして
+                    case "Character1":
+                        SceneManager.LoadScene("Character1Scene"); // 適切なシーン名に変更して
+                        break;
+                    case "Character2":
+                        SceneManager.LoadScene("Character2Scene");// 適切なシーン名に変更して
+                        break;
+                    case "Character3":
+                        SceneManager.LoadScene("Character3Scene");// 適切なシーン名に変更して
+                        break;
+                    default:
+                        Debug.LogError("タグが設定されていない");
+                        break;
+                }
                 break;
             }
         }
