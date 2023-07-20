@@ -24,8 +24,12 @@ namespace Shun_Player
         private ReactiveProperty<Direction> direction = new ReactiveProperty<Direction>();
         private CompositeDisposable disposables = new CompositeDisposable();
 
+        private Animator animator;
+
         public void Init(PlayerData _data, string _rodAddress)
         {
+            animator = GetComponent<Animator>();
+
             parameter.Init(_data);
             ParameterBuff.Init();
 
@@ -107,6 +111,14 @@ namespace Shun_Player
         /// <param name="moveVec">ˆÚ“®ƒxƒNƒgƒ‹</param>
         public void Move(Vector2 moveVec)
         {
+            animator.SetBool("Idling", false);
+            animator.SetBool("Walking", true);
+            if (moveVec == Vector2.zero)
+            {
+                animator.SetBool("Walking", false);
+                animator.SetBool("Idling", true);
+            }
+
             if (moveVec.x > 0)
             {
                 direction.Value = Direction.Right;
