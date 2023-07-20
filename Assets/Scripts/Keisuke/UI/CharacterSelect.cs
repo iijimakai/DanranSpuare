@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterSelect : MonoBehaviour
 {
@@ -32,7 +33,22 @@ public class CharacterSelect : MonoBehaviour
             targetScales[i] = NormalScale;
         }
     }
-
+    // TODO:適切な方法でこの関数を呼び出す
+    void StartGame()
+    {
+        // 下側の頂点にあるキャラクターを特定
+        for (int i = 0; i < Characters.Length; i++)
+        {
+            // 選択されているオブジェクトの場合
+            if (targetIndex[i] == 0)
+            {
+                // TODO:Scene名を入力する
+                // 移動したいシーン
+                SceneManager.LoadScene("シーン名入れてください");
+                break;
+            }
+        }
+    }
     void Update()
     {
         // 各キャラクターを目標位置に向けて移動
