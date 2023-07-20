@@ -20,9 +20,13 @@ namespace Shun_System
         private CompositeDisposable moveDisposables = new CompositeDisposable();
         private CompositeDisposable rodDisposables = new CompositeDisposable();
 
+        private Animator plAni;
+
         public void Init(PlayerBase _playerBase)
         {
             playerBase = _playerBase;
+
+            plAni = playerBase.GetComponent<Animator>();
 
             //‚±‚±‚©‚ç
             this.UpdateAsObservable()
@@ -42,7 +46,9 @@ namespace Shun_System
 
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButtonUp(0) && !isCharging)
-                .Subscribe(_ => { 
+                .Subscribe(_ => {
+                    plAni.SetBool("Walking", false);
+                    plAni.SetBool("Idling", true);
                     defaultPos = Vector2.zero;
                 })
                 .AddTo(moveDisposables);
@@ -57,6 +63,8 @@ namespace Shun_System
                     }
                     else
                     {
+                        plAni.SetBool("Walking", false);
+                        plAni.SetBool("Idling", true);
                         defaultPos = Input.mousePosition;
                         isCharging = true;
                     }
