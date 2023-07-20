@@ -81,6 +81,7 @@ namespace Enemy
         {
             base.DisposableClear();
             Debug.Log("Daed");
+            DestroyEnemy();
             //LeanPool.Despawn(gameObject);
         }
         // void OnCollisionEnter2D(Collision2D col)
