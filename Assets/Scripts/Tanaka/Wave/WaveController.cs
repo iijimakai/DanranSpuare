@@ -206,7 +206,7 @@ namespace wave
         private async void DestroyEnemy(GameObject enemyObject, IEnemy enemy)
         {
             totalActiveEnemies.Value--;
-            Debug.Log("Total Active Enemies after destroy: " + totalActiveEnemies.Value);
+            //Debug.Log("Total Active Enemies after destroy: " + totalActiveEnemies.Value);
             //
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
