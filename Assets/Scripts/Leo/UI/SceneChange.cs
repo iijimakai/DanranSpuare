@@ -6,7 +6,7 @@ public class SceneChange : MonoBehaviour
     // TitleSceneで使用
     public void OnClickStartButton() // タイトル(スタート)ボタン
     {
-        SceneManager.LoadScene("CharacterScene");
+        SceneManager.LoadScene("CharacterSelectScene");
     }
 
     // 難易度によってGameSceneが変わるのか、1つのGameScene上で出てくる敵の種類が変わることで難易度を変更しているのかを確認
