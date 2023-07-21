@@ -4,12 +4,14 @@ using Shun_UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using wave;
 
 namespace Shun_System
 {
     public class PlayerEntryPoint : MonoBehaviour
     {
         [field: SerializeField, Header("キャラクターの種類")] public CharacterType characterType { get; private set; }
+        [field: SerializeField, Header("Wave Controller")] public  WaveController waveController { get; private set; }
 
         private PlayerBase _playerBase;
         private PlayerInput _playerInput;
@@ -49,6 +51,8 @@ namespace Shun_System
 
             _playerInput.Init(_playerBase);
             _playerBase.Init(playerData, rodType);
+
+            waveController.Init(_playerBase);
 
             Destroy(gameObject);
         }

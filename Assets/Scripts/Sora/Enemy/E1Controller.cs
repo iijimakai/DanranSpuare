@@ -5,6 +5,7 @@ using UniRx;
 using UniRx.Triggers;
 using Lean.Pool;
 using System;
+using System.Threading.Tasks;
 
 namespace Enemy
 {
@@ -22,6 +23,8 @@ namespace Enemy
         /// </summary>
         public async void Awake()
         {
+            await Task.Delay(500);
+            Debug.Log("Start");
             player = GameObject.FindGameObjectWithTag(TagName.Player);
 
             await base.Init(EnemyType.E1);
@@ -56,7 +59,8 @@ namespace Enemy
         {
             Debug.Log("Daed");
             base.DisposableClear();
-            LeanPool.Despawn(gameObject);
+            DestroyEnemy();
+            //LeanPool.Despawn(gameObject);
         }
         // void OnCollisionEnter2D(Collision2D col)
         // {
