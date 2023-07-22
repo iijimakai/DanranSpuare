@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712917021ca961645ab72258be823276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackEffectPrefab: {fileID: 8040330722152414659, guid: fc86c8d74b5aa8f4fa49143c0fe2b6c3, type: 3}
   shotPos: {fileID: 3663951043985119824}
 --- !u!1 &3663951043985119824
 GameObject:
