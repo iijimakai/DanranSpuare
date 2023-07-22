@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: P1_Sys
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 1
+  <starTime>k__BackingField: 1.5
   <rodStock>k__BackingField: 30
   <rodRecastTime>k__BackingField: 10
   <rodSetCoolTime>k__BackingField: 2

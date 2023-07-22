@@ -5,6 +5,7 @@ using Constants;
 using System;
 using Bullet;
 using Cysharp.Threading.Tasks;
+using Shun_Player;
 
 namespace Enemy
 {
@@ -13,6 +14,7 @@ namespace Enemy
     {
         protected int hp;
         private int attackPoint;
+        private int touchDamage;
 
         private float speed;
         private bool isMove = true;
@@ -53,6 +55,7 @@ namespace Enemy
             }
             hp = data.hp;
             speed = data.speed;
+            touchDamage = data.touchDamage;
         }
 
         /// <summary>
@@ -232,6 +235,14 @@ namespace Enemy
         private void OnDisable()
         {
             disposables.Clear();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag(TagName.Player))
+            {
+                other.GetComponent<PlayerBase>().Damage(touchDamage);
+            }
         }
     }
 }

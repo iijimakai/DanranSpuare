@@ -20,6 +20,8 @@ namespace Shun_Player
     {
         private static PlayerData data;
         public static CharacterType characterType { get; private set; }
+
+        public static float starTime { get; private set; }
         public static float rodStock { get; private set; }
         public static float rodRecastTime { get; private set; }
         public static float rodSetCoolTime { get; private set; }
@@ -45,6 +47,7 @@ namespace Shun_Player
         private static void SetData(PlayerData _data)
         {
             characterType = _data.characterType;
+            starTime = _data.starTime;
             rodStock = _data.rodStock;
             rodRecastTime = _data.rodRecastTime;
             rodSetCoolTime = _data.rodSetCoolTime;

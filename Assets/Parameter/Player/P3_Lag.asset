@@ -13,7 +13,28 @@ MonoBehaviour:
   m_Name: P3_Lag
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 3
-  <hp>k__BackingField: 60
-  <speed>k__BackingField: 6
+  <starTime>k__BackingField: 0
   <rodStock>k__BackingField: 10
+  <rodRecastTime>k__BackingField: 0
+  <rodSetCoolTime>k__BackingField: 0
   <chargeMax>k__BackingField: 0
+  <hp>k__BackingField: 2000
+  <hpBuff>k__BackingField: 0
+  <chargeDmg>k__BackingField: 0
+  <chargeDmgBuff>k__BackingField: 0
+  <speed>k__BackingField: 6
+  <speedBuff>k__BackingField: 0
+  <rodHp>k__BackingField: 0
+  <rodHpBuff>k__BackingField: 0
+  <rodDmg>k__BackingField: 0
+  <rodDmgBuff>k__BackingField: 0
+  <shotSpeed>k__BackingField: 0
+  <shotSpeedBuff>k__BackingField: 0
+  <rodRange>k__BackingField: 0
+  <rodRangeBuff>k__BackingField: 0
+  <rodInterval>k__BackingField: 0
+  <rodIntervalBuff>k__BackingField: 0
+  <rodDuration>k__BackingField: 0
+  <rodDurationBuff>k__BackingField: 0
+  <rodAmount>k__BackingField: 0
+  <rodAmountBuff>k__BackingField: 0
