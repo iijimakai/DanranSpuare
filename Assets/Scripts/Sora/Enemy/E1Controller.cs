@@ -21,54 +21,24 @@ namespace Enemy
         /// <summary>
         /// Instantiate時に実行
         /// </summary>
-        // public async void Awake()
-        // {
-        //     await Task.Delay(500);
-        //     Debug.Log("Start");
-        //     player = GameObject.FindGameObjectWithTag(TagName.Player);
-
-        //     await base.Init(EnemyType.E1);
-        //     // Awakeの処理が終わった後に、Subscribe処理を行う
-        //     StartSubscriptions();
-        // }
-        // public void Awake()
-        // {
-        //     Debug.Log("Start Awake");
-        //     StartInit().ContinueWith(t =>
-        //     {
-        //         if (t.IsFaulted)
-        //         {
-        //             Debug.LogError(t.Exception);
-        //         }
-        //         else
-        //         {
-        //             StartSubscriptions();
-        //         }
-        //     });
-        // }
-        private async void Start()
+        private void Start()
         {
             Spawn();
             StartSubscriptions();
             Debug.Log("Start StartInit");
             //await Task.Delay(500);
+        }
+        private async void OnEnable()
+        {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
             await base.Init(EnemyType.E1);
         }
         private void StartSubscriptions()
         {
-            Debug.Log("StartSubscription");
             this.UpdateAsObservable()
                 .Subscribe(_ => TargetLockShotPos())
                 .AddTo(base.disposables);
         }
-        // private void OnEnable()
-        // {
-        //     this.UpdateAsObservable()
-        //         .Subscribe(_ => TargetLockShotPos())
-        //         .AddTo(base.disposables);
-        // }
-
         /// <summary>
         /// Playerの方向を向く
         /// </summary>
