@@ -59,7 +59,7 @@ namespace Enemy
         public override void Dead()
         {
             // TODO: Pool完成時に追記
-            Debug.Log("Daed");
+            Debug.Log("DaedE2");
             base.DisposableClear();
             DestroyEnemy();
             //LeanPool.Despawn(gameObject);

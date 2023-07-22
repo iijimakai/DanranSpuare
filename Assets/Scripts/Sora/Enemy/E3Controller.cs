@@ -80,7 +80,7 @@ namespace Enemy
         public override void Dead()
         {
             base.DisposableClear();
-            Debug.Log("Daed");
+            Debug.Log("DaedE3");
             DestroyEnemy();
             //LeanPool.Despawn(gameObject);
         }

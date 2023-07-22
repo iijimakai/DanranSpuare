@@ -102,6 +102,7 @@ namespace Bullet
             {
                 if (other.CompareTag(TagName.Enemy))
                 {
+                    Debug.Log("Bullet");
                     RemoveBullet();
                     //TODO: エネミーの被弾処理
                     other.GetComponent<IDamaged>().Damage(attackPoint);

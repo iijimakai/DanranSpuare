@@ -48,7 +48,7 @@ namespace Enemy
             // TODO: 死亡エフェクト
             Debug.Log("Daed");
             base.DisposableClear();
-            LeanPool.Despawn(gameObject);
+            //LeanPool.Despawn(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
