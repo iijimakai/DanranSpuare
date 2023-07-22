@@ -105,6 +105,7 @@ namespace Bullet
                     Debug.Log("Bullet");
                     RemoveBullet();
                     //TODO: エネミーの被弾処理
+                    Debug.Log("attackPoint"+attackPoint);
                     other.GetComponent<IDamaged>().Damage(attackPoint);
                 }
             }

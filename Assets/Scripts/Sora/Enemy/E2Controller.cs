@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 
 namespace Enemy
 {
-    public class E2Controller : EnemyBase,IEnemy
+    public class E2Controller : EnemyBase,IEnemy,IDamaged
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
-
         private GameObject player;
         private async void Awake()
         {
@@ -51,7 +50,15 @@ namespace Enemy
             GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E2_BULLET);
             base.ShotInit(bullet.GetComponent<BulletMove>(), transform);
         }
-
+        public void Damage(int damage)
+        {
+            Debug.Log("E2"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+        }
         /// <summary>
         /// 死亡処理
         /// </summary>
