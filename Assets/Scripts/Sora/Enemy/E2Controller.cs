@@ -19,7 +19,6 @@ namespace Enemy
         private async void Awake()
         {
             await Task.Delay(500);
-            Debug.Log("Start");
             player = GameObject.FindGameObjectWithTag(TagName.Player);
             await base.Init(EnemyType.E2);
         }
@@ -62,20 +61,11 @@ namespace Enemy
             Debug.Log("DaedE2");
             base.DisposableClear();
             DestroyEnemy();
-            //LeanPool.Despawn(gameObject);
         }
-        // void OnCollisionEnter2D(Collision2D col)
-        // {
-        //     if(col.gameObject.CompareTag("Player"))
-        //     {
-        //         DestroyEnemy();
-        //     }
-        // }
-            // 敵が破壊されたときに呼ばれる関数
+        // 敵が破壊されたときに呼ばれる関数
         public void DestroyEnemy()
         {
             onDestroyed.OnNext(Unit.Default);
-            //onDestroyed.OnCompleted();
 
             gameObject.SetActive(false);
         }

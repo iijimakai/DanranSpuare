@@ -18,7 +18,6 @@ namespace Enemy
         private async void Awake()
         {
             await Task.Delay(500);
-            Debug.Log("Start");
             // TODO: EnemyPoolができたら変更
             attackObj.SetActive(false);
             player = GameObject.FindGameObjectWithTag(TagName.Player);
@@ -82,15 +81,7 @@ namespace Enemy
             base.DisposableClear();
             Debug.Log("DaedE3");
             DestroyEnemy();
-            //LeanPool.Despawn(gameObject);
         }
-        // void OnCollisionEnter2D(Collision2D col)
-        // {
-        //     if(col.gameObject.CompareTag("Player"))
-        //     {
-        //         DestroyEnemy();
-        //     }
-        // }
         // 敵が破壊されたときに呼ばれる関数
         public void DestroyEnemy()
         {

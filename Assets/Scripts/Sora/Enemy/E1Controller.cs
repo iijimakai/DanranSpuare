@@ -13,7 +13,6 @@ namespace Enemy
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
-
         private GameObject player;
         [SerializeField] private GameObject shotPos;
 
@@ -25,7 +24,6 @@ namespace Enemy
         {
             Spawn();
             StartSubscriptions();
-            Debug.Log("Start StartInit");
             //await Task.Delay(500);
         }
         private async void OnEnable()
@@ -64,13 +62,6 @@ namespace Enemy
             DestroyEnemy();
             //LeanPool.Despawn(gameObject);
         }
-        // void OnCollisionEnter2D(Collision2D col)
-        // {
-        //     if(col.gameObject.tag == "Player")
-        //     {
-        //         DestroyEnemy();
-        //     }
-        // }
         /// <summary>
         /// 攻撃
         /// </summary>
@@ -83,7 +74,6 @@ namespace Enemy
         public void DestroyEnemy()
         {
             onDestroyed.OnNext(Unit.Default);
-            //onDestroyed.OnCompleted();
 
             gameObject.SetActive(false);
         }
