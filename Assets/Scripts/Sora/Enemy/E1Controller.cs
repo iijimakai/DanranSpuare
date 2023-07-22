@@ -13,7 +13,6 @@ namespace Enemy
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
-
         private GameObject player;
         [SerializeField] private GameObject shotPos;
 
@@ -21,22 +20,23 @@ namespace Enemy
         /// <summary>
         /// Instantiate時に実行
         /// </summary>
-        public async void Awake()
+        private void Start()
         {
-            await Task.Delay(500);
-            Debug.Log("Start");
+            Spawn();
+            StartSubscriptions();
+            //await Task.Delay(500);
+        }
+        private async void OnEnable()
+        {
             player = GameObject.FindGameObjectWithTag(TagName.Player);
-
             await base.Init(EnemyType.E1);
         }
-
-        private void OnEnable()
+        private void StartSubscriptions()
         {
             this.UpdateAsObservable()
                 .Subscribe(_ => TargetLockShotPos())
                 .AddTo(base.disposables);
         }
-
         /// <summary>
         /// Playerの方向を向く
         /// </summary>
@@ -57,18 +57,11 @@ namespace Enemy
 
         public override void Dead()
         {
-            Debug.Log("Daed");
+            Debug.Log("DaedE1");
             base.DisposableClear();
             DestroyEnemy();
             //LeanPool.Despawn(gameObject);
         }
-        // void OnCollisionEnter2D(Collision2D col)
-        // {
-        //     if(col.gameObject.tag == "Player")
-        //     {
-        //         DestroyEnemy();
-        //     }
-        // }
         /// <summary>
         /// 攻撃
         /// </summary>
@@ -81,7 +74,6 @@ namespace Enemy
         public void DestroyEnemy()
         {
             onDestroyed.OnNext(Unit.Default);
-            //onDestroyed.OnCompleted();
 
             gameObject.SetActive(false);
         }

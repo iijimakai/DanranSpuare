@@ -78,7 +78,6 @@ namespace Enemy
             this.UpdateAsObservable()
                 .Subscribe(_ => LockPlayer(player))
                 .AddTo(moveDispose);
-
             deadFlag.Subscribe(_ => Dead())
                 .AddTo(disposables);
         }
