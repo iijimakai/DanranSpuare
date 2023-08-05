@@ -11,6 +11,11 @@ namespace Shun_Constants
         [field: SerializeField, Header("キャラクターの種類")] public CharacterType characterType { get; private set; }
 
         /// <summary>
+        /// 被弾後の無敵時間
+        /// </summary>
+        [field: SerializeField, Header("被弾後の無敵時間(秒)")] public float starTime { get; private set; }
+
+        /// <summary>
         /// 杖の最大ストック数
         /// </summary>
         [field: SerializeField, Header("杖の最大ストック数(個)")] public float rodStock { get; private set; }

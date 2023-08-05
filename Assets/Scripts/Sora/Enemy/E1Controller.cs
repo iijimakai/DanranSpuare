@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Enemy
 {
-    public class E1Controller : EnemyBase,IEnemy
+    public class E1Controller : EnemyBase,IEnemy,IDamaged
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
@@ -54,7 +54,15 @@ namespace Enemy
             base.SubscriptionStart(player);
             base.AttackInterval();
         }
-
+        public void Damage(int damage)
+        {
+            Debug.Log("E1"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+        }
         public override void Dead()
         {
             Debug.Log("DaedE1");

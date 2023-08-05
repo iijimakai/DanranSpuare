@@ -4,6 +4,7 @@ using Shun_Constants;
 using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using System;
 using Shun_Rod;
 
@@ -17,6 +18,9 @@ namespace Shun_Player
 
         private string rodAddress;
         private bool rodCharge = false;
+
+        private bool isStar = false;
+        private float starTime;
 
         private float chargeRatio = 0;
         public static List<GameObject> rodStock = new List<GameObject>();
@@ -35,8 +39,9 @@ namespace Shun_Player
 
             ParameterBuff.hpLevel.Subscribe(_ => hp += _data.hp * _data.hpBuff).AddTo(disposables);
 
-            hp = 60;
+            hp = parameter.maxHp;
             havingRod = parameter.rodStock;
+            starTime = parameter.starTime;
  
             rodAddress = _rodAddress;
 
@@ -132,7 +137,28 @@ namespace Shun_Player
 
         public void Damage(float damage)
         {
+            if (isStar) return;
+            Debug.Log("P1"+hp +"->"+ (hp - damage));
             
+            hp -= damage;
+            if (hp <= 0)
+            {
+                Dead();
+            }
+            Delay();
+        }
+
+        private async void Delay()
+        {
+            isStar = true;
+            await Task.Delay(TimeSpan.FromSeconds(starTime));
+            isStar = false;
+        }
+
+        private void Dead()
+        {
+            Destroy(gameObject);
+            Debug.Log("Game Over!");
         }
 
         private void OnDestroy()

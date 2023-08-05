@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Enemy
 {
-    public class E3Controller : EnemyBase,IEnemy
+    public class E3Controller : EnemyBase,IEnemy,IDamaged
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
         [SerializeField] private GameObject attackObj;
         private GameObject player;
-
         private async void Awake()
         {
             await Task.Delay(500);
@@ -75,7 +74,15 @@ namespace Enemy
             base.AttackFalse();
             attackObj.SetActive(false);
         }
-
+        public void Damage(int damage)
+        {
+            Debug.Log("E3"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+        }
         public override void Dead()
         {
             base.DisposableClear();
