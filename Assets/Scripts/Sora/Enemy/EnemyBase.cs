@@ -136,8 +136,8 @@ namespace Enemy
         /// <param name="player">プレイヤーオブジェクト</param>
         public void LockPlayer(GameObject player)
         {
-            Vector3 toDirection = player.transform.position - transform.position;
-            transform.rotation = Quaternion.FromToRotation(Vector3.up, toDirection);
+            //Vector3 toDirection = player.transform.position - transform.position;
+            //transform.rotation = Quaternion.FromToRotation(Vector3.up, toDirection);
         }
 
         /// <summary>
