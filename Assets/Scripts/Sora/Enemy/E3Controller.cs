@@ -49,8 +49,14 @@ namespace Enemy
         public override void Attack()
         {
             base.AttackStart();
+            // プレイヤーの方向を計算
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            // プレイヤーの方向に移動
+            transform.position += directionToPlayer * base.GetTeleportationDistance();
+            // attackObjをプレイヤーの方向に向ける
+            //float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+            //attackObj.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle - 90f));
             attackObj.SetActive(true);
-            transform.position += transform.TransformDirection(0, base.GetTeleportationDistance(), 0);
             // TODO: アニメーションができ次第消す時間を取得して消す。
             Observable.Timer(TimeSpan.FromSeconds(1f))
                 .Subscribe(_ => AttackEnd())
