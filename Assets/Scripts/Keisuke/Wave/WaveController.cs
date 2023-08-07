@@ -182,15 +182,6 @@ namespace wave
                 0
             );
             Vector3 spawnPosition = playerPosition + spawnOffset;
-            Vector3 cameraPosition = mainCamera.transform.position;
-            float distanceToCamera = Vector3.Distance(spawnPosition, cameraPosition);
-            // カメラの範囲外のしきい値(範囲)を計算する
-            float spawnThreshold = mainCamera.orthographicSize + spawnRadius;
-            // カメラの範囲内に敵がいる場合、出現位置を調整する
-            if (distanceToCamera < spawnThreshold)
-            {
-                spawnPosition += (spawnPosition - cameraPosition).normalized * (spawnThreshold - distanceToCamera);
-            }
             spawnedEnemyObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>

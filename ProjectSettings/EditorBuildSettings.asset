@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Leo/CharacterScene.unity
     guid: c95951fdb95c8db439b668b4320320c5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Leo/GameScene.unity
     guid: 689473f483716654fb9cadde8209b61f
   - enabled: 1
@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Keisuke/CharacterSelectScene.unity
     guid: f5311bfbf41a1954fa6a17d82e49e0dc
+  - enabled: 1
+    path: Assets/Scenes/Shun/MainScene.unity
+    guid: 3be57bc7736bfd54fb43c78a539ebb89
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 3fa5091a1a77c0c4cbfa7c142b4fdf21, type: 2}

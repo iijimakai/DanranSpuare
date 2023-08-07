@@ -13,19 +13,19 @@ public class SceneChange : MonoBehaviour
     // characterScene(難易度選択画面)で使用
     public void OnClickEasyButton() //簡単ボタン
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("MainScene");
     }
 
     // characterScene(難易度選択画面)で使用
     public void OnClickNormalButton() // 普通ボタン
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("MainScene");
     }
 
     // characterScene(難易度選択画面)で使用
     public void OnClickHardButton() // 難しいボタン
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("MainScene");
     }
 
     // GameScene(menu画面) & GameOverSceneで使用
@@ -50,7 +50,7 @@ public class SceneChange : MonoBehaviour
     // GameOverSceneで使用
     public void OnClickRetryButton() // もう一度ボタン
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("MainScene");
     }
 
     //LRボタンは別スクリプトで書く
