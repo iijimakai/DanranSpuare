@@ -15,13 +15,14 @@ namespace Enemy
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
         private GameObject player;
+        [SerializeField] private GameObject shotPos;
         private async void Awake()
         {
             await Task.Delay(500);
             player = GameObject.FindGameObjectWithTag(TagName.Player);
             await base.Init(EnemyType.E2);
+            StartSubscriptions();
         }
-
         private void OnBecameVisible()
         {
             Spawn();
@@ -30,6 +31,20 @@ namespace Enemy
         private void OnBecameInvisible()
         {
             DisposableClear();
+        }
+        private void StartSubscriptions()
+        {
+            this.UpdateAsObservable()
+                .Subscribe(_ => TargetLockShotPos())
+                .AddTo(base.disposables);
+        }
+        /// <summary>
+        /// Playerの方向を向く
+        /// </summary>
+        private void TargetLockShotPos()
+        {
+            Vector3 direction = player.transform.position - shotPos.transform.position;
+            shotPos.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
         }
 
         /// <summary>
@@ -48,7 +63,7 @@ namespace Enemy
         public override async void Attack()
         {
             GameObject bullet = await BulletPoolUtile.GetBullet(AddressableAssetAddress.E2_BULLET);
-            base.ShotInit(bullet.GetComponent<BulletMove>(), transform);
+            base.ShotInit(bullet.GetComponent<BulletMove>(), shotPos.transform);
         }
         public void Damage(int damage)
         {
