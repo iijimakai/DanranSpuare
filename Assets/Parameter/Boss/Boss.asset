@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   hp: 100
-  moveSpeed: 1
+  moveSpeed: 1000
   attackPower: 1
   attackInterval: 1
   firstAttackInterval: 1
