@@ -113,6 +113,10 @@ MonoBehaviour:
     m_Address: P3Object
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: ae08ab59d6176254dad3ce4b473e0923
+    m_Address: BossData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: f8385f1964914444ca37ef33c7b61b5c, type: 2}
   m_SchemaSet:
