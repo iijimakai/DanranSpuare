@@ -6,12 +6,6 @@ using UniRx.Triggers;
 using System;
 using System.Threading.Tasks;
 
-// IEnemyインターフェースを定義
-public interface IEnemy
-{
-    IObservable<Unit> OnDestroyed { get; }
-    void ResetSubscription();
-}
 public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
 {
     [SerializeField] private float attackRange = 2f;
@@ -72,13 +66,6 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
             speed /= 1.5f;
         }
     }
-    // void OnCollisionEnter2D(Collision2D col)
-    // {
-    //     if(col.gameObject.tag == "Bullet")
-    //     {
-    //         DestroyEnemy();
-    //     }
-    // }
     public void Damage(int damage)
     {
         Debug.Log("DeadE4");
@@ -88,7 +75,6 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
     public void DestroyEnemy()
     {
         onDestroyed.OnNext(Unit.Default);
-        //onDestroyed.OnCompleted();
 
         gameObject.SetActive(false);
     }
