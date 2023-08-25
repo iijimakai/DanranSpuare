@@ -16,11 +16,12 @@ public class BossScript : MonoBehaviour, IEnemy
     private bool playerInRange = false;
     private bool isFirstAttack = true; // 一発目の攻撃かどうか
     private Vector3 targetPosition;  // プレイヤーの位置
+    private GameObject player;
     private async UniTaskVoid Start()
     {
         bossData = await AddressLoader.AddressLoad<BossData>(bossDataAddress);
-        // ボスの初期化コード
         CheckAttackRange();
+        player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
 
     private void CheckAttackRange()
@@ -28,6 +29,7 @@ public class BossScript : MonoBehaviour, IEnemy
         this.UpdateAsObservable()
         .Subscribe(_ =>
         {
+            TrackingPlayerMove();
             if (playerInRange)
             {
                 if (prepareAttackCooldown <= 0)
@@ -36,9 +38,8 @@ public class BossScript : MonoBehaviour, IEnemy
                     if (attackCooldown <= 0)
                     {
                         Attack();
-                        // 一発目と二発目以降でクールダウンが違う
                         attackCooldown = isFirstAttack ? bossData.FirstAttackInterval : bossData.AttackInterval;
-                        isFirstAttack = false; // 一発目の攻撃が終了
+                        isFirstAttack = false;
                     }
                     else
                     {
@@ -47,7 +48,6 @@ public class BossScript : MonoBehaviour, IEnemy
                 }
                 else
                 {
-                    // 攻撃態勢
                     PrepareAttack();
                     prepareAttackCooldown -= Time.deltaTime;
                 }
@@ -55,40 +55,37 @@ public class BossScript : MonoBehaviour, IEnemy
         }).AddTo(disposable);
     }
 
-    private void OnTriggerStay2D(Collider2D col)
+    public void SetPlayerInRange(bool inRange)
     {
-        if (col.gameObject.CompareTag(TagName.Player))
-        {
-            playerInRange = true;
-            prepareAttackCooldown = bossData.PrepareAttackInterval;
-            isFirstAttack = true;
-            targetPosition = col.transform.position;  // プレイヤーの位置を記録
-        }
+        this.playerInRange = inRange;
     }
 
-    private void OnTriggerExit2D(Collider2D col)
+    public void SetTargetPosition(Vector3 position)
     {
-        if (col.gameObject.CompareTag("Player"))
-        {
-            playerInRange = false;
-        }
+        this.targetPosition = position;
     }
 
     private void PrepareAttack()
     {
-        // 一瞬動きを止めるなどの攻撃態勢のアニメーションや動作
         Debug.Log("攻撃態勢");
     }
 
     private void Attack()
     {
-        // プレイヤーの座標に向かって飛び掛かる動作
         float step = bossData.MoveSpeed * Time.deltaTime;  // 移動スピード
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
-
-        // 攻撃のアニメーションや他の動作
         Debug.Log("BossAttack");
     }
+
+    private void TrackingPlayerMove()
+    {
+        float distance = Vector3.Distance(player.transform.position, transform.position);
+        if (distance >= bossData.TrackingRange)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 1f * Time.deltaTime);
+        }
+    }
+
     public void DestroyEnemy()
     {
         onDestroyed.OnNext(Unit.Default);
