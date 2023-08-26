@@ -17,5 +17,5 @@ MonoBehaviour:
   attackPower: 1
   attackInterval: 1
   firstAttackInterval: 1
-  prepareAttackInterval: 0
+  prepareAttackInterval: 5
   trackingRange: 5
