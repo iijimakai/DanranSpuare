@@ -384,7 +384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &143232491
 RectTransform:
   m_ObjectHideFlags: 0
@@ -418,6 +418,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!114 &143232493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,6 +863,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 490586184}
   m_CullTransparentMesh: 1
+--- !u!1 &585788566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 585788568}
+  - component: {fileID: 585788567}
+  m_Layer: 0
+  m_Name: CanvasShow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &585788567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585788566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d2245a9b43c774a93d27957b950eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasDifficulty: {fileID: 0}
+  canvasMenu: {fileID: 0}
+  youLoseCanvas: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
+  clearCanvas: {fileID: 0}
+  giveUpCanvas: {fileID: 0}
+--- !u!4 &585788568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585788566}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &630375670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,7 +1135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &758425100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1209,6 +1263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!1 &773608728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2355,7 +2413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2072128397
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2389,6 +2447,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!114 &2072128399
 MonoBehaviour:
   m_ObjectHideFlags: 0
