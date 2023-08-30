@@ -4,7 +4,7 @@ using UniRx;
 using UniRx.Triggers;
 using System;
 
-public class BossScript : MonoBehaviour, IEnemy
+public class BossScript : MonoBehaviour, IEnemy,IDamaged
 {
     public string bossDataAddress;
     private BossData bossData;
@@ -18,11 +18,13 @@ public class BossScript : MonoBehaviour, IEnemy
     private Vector3 targetPosition;  // プレイヤーの位置
     private GameObject player;
     private SpriteRenderer spriteRenderer;
+    private float hp;
     private async UniTaskVoid Start()
     {
         bossData = await AddressLoader.AddressLoad<BossData>(bossDataAddress);
-        attackCooldown = bossData.FirstAttackInterval;
-        prepareAttackCooldown = bossData.PrepareAttackInterval;
+        attackCooldown = bossData.firstAttackInterval;
+        prepareAttackCooldown = bossData.prepareAttackInterval;
+        hp = bossData.hp;
         spriteRenderer = GetComponent<SpriteRenderer>();
         CheckAttackRange();
         player = GameObject.FindGameObjectWithTag(TagName.Player);
@@ -42,7 +44,7 @@ public class BossScript : MonoBehaviour, IEnemy
                     {
                         Attack();
                         // FirstAttackIntervalの時間だけ攻撃を遅らせ、その後は通常の攻撃間隔
-                        attackCooldown = isFirstAttack ? bossData.FirstAttackInterval : bossData.AttackInterval;
+                        attackCooldown = isFirstAttack ? bossData.firstAttackInterval : bossData.attackInterval;
                         isFirstAttack = false;
                     }
                     else
@@ -73,18 +75,28 @@ public class BossScript : MonoBehaviour, IEnemy
     }
     private void Attack()
     {
-        float step = bossData.MoveSpeed * Time.deltaTime;  // 移動スピード
+        float step = bossData.moveSpeed * Time.deltaTime;  // 移動スピード
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
         Debug.Log("BossAttack");
     }
     private void TrackingPlayerMove()
     {
         float distance = Vector3.Distance(player.transform.position, transform.position);
-        if (distance >= bossData.TrackingRange)
+        if (distance >= bossData.trackingRange)
         {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, 1f * Time.deltaTime);
         }
     }
+    public void Damage(int damage)
+    {
+        Debug.Log("BOSS"+hp +"->"+ (hp - damage));
+        hp -= damage;
+        if(hp < 0)
+        {
+            DestroyEnemy();
+        }
+    }
+
     public void DestroyEnemy()
     {
         onDestroyed.OnNext(Unit.Default);

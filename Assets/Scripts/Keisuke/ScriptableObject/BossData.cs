@@ -3,23 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Datas/BossData")]
 public class BossData : ScriptableObject
 {
-    [Header("General Properties")]
-    [SerializeField,Header("ヒットポイント")] private int hp; // ヒットポイント
-    [SerializeField,Header("移動速度")] private float moveSpeed; // 移動速度
-
-    [Header("Attack Properties")]
-    [SerializeField,Header("攻撃力")] private float attackPower; // 攻撃力
-    [SerializeField,Header("通常攻撃の間隔")] private float attackInterval; // 通常攻撃の間隔
-    [SerializeField,Header("一発目の攻撃の間隔")] private float firstAttackInterval; // 一発目の攻撃の間隔
-    [SerializeField,Header("攻撃態勢に入るまでの間隔")] private float prepareAttackInterval; // 攻撃態勢に入るまでの間隔
-    [SerializeField,Header("追跡中にプレイヤーに近づける間隔")] private float trackingRange;
-
-    // プロパティで外部から参照できるようにする
-    public int HP => hp;
-    public float MoveSpeed => moveSpeed;
-    public float AttackPower => attackPower;
-    public float AttackInterval => attackInterval;
-    public float FirstAttackInterval => firstAttackInterval;
-    public float PrepareAttackInterval => prepareAttackInterval;
-    public float TrackingRange => trackingRange;
+    [field: SerializeField,Header("ヒットポイント")] public int hp { get; private set; } // ヒットポイント
+    [field: SerializeField,Header("移動速度")] public float moveSpeed { get; private set; } // 移動速度
+    [field: SerializeField,Header("攻撃力")] public float attackPower { get; private set; } // 攻撃力
+    [field: SerializeField,Header("通常攻撃の間隔")] public float attackInterval { get; private set; } // 通常攻撃の間隔
+    [field: SerializeField,Header("一発目の攻撃の間隔")] public float firstAttackInterval { get; private set; } // 一発目の攻撃の間隔
+    [field: SerializeField,Header("攻撃態勢に入るまでの間隔")] public float prepareAttackInterval { get; private set; } // 攻撃態勢に入るまでの間隔
+    [field: SerializeField,Header("追跡中にプレイヤーに近づける間隔")] public float trackingRange { get; private set; }
 }
