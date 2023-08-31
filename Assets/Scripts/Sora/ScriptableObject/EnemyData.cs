@@ -22,6 +22,10 @@ namespace Constants
         /// </summary>
         [field: SerializeField, Header("弾の攻撃力")] public int attackPoint { get; private set; }
         /// <summary>
+        /// 攻撃力
+        /// </summary>
+        [field: SerializeField, Header("攻撃力")] public int touchDamage { get; private set; }
+        /// <summary>
         /// 弾の速さ
         /// </summary>
         [field: SerializeField, Header("弾の速さ")] public float bulletSpeed { get; private set; }

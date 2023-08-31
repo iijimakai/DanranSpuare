@@ -5,14 +5,16 @@ using Constants;
 using System;
 using Bullet;
 using Cysharp.Threading.Tasks;
+using Shun_Player;
 
 namespace Enemy
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class EnemyBase : MonoBehaviour,IDamaged
+    public abstract class EnemyBase : MonoBehaviour
     {
-        private int hp;
+        protected int hp;
         private int attackPoint;
+        private int touchDamage;
 
         private float speed;
         private bool isMove = true;
@@ -51,7 +53,9 @@ namespace Enemy
                     data = await AddressLoader.AddressLoad<EnemyData>(AddressableAssetAddress.E4_DATA);
                     break;
             }
+            hp = data.hp;
             speed = data.speed;
+            touchDamage = data.touchDamage;
         }
 
         /// <summary>
@@ -78,7 +82,6 @@ namespace Enemy
             this.UpdateAsObservable()
                 .Subscribe(_ => LockPlayer(player))
                 .AddTo(moveDispose);
-
             deadFlag.Subscribe(_ => Dead())
                 .AddTo(disposables);
         }
@@ -133,8 +136,8 @@ namespace Enemy
         /// <param name="player">プレイヤーオブジェクト</param>
         public void LockPlayer(GameObject player)
         {
-            Vector3 toDirection = player.transform.position - transform.position;
-            transform.rotation = Quaternion.FromToRotation(Vector3.up, toDirection);
+            //Vector3 toDirection = player.transform.position - transform.position;
+            //transform.rotation = Quaternion.FromToRotation(Vector3.up, toDirection);
         }
 
         /// <summary>
@@ -182,14 +185,15 @@ namespace Enemy
         /// 被弾処理
         /// </summary>
         /// <param name="damage">ダメージ</param>
-        public void Damage(int damage)
-        {
-            hp -= damage;
-            if (hp <= 0)
-            {
-                deadFlag.OnNext(Unit.Default);
-            }
-        }
+        // public void Damage(int damage)
+        // {
+        //     Debug.Log("hp"+hp);
+        //     hp -= damage;
+        //     if (hp <= 0)
+        //     {
+        //         deadFlag.OnNext(Unit.Default);
+        //     }
+        // }
 
         /// <summary>
         /// 攻撃範囲を返す
@@ -231,6 +235,14 @@ namespace Enemy
         private void OnDisable()
         {
             disposables.Clear();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag(TagName.Player))
+            {
+                other.GetComponent<PlayerBase>().Damage(touchDamage);
+            }
         }
     }
 }

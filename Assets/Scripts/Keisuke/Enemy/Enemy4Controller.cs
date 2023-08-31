@@ -6,12 +6,6 @@ using UniRx.Triggers;
 using System;
 using System.Threading.Tasks;
 
-// IEnemyインターフェースを定義
-public interface IEnemy
-{
-    IObservable<Unit> OnDestroyed { get; }
-    void ResetSubscription();
-}
 public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
 {
     [SerializeField] private float attackRange = 2f;
@@ -35,18 +29,16 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
             .Where(_ => !isAttacking)
             .Subscribe(_ =>
             {
-                Vector3 targetDirection = (targetObject.transform.position - transform.position).normalized;
-                float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90f;
-                transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-
+                Vector3 directionToPlayer = (targetObject.transform.position - transform.position).normalized;
                 float distance = Vector3.Distance(transform.position, targetObject.transform.position);
+
                 if (distance <= attackRange)
                 {
                     Attack();
                 }
                 else
                 {
-                    transform.position += transform.up * speed * Time.deltaTime;
+                    transform.position += directionToPlayer * speed * Time.deltaTime;
                 }
             }).AddTo(disposables);
     }
@@ -74,23 +66,15 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
             speed /= 1.5f;
         }
     }
-    // void OnCollisionEnter2D(Collision2D col)
-    // {
-    //     if(col.gameObject.tag == "Bullet")
-    //     {
-    //         DestroyEnemy();
-    //     }
-    // }
     public void Damage(int damage)
     {
-        Debug.Log("Dead");
+        Debug.Log("DeadE4");
         DestroyEnemy();
     }
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()
     {
         onDestroyed.OnNext(Unit.Default);
-        //onDestroyed.OnCompleted();
 
         gameObject.SetActive(false);
     }

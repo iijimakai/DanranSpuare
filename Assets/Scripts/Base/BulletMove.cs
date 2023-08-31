@@ -3,6 +3,7 @@ using UniRx;
 using UniRx.Triggers;
 using Enemy;
 using System;
+using Shun_Player;
 
 namespace Bullet
 {
@@ -95,6 +96,7 @@ namespace Bullet
                 if (other.CompareTag(TagName.Player))
                 {
                     //TODO: プレイヤーの被弾処理
+                    other.GetComponent<PlayerBase>().Damage(attackPoint);
                     RemoveBullet();
                 }
             }
@@ -102,8 +104,10 @@ namespace Bullet
             {
                 if (other.CompareTag(TagName.Enemy))
                 {
+                    Debug.Log("Bullet");
                     RemoveBullet();
                     //TODO: エネミーの被弾処理
+                    Debug.Log("attackPoint"+attackPoint);
                     other.GetComponent<IDamaged>().Damage(attackPoint);
                 }
             }

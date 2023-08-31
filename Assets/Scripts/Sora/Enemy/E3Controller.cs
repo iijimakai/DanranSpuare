@@ -8,17 +8,15 @@ using System.Threading.Tasks;
 
 namespace Enemy
 {
-    public class E3Controller : EnemyBase,IEnemy
+    public class E3Controller : EnemyBase,IEnemy,IDamaged
     {
         private Subject<Unit> onDestroyed = new Subject<Unit>();
         public IObservable<Unit> OnDestroyed => onDestroyed;
         [SerializeField] private GameObject attackObj;
         private GameObject player;
-
         private async void Awake()
         {
             await Task.Delay(500);
-            Debug.Log("Start");
             // TODO: EnemyPoolができたら変更
             attackObj.SetActive(false);
             player = GameObject.FindGameObjectWithTag(TagName.Player);
@@ -51,8 +49,14 @@ namespace Enemy
         public override void Attack()
         {
             base.AttackStart();
+            // プレイヤーの方向を計算
+            Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+            // プレイヤーの方向に移動
+            transform.position += directionToPlayer * base.GetTeleportationDistance();
+            // attackObjをプレイヤーの方向に向ける
+            //float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+            //attackObj.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle - 90f));
             attackObj.SetActive(true);
-            transform.position += transform.TransformDirection(0, base.GetTeleportationDistance(), 0);
             // TODO: アニメーションができ次第消す時間を取得して消す。
             Observable.Timer(TimeSpan.FromSeconds(1f))
                 .Subscribe(_ => AttackEnd())
@@ -76,21 +80,21 @@ namespace Enemy
             base.AttackFalse();
             attackObj.SetActive(false);
         }
-
+        public void Damage(int damage)
+        {
+            Debug.Log("E3"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+        }
         public override void Dead()
         {
             base.DisposableClear();
-            Debug.Log("Daed");
+            Debug.Log("DaedE3");
             DestroyEnemy();
-            //LeanPool.Despawn(gameObject);
         }
-        // void OnCollisionEnter2D(Collision2D col)
-        // {
-        //     if(col.gameObject.CompareTag("Player"))
-        //     {
-        //         DestroyEnemy();
-        //     }
-        // }
         // 敵が破壊されたときに呼ばれる関数
         public void DestroyEnemy()
         {

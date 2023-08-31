@@ -17,24 +17,16 @@ namespace wave
         [System.Serializable]
         public class EnemyType
         {
-            [SerializeField, Header("敵の種類を設定")]
-            public GameObject enemyPrefab; // 敵のプレハブ
-            [SerializeField, Header("出現確率")]
-            public float spawnChance; // 出現確率
-            [SerializeField, Header("出現上限")]
-            public int maxSpawnCount; // 最大出現数
-            [SerializeField, Header("現在の出現数")]
-            [HideInInspector]
-            public int currentSpawnCount; // 現在の出現数
+            [SerializeField, Header("敵の種類を設定")] public GameObject enemyPrefab; // 敵のプレハブ
+            [SerializeField, Header("出現確率")] public float spawnChance; // 出現確率
+            [SerializeField, Header("出現上限")] public int maxSpawnCount; // 最大出現数
+            [SerializeField, Header("現在の出現数")] [HideInInspector] public int currentSpawnCount; // 現在の出現数
         }
-
         [System.Serializable]
         public class Wave
         {
-            [SerializeField, Header("このWaveでの敵の合計数")]
-            public int totalEnemies; // Waveの敵の合計数
-            [SerializeField, Header("Waveで出現可能な敵の種類の数")]
-            public EnemyType[] enemies; // Waveで出現可能な敵の種類の配列
+            [SerializeField, Header("このWaveでの敵の合計数")] public int totalEnemies; // Waveの敵の合計数
+            [SerializeField, Header("Waveで出現可能な敵の種類の数")] public EnemyType[] enemies; // Waveで出現可能な敵の種類の配列
         }
         [SerializeField, Header("Wave数")]
         public Wave[] waves; // Waveの配列
@@ -44,13 +36,11 @@ namespace wave
         private CancellationTokenSource cancelToken;
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
         [SerializeField] private PlayerBase playerObject;
+        private bool isPlayerSpawn = false;
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
-        int tempCount = 0;
-
-        [SerializeField]
-        private int maxActiveEnemies;
+        [SerializeField] private int maxActiveEnemies;
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
@@ -58,6 +48,8 @@ namespace wave
         {
             Debug.Log(playerBase);
             playerObject = playerBase;
+            isPlayerSpawn = true;
+            OnPlayerSpawned();
             enemyPools = new Dictionary<GameObject, EnemyObjPool>();
             foreach (Wave wave in waves)
             {
@@ -69,15 +61,18 @@ namespace wave
                         pool.Initialize(enemyType.enemyPrefab, poolSize);
                         enemyPools.Add(enemyType.enemyPrefab, pool);
                     }
-                    // 初期化
-                    //enemyType.currentSpawnCount = 0;
                 }
             }
             cancelToken = new CancellationTokenSource();
             totalActiveEnemies
                 .Where(activeEnemies => activeEnemies == 0)
                 .Subscribe(async _ => await SpawnWave(cancelToken.Token));
-                //Observable.NextFrame().Subscribe(async _ => await SpawnWave(cancelToken.Token));
+        }
+        public void OnPlayerSpawned()
+        {
+            if(isPlayerSpawn){
+                mainCamera = Camera.main; // MainCameraのタグ
+            }
         }
         /// <summary>
         /// 指定されたウェーブの敵をスポーン
@@ -88,9 +83,9 @@ namespace wave
         {
             if(currentWaveIndex < waves.Length)
             {
-                //きゃんせるえらー通知キャンセル処理
+                //Taskキャンセル時のエラー通知を消す処理
                 var cancellationTask = new TaskCompletionSource<bool>();
-                using (token.Register(() => cancellationTask.TrySetResult(true)))
+                using (token.Register(() => cancellationTask.TrySetResult(true))) // usingスコープから外れたら自動的にオブジェクトをDispose();
                 {
                     if (await Task.WhenAny(Task.Delay(TimeSpan.FromSeconds(3)), cancellationTask.Task) != cancellationTask.Task)
                     {
@@ -108,8 +103,8 @@ namespace wave
                                 await Observable.EveryUpdate()
                                     .Where(_ => totalActiveEnemies.Value < maxActiveEnemies && !token.IsCancellationRequested)
                                     .First()
-                                    .ToTask(token);
-                                    //.ConfigureAwait(false); // エラー通知を無効にする
+                                    .ToTask(token)
+                                    .ConfigureAwait(false); // エラー通知を無効にする
                             }
                             int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
                             EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
@@ -117,7 +112,7 @@ namespace wave
                             {
                                 SpawnEnemy(chosenEnemy);
                                 chosenEnemy.currentSpawnCount++;
-                                if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task)
+                                if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task) // エネミーのスポーン間隔
                                 {
                                     return;
                                 }
@@ -128,17 +123,13 @@ namespace wave
                             .Where(activeEnemies => activeEnemies == 0)
                             .First()
                             .ToTask(token);
-                        //allEnemiesSpawned = false; // フラグをリセット
                         currentWaveIndex++;
-                        //Debug.Log(currentWaveIndex);
                         // 全ての敵がスポーンした後に遅延を入れてからフラグを更新
                         allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
-                        //Debug.Log("allEnemiesSpawned;"+allEnemiesSpawned);
                     }
                 }
             }
-    }
-
+        }
         /// <summary>
         /// 敵のタイプのインデックスをランダムに選択。
         /// 敵の選択は敵のスポーン確率に基づく。
@@ -155,7 +146,6 @@ namespace wave
                 total += enemies[i].spawnChance;
                 if (randomPoint <= total)
                 {
-                    //Debug.Log(i);
                     return i;
                 }
             }
@@ -170,16 +160,13 @@ namespace wave
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
-            //Debug.Log("Total Active Enemies after spawn: " + totalActiveEnemies.Value);
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
             float spawnRadius = 15.0f;
             Vector3 playerPosition = playerObject.transform.position;
             Vector3 spawnOffset = new Vector3(
-                UnityEngine.Random.Range(-spawnRadius, spawnRadius),
-                UnityEngine.Random.Range(-spawnRadius, spawnRadius),
-                0
+                UnityEngine.Random.Range(-spawnRadius, spawnRadius),UnityEngine.Random.Range(-spawnRadius, spawnRadius),0
             );
             Vector3 spawnPosition = playerPosition + spawnOffset;
             Vector3 cameraPosition = mainCamera.transform.position;
@@ -206,19 +193,13 @@ namespace wave
         private async void DestroyEnemy(GameObject enemyObject, IEnemy enemy)
         {
             totalActiveEnemies.Value--;
-            //Debug.Log("Total Active Enemies after destroy: " + totalActiveEnemies.Value);
-            //
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
-                //Debug.Log("All Enemies Destroy");
                 Debug.Log("NextWave");
                 allEnemiesSpawned = false; // フラグをリセット
-                //Debug.Log("allEnemiesSpawned" + allEnemiesSpawned);
                 await SpawnWave(cancelToken.Token);
             }
             enemyObject.SetActive(false);
-            tempCount++;
-            //Debug.Log("DeathCount" + tempCount);
             enemy.ResetSubscription();
         }
         /// <summary>
@@ -230,5 +211,3 @@ namespace wave
         }
     }
 }
-
-
