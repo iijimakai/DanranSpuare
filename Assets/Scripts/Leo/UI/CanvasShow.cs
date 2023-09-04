@@ -1,9 +1,15 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class CanvasShow : MonoBehaviour
 {
-    [SerializeField, Header("難易度選択画面")] private GameObject canvasDifficulty; // 難易度Canvas
-    [SerializeField, Header("メニュー画面")] private GameObject canvasMenu; // メニューCanvas
+    [SerializeField] private GameObject canvasDifficulty; // 難易度Canvas
+    [SerializeField] private GameObject canvasMenu; // メニューCanvas
+    [SerializeField] private GameObject youLoseCanvas; // 負けCanvas
+    [SerializeField] private GameObject gameOverCanvas; // ゲームオーバーCanvas
+    [SerializeField] private GameObject clearCanvas; // ゲームクリアCanvas
+    [SerializeField] private GameObject giveUpCanvas; // ギブアップCanvas
     private bool isPaused = false; // GameSceneを一時停止するための変数
 
 
@@ -33,5 +39,26 @@ public class CanvasShow : MonoBehaviour
         canvasMenu.SetActive(false);
         //isPaused = isPaused;
         Time.timeScale = isPaused ? 0f : 1f; // ゲームの時間の進行を一時停止または再開する
+    }
+
+    public async UniTask GameOverCanvasShow()
+    {
+        youLoseCanvas.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(3)); // 待機処理
+        youLoseCanvas.SetActive(false);
+        gameOverCanvas.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(4)); // 待機処理
+    }
+
+    public async UniTask ClearCanvasShow()
+    {
+        clearCanvas.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(4)); // 待機処理
+    }
+
+    public async UniTask GiveUpCanvasShow()
+    {
+        giveUpCanvas.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(4)); // 待機処理
     }
 }
