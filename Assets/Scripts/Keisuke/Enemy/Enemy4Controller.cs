@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using Constants;
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
 {
+    private EnemyData data;
     [SerializeField] private float attackRange = 2f;
     private bool isAttacking = false;
-    public float speed;
+    public float speed { get; private set; }
+    public float hp { get; private set; }
     [SerializeField] private GameObject playerObject;
     private CompositeDisposable disposables = new CompositeDisposable();
     private Subject<Unit> onDestroyed = new Subject<Unit>();
     public IObservable<Unit> OnDestroyed => onDestroyed;
-    private async void Start()
+    private async UniTaskVoid Start()
     {
+        data = await AddressLoader.AddressLoad<EnemyData>(AddressableAssetAddress.E4_DATA);
+        hp = data.hp;
+        speed = data.speed;
         await Task.Delay(500);
         Debug.Log("Start");
         playerObject = GameObject.FindGameObjectWithTag("Player");
         PlayerTracking(playerObject);
     }
-
     public void PlayerTracking(GameObject targetObject)
     {
         this.UpdateAsObservable()
@@ -68,8 +74,12 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
     }
     public void Damage(int damage)
     {
-        Debug.Log("DeadE4");
-        DestroyEnemy();
+        Debug.Log("E4"+hp +"->"+ (hp - damage));
+        hp -= damage;
+        if(hp < 0)
+        {
+            DestroyEnemy();
+        }
     }
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()
