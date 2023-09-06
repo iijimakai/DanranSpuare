@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Enemy;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System;
 using System.Threading.Tasks;
 
@@ -32,7 +33,7 @@ namespace Shun_Player
         public void Damage(EnemyBase target)
         {
             target.Damage((int)damage);
-            Debug.Log("wave : " + damage);
+            ////Debug.Log("wave : " + damage);
         }
     }
 }

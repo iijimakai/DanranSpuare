@@ -36,7 +36,7 @@ namespace Shun_Player
         {
             wave.gameObject.SetActive(false);
 
-            animator = GetComponent<Animator>();
+            animator = rend.GetComponent<Animator>();
 
             parameter.Init(_data);
             ParameterBuff.Init();
@@ -52,6 +52,8 @@ namespace Shun_Player
             direction.Value = Direction.Right;
             direction.Subscribe(_ => ChangeDirection()).AddTo(disposables);
         }
+
+        public GameObject GetRend => rend;
 
         private async void GiveRod()
         {

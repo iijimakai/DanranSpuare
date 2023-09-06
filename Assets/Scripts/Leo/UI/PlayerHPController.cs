@@ -4,7 +4,7 @@ using TMPro;
 
 public class PlayerHPController : MonoBehaviour
 {
-    //[SerializeField] private SceneChange sceneChange;
+    [SerializeField] private SceneChange sceneChange;
     public Slider playerHpSlider;
     [SerializeField] private TextMeshProUGUI playerHpText;
     [SerializeField, Header("プレイヤーの最大HP量")] private float playerMaxHp = 100f; // プレイヤーHPの最大値
@@ -26,7 +26,7 @@ public class PlayerHPController : MonoBehaviour
 
         if (currentPlayerHp <= 0)
         {
-            //sceneChange.ToGameOverScene(); // 死亡処理
+            sceneChange.ToGameOverScene(); // 死亡処理
         }
     }
 
