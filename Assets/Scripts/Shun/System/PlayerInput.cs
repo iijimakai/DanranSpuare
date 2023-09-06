@@ -26,7 +26,7 @@ namespace Shun_System
         {
             playerBase = _playerBase;
 
-            plAni = playerBase.GetComponent<Animator>();
+            plAni = playerBase.GetRend.GetComponent<Animator>();
 
             //‚±‚±‚©‚ç
             this.UpdateAsObservable()
