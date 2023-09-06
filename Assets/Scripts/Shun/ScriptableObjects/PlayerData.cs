@@ -52,6 +52,10 @@ namespace Shun_Constants
         /// チャージ攻撃ダメージ変化量
         /// </summary>
         [field: SerializeField, Header("チャージ攻撃ダメージ変化量")] public float chargeDmgBuff { get; private set; }
+        /// <summary>
+        /// チャージ攻撃継続時間
+        /// </summary>
+        [field: SerializeField, Header("チャージ攻撃継続時間(秒)")] public float waveTime { get; private set; }
 
         /// <summary>
         /// 移動速度

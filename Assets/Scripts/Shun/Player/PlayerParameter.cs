@@ -28,6 +28,7 @@ namespace Shun_Player
         public static float chargeMax { get; private set; }
         public static float maxHp { get; private set; }
         public static float chargeDmg { get; private set; }
+        public static float waveTime { get; private set; }
         public static float speed { get; private set; }
         public static float maxRodHp { get; private set; }
         public static float rodDmg { get; private set; }
@@ -54,6 +55,7 @@ namespace Shun_Player
             chargeMax = _data.chargeMax;
             maxHp = _data.hp;
             chargeDmg = _data.chargeDmg;
+            waveTime = _data.waveTime;
             speed = _data.speed;
             maxRodHp = _data.rodHp;
             rodDmg = _data.rodDmg;

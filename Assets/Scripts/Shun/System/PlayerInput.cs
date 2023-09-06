@@ -84,9 +84,9 @@ namespace Shun_System
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButtonUp(0) && isCharging)
                 .Subscribe(_ => {
-                    defaultPos = Vector2.zero;
-                    playerBase.SetRod();
+                    playerBase.SetRod(MouseMove().normalized);
                     CoolTime();
+                    defaultPos = Vector2.zero;
                     isCharging = false;
                 })
                 .AddTo(rodDisposables);

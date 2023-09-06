@@ -80,15 +80,15 @@ namespace Enemy
             base.AttackFalse();
             attackObj.SetActive(false);
         }
-        public void Damage(int damage)
-        {
-            Debug.Log("E3"+hp +"->"+ (hp - damage));
-            hp -= damage;
-            if(hp < 0)
-            {
-                Dead();
-            }
-        }
+        //public void Damage(int damage)
+        //{
+        //    Debug.Log("E3"+hp +"->"+ (hp - damage));
+        //    hp -= damage;
+        //    if(hp < 0)
+        //    {
+        //        Dead();
+        //    }
+        //}
         public override void Dead()
         {
             base.DisposableClear();

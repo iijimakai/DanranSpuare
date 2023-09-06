@@ -194,6 +194,14 @@ namespace Enemy
         //         deadFlag.OnNext(Unit.Default);
         //     }
         // }
+        public void Damage(int damage)
+        {
+            hp -= damage;
+            if (hp < 0)
+            {
+                Dead();
+            }
+        }
 
         /// <summary>
         /// 攻撃範囲を返す
@@ -242,6 +250,12 @@ namespace Enemy
             if (other.gameObject.CompareTag(TagName.Player))
             {
                 other.GetComponent<PlayerBase>().Damage(touchDamage);
+            }
+
+            if (other.gameObject.CompareTag(TagName.Wave))
+            {
+                other.GetComponent<ShockWave>().Damage(this);
+                //Debug.Log("Wave");
             }
         }
     }
