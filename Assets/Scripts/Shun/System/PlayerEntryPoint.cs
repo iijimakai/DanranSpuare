@@ -12,6 +12,7 @@ namespace Shun_System
     {
         [field: SerializeField, Header("キャラクターの種類")] public CharacterType characterType { get; private set; }
         [field: SerializeField, Header("Wave Controller")] public  WaveController waveController { get; private set; }
+        [field: SerializeField, Header("Main Camera")] public Camera mainCamera { get; private set; }
 
         private PlayerBase _playerBase;
         private PlayerInput _playerInput;
@@ -50,7 +51,7 @@ namespace Shun_System
             _playerInput = Instantiate(playerInput).GetComponent<PlayerInput>();
 
             _playerInput.Init(_playerBase);
-            _playerBase.Init(playerData, rodType);
+            _playerBase.Init(playerData, rodType, mainCamera);
 
             waveController.Init(_playerBase);
 
