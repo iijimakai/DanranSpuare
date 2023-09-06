@@ -9,11 +9,15 @@ using System.Threading.Tasks;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Shun_Player;
+using UnityEngine.SceneManagement;
+
 
 namespace wave
 {
     public class WaveController : MonoBehaviour
     {
+        private int waveAdvanceCount = 0; // ウェーブが進行した数
+        [SerializeField] private CanvasShow canvasShow;
         [System.Serializable]
         public class EnemyType
         {
@@ -41,6 +45,7 @@ namespace wave
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
         [SerializeField] private int maxActiveEnemies;
+
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
@@ -196,6 +201,10 @@ namespace wave
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
                 Debug.Log("NextWave");
+                if(waveAdvanceCount == 1){
+                    canvasShow.ClearCanvasShow();
+                    SceneManager.LoadScene("ClearScene");
+                }
                 allEnemiesSpawned = false; // フラグをリセット
                 await SpawnWave(cancelToken.Token);
             }
