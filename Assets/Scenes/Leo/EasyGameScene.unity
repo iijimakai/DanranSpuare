@@ -1730,6 +1730,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 871036220}
   m_CullTransparentMesh: 1
+--- !u!1001 &943833388
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418018, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860871235729418020, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+      propertyPath: m_Name
+      value: CanvasShow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
 --- !u!1 &946528991
 GameObject:
   m_ObjectHideFlags: 0
@@ -3059,7 +3116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fcde104be118b4eb8c37dea73d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasShow: {fileID: 1902413223737277580}
+  canvasShow: {fileID: 0}
   waves:
   - totalEnemies: 10
     enemies:
@@ -3571,56 +3628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imageToPlace: {fileID: 4013497739170277974}
   canvasRectTransform: {fileID: 426473116}
---- !u!1 &1902413223737277579
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1902413223737277581}
-  - component: {fileID: 1902413223737277580}
-  m_Layer: 0
-  m_Name: CanvasShow
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1902413223737277580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902413223737277579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d2245a9b43c774a93d27957b950eb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvasDifficulty: {fileID: 0}
-  canvasMenu: {fileID: 815147365}
-  youLoseCanvas: {fileID: 1945133765}
-  gameOverCanvas: {fileID: 1424639827}
-  clearCanvas: {fileID: 946528991}
-  giveUpCanvas: {fileID: 5835266651228046656}
---- !u!4 &1902413223737277581
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902413223737277579}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1965021704374295354
 GameObject:
   m_ObjectHideFlags: 0

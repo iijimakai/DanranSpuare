@@ -72,6 +72,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wave: {fileID: 774077574900139370}
   rend: {fileID: 5577577751248994091}
+  canvasShow: {fileID: 7860871235729418019, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
 --- !u!61 &-2951708716138473305
 BoxCollider2D:
   m_ObjectHideFlags: 0
