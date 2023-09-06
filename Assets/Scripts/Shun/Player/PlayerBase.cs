@@ -13,6 +13,8 @@ namespace Shun_Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerBase : MonoBehaviour
     {
+        [SerializeField] ShockWave wave;
+        [SerializeField] GameObject rend;
         public float hp {  get; private set; }
         public float havingRod { get; private set; }
 
@@ -32,6 +34,8 @@ namespace Shun_Player
 
         public void Init(PlayerData _data, string _rodAddress)
         {
+            wave.gameObject.SetActive(false);
+
             animator = GetComponent<Animator>();
 
             parameter.Init(_data);
@@ -68,8 +72,10 @@ namespace Shun_Player
         /// <summary>
         /// èÒÇÃê›íu
         /// </summary>
-        public async void SetRod()
+        public async void SetRod(Vector2 vec)
         {
+            Shock(vec);
+
             havingRod--;
             GiveRod();
             GameObject rod = await BulletPoolUtile.GetBullet(rodAddress);
@@ -107,7 +113,7 @@ namespace Shun_Player
         {
             var scale = transform.localScale;
             scale.x = (int)direction.Value;
-            transform.localScale = scale;
+            rend.transform.localScale = scale;
         }
 
         /// <summary>
@@ -155,10 +161,16 @@ namespace Shun_Player
             isStar = false;
         }
 
+        private void Shock(Vector2 vec)
+        {
+            Vector2 pos = transform.position;
+            wave.Set(pos, vec, chargeRatio);
+        }
+
         private void Dead()
         {
-            Destroy(gameObject);
             Debug.Log("Game Over!");
+            Destroy(gameObject);
         }
 
         private void OnDestroy()
