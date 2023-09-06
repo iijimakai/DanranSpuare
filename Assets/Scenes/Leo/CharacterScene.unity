@@ -358,6 +358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!114 &74961675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,6 +805,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!1 &341692132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,6 +1454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!1 &934241562
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!114 &934241565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1741,6 +1757,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 33012394}
   canvasMenu: {fileID: 0}
+  youLoseCanvas: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
+  clearCanvas: {fileID: 0}
+  giveUpCanvas: {fileID: 0}
 --- !u!1 &1201227634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,6 +1814,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  characterIntroductionScene1: {fileID: 0}
+  characterIntroductionScene2: {fileID: 0}
+  characterIntroductionScene3: {fileID: 0}
 --- !u!114 &1201227637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,6 +2195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 33012394}
   canvasMenu: {fileID: 0}
+  youLoseCanvas: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
+  clearCanvas: {fileID: 0}
+  giveUpCanvas: {fileID: 0}
 --- !u!1 &1799197540
 GameObject:
   m_ObjectHideFlags: 0
