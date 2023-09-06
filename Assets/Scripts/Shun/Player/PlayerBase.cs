@@ -33,11 +33,11 @@ namespace Shun_Player
         private CompositeDisposable disposables = new CompositeDisposable();
 
         private Animator animator;
+        private Camera mainCamera;
 
-        public void Init(PlayerData _data, string _rodAddress)
+        public void Init(PlayerData _data, string _rodAddress, Camera mainCamera)
         {
             canvasShow = FindObjectOfType<CanvasShow>().GetComponent<CanvasShow>();
-            Debug.Log(canvasShow);
             wave.gameObject.SetActive(false);
 
             animator = rend.GetComponent<Animator>();
@@ -145,6 +145,12 @@ namespace Shun_Player
                 direction.Value = Direction.Left;
             }
             transform.Translate(moveVec * parameter.speed * Time.deltaTime);
+            CameraMove(transform.position);
+        }
+
+        private void CameraMove(Vector2 moveVec)
+        {
+            transform.position = moveVec;
         }
 
         public void Damage(float damage)
@@ -173,10 +179,11 @@ namespace Shun_Player
             wave.Set(pos, vec, chargeRatio);
         }
 
-        private void Dead()
+        private async void Dead()
         {
-            Debug.Log("GameOver")
+            Debug.Log("GameOver");
             canvasShow.GameOverCanvasShow();
+            rend.SetActive(false);
             Destroy(gameObject);
         }
 
