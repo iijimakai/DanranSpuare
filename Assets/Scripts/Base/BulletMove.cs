@@ -10,7 +10,7 @@ namespace Bullet
     [RequireComponent(typeof(Rigidbody2D))]
     public class BulletMove : MonoBehaviour
     {
-        private int attackPoint;
+        private int attackPoint = 5;
         private float bulletSpeed;
         private float firingRange;
         private float deleteTime;

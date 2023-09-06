@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 3339046751325605675}
   - component: {fileID: 6887152843768493248}
   - component: {fileID: 1514146589992687569}
+  - component: {fileID: 613184103899078174}
   - component: {fileID: -2951708716138473305}
   - component: {fileID: 345980536190351662}
-  - component: {fileID: 6594152892472956518}
   m_Layer: 0
-  m_Name: P1_Sys
+  m_Name: P1_Demo
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,11 +118,25 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081565991272496456}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64eb3fb57905b6e41b65709674f30721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &613184103899078174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081565991272496456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 783d516637663d948aaef6be8f3103eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joystickController: {fileID: 3227778000215892527, guid: b0779120de4fda345889c5cdcbb528bd, type: 3}
+  speed: 5
 --- !u!61 &-2951708716138473305
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +144,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081565991272496456}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -170,22 +184,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!70 &6594152892472956518
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081565991272496456}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.2}
-  m_Size: {x: 0.8, y: 1.5}
-  m_Direction: 0
 --- !u!1001 &2278406704041795023
 PrefabInstance:
   m_ObjectHideFlags: 0
