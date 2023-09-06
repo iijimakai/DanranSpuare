@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dabe36e9317875e45a69d48e8d32605f, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  hp: 100
-  moveSpeed: 1000
-  attackPower: 1
-  attackInterval: 1
-  firstAttackInterval: 1
-  prepareAttackInterval: 5
-  trackingRange: 5
+  <hp>k__BackingField: 100
+  <moveSpeed>k__BackingField: 1000
+  <attackPower>k__BackingField: 1
+  <attackInterval>k__BackingField: 1
+  <firstAttackInterval>k__BackingField: 1
+  <prepareAttackInterval>k__BackingField: 5
+  <trackingRange>k__BackingField: 5

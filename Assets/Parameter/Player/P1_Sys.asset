@@ -22,6 +22,7 @@ MonoBehaviour:
   <hpBuff>k__BackingField: 0.1
   <chargeDmg>k__BackingField: 5
   <chargeDmgBuff>k__BackingField: 0.1
+  <waveTime>k__BackingField: 0.1
   <speed>k__BackingField: 4
   <speedBuff>k__BackingField: 0.1
   <rodHp>k__BackingField: 100
