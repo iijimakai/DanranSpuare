@@ -201,6 +201,7 @@ namespace wave
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
                 Debug.Log("NextWave");
+                waveAdvanceCount++;
                 if(waveAdvanceCount == 1){
                     canvasShow.ClearCanvasShow();
                     SceneManager.LoadScene("ClearScene");
