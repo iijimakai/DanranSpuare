@@ -18,7 +18,7 @@ MonoBehaviour:
   <rodRecastTime>k__BackingField: 10
   <rodSetCoolTime>k__BackingField: 2
   <chargeMax>k__BackingField: 500
-  <hp>k__BackingField: 100
+  <hp>k__BackingField: 1
   <hpBuff>k__BackingField: 0.1
   <chargeDmg>k__BackingField: 5
   <chargeDmgBuff>k__BackingField: 0.1

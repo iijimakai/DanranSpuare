@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
-  canvasMenu: {fileID: 0}
-  youLoseCanvas: {fileID: 0}
-  gameOverCanvas: {fileID: 0}
-  clearCanvas: {fileID: 0}
-  giveUpCanvas: {fileID: 0}
+  canvasMenu: {fileID: 1797892145264740456, guid: edcf22f77a5e03c49a6f2881b3331cb1, type: 3}
+  youLoseCanvas: {fileID: 6581279763292051936, guid: 755cc68be6822a04fb4e9387136d239e, type: 3}
+  gameOverCanvas: {fileID: 1309043835471830029, guid: afe3dfa27a901114b80d42c7a381e35b, type: 3}
+  clearCanvas: {fileID: 4700209263105173227, guid: f26c3bfba7847aa42bfd178a412316ba, type: 3}
+  giveUpCanvas: {fileID: 696514661023978285, guid: 7eea9583491e6f349b9132d05c8b125b, type: 3}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UniRx;
 using Shun_Constants;
+using System.Collections;
 using System.Collections.Generic;
 using parameter = Shun_Player.PlayerParameter;
 using Cysharp.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace Shun_Player
     {
         [SerializeField] ShockWave wave;
         [SerializeField] GameObject rend;
+        private CanvasShow canvasShow;
         public float hp {  get; private set; }
         public float havingRod { get; private set; }
 
@@ -34,6 +36,8 @@ namespace Shun_Player
 
         public void Init(PlayerData _data, string _rodAddress)
         {
+            canvasShow = FindObjectOfType<CanvasShow>().GetComponent<CanvasShow>();
+            Debug.Log(canvasShow);
             wave.gameObject.SetActive(false);
 
             animator = rend.GetComponent<Animator>();
@@ -146,7 +150,7 @@ namespace Shun_Player
         public void Damage(float damage)
         {
             if (isStar) return;
-            Debug.Log("P1"+hp +"->"+ (hp - damage));
+            Debug.Log("P1 : "+hp +"->"+ (hp - damage));
             
             hp -= damage;
             if (hp <= 0)
@@ -171,7 +175,8 @@ namespace Shun_Player
 
         private void Dead()
         {
-            Debug.Log("Game Over!");
+            Debug.Log("GameOver")
+            canvasShow.GameOverCanvasShow();
             Destroy(gameObject);
         }
 
