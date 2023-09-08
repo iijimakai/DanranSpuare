@@ -2092,6 +2092,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 996808719}
   m_CullTransparentMesh: 1
+--- !u!114 &1013871145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7860871235729418019, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+  m_PrefabInstance: {fileID: 943833388}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d2245a9b43c774a93d27957b950eb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1088419531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3116,7 +3127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fcde104be118b4eb8c37dea73d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvasShow: {fileID: 0}
+  waveClearCount: 2
+  canvasShow: {fileID: 1013871145}
   waves:
   - totalEnemies: 10
     enemies:
@@ -3138,13 +3150,13 @@ MonoBehaviour:
       currentSpawnCount: 0
   - totalEnemies: 10
     enemies:
-    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
+    - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
       spawnChance: 1
       maxSpawnCount: 10
       currentSpawnCount: 0
   - totalEnemies: 1
     enemies:
-    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
+    - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
       spawnChance: 1
       maxSpawnCount: 1
       currentSpawnCount: 0
