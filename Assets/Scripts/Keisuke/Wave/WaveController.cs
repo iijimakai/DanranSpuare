@@ -16,6 +16,7 @@ namespace wave
 {
     public class WaveController : MonoBehaviour
     {
+        [SerializeField,Header("クリアに設定したいWave数")] private int waveClearCount;
         private int waveAdvanceCount = 0; // ウェーブが進行した数
         [SerializeField] private CanvasShow canvasShow;
         [System.Serializable]
@@ -202,7 +203,7 @@ namespace wave
             {
                 Debug.Log("NextWave");
                 waveAdvanceCount++;
-                if(waveAdvanceCount == 1){
+                if(waveAdvanceCount == waveClearCount){
                     canvasShow.ClearCanvasShow();
                     SceneManager.LoadScene("ClearScene");
                 }
