@@ -54,15 +54,15 @@ namespace Enemy
             base.SubscriptionStart(player);
             base.AttackInterval();
         }
-        //public void Damage(int damage)
-        //{
-        //    Debug.Log("E1"+hp +"->"+ (hp - damage));
-        //    hp -= damage;
-        //    if(hp < 0)
-        //    {
-        //        Dead();
-        //    }
-        //}
+        public void Damage(int damage)
+        {
+            Debug.Log("E1"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+        }
         public override void Dead()
         {
             Debug.Log("DaedE1");
