@@ -6,6 +6,7 @@ using UniRx.Triggers;
 using Lean.Pool;
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace Enemy
 {
@@ -22,6 +23,8 @@ namespace Enemy
         /// </summary>
         private void Start()
         {
+            //spriteRendererE1 = GetComponent<SpriteRenderer>();
+            //sorceColorE1 = spriteRendererE1.color;
             Spawn();
             StartSubscriptions();
             //await Task.Delay(500);
@@ -54,7 +57,7 @@ namespace Enemy
             base.SubscriptionStart(player);
             base.AttackInterval();
         }
-        public void Damage(int damage)
+        public async void Damage(int damage)
         {
             Debug.Log("E1"+hp +"->"+ (hp - damage));
             hp -= damage;
@@ -62,6 +65,7 @@ namespace Enemy
             {
                 Dead();
             }
+            ColorChange();
         }
         public override void Dead()
         {

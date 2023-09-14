@@ -92,6 +92,7 @@ namespace Enemy
             {
                 Dead();
             }
+            ColorChange();
         }
         public override void Dead()
         {
