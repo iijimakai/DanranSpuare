@@ -10,6 +10,8 @@ using Cysharp.Threading.Tasks;
 
 public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
 {
+    private Color sorceColor;
+    private SpriteRenderer spriteRenderer;
     private EnemyData data;
     [SerializeField] private float attackRange = 2f;
     private bool isAttacking = false;
@@ -21,6 +23,8 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
     public IObservable<Unit> OnDestroyed => onDestroyed;
     private async UniTaskVoid Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        sorceColor = spriteRenderer.color;
         data = await AddressLoader.AddressLoad<EnemyData>(AddressableAssetAddress.E4_DATA);
         hp = data.hp;
         speed = data.speed;
@@ -48,6 +52,13 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
                 }
             }).AddTo(disposables);
     }
+    public async void ColorChange()
+    {
+        spriteRenderer.color = new Color(255,0,0);
+        await UniTask.Delay(TimeSpan.FromSeconds(0.2));
+        spriteRenderer.color = sorceColor;
+    }
+
     private async void Attack()
     {
         isAttacking = true;
@@ -80,6 +91,7 @@ public class Enemy4Controller : MonoBehaviour,IEnemy,IDamaged
         {
             DestroyEnemy();
         }
+        ColorChange();
     }
     // 敵が破壊されたときに呼ばれる関数
     public void DestroyEnemy()

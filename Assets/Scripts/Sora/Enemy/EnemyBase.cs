@@ -57,7 +57,12 @@ namespace Enemy
             speed = data.speed;
             touchDamage = data.touchDamage;
         }
-
+        public async void ColorChange()
+        {
+            spriteRenderer.color = new Color(255,0,0);
+            await UniTask.Delay(TimeSpan.FromSeconds(0.2));
+            spriteRenderer.color = sorceColor;
+        }
         /// <summary>
         /// Subscribleの購読を開始する
         /// </summary>
@@ -146,7 +151,7 @@ namespace Enemy
         public void AttackInterval()
         {
             isMove = false;
-            spriteRenderer.color = new Color(255, 0, 0);
+            //spriteRenderer.color = new Color(255, 0, 0);
             Observable.Interval(TimeSpan.FromSeconds(data.attackInterval))
                 .Subscribe(_ => Attack())
                 .AddTo(disposables);
@@ -154,7 +159,7 @@ namespace Enemy
 
         public void AttackStart()
         {
-            spriteRenderer.color = sorceColor;
+            //spriteRenderer.color = sorceColor;
         }
 
         public void AttackFalse()
@@ -185,24 +190,15 @@ namespace Enemy
         /// 被弾処理
         /// </summary>
         /// <param name="damage">ダメージ</param>
-        // public void Damage(int damage)
-        // {
-        //     Debug.Log("hp"+hp);
-        //     hp -= damage;
-        //     if (hp <= 0)
-        //     {
-        //         deadFlag.OnNext(Unit.Default);
-        //     }
-        // }
         public void Damage(int damage)
         {
+            Debug.Log("hp"+hp);
             hp -= damage;
-            if (hp < 0)
+            if (hp <= 0)
             {
-                Dead();
+                deadFlag.OnNext(Unit.Default);
             }
         }
-
         /// <summary>
         /// 攻撃範囲を返す
         /// </summary>

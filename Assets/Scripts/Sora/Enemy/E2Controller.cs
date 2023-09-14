@@ -73,6 +73,7 @@ namespace Enemy
             {
                 Dead();
             }
+            ColorChange();
         }
         /// <summary>
         /// 死亡処理
