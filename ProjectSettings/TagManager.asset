@@ -14,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Rod
+  - Enemy
   - 
   - 
   - 
@@ -50,9 +50,9 @@ TagManager:
   - name: Bullet
     uniqueID: 3267670565
     locked: 0
-  - name: Rod
-    uniqueID: 1599603779
-    locked: 0
   - name: Player
     uniqueID: 685684135
+    locked: 0
+  - name: Rod
+    uniqueID: 1599603779
     locked: 0

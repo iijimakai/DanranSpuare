@@ -37,6 +37,7 @@ namespace Shun_Player
 
         public void Init(PlayerData _data, string _rodAddress, Camera mainCamera)
         {
+            this.mainCamera = mainCamera;
             canvasShow = FindObjectOfType<CanvasShow>().GetComponent<CanvasShow>();
             wave.gameObject.SetActive(false);
 
@@ -148,9 +149,9 @@ namespace Shun_Player
             CameraMove(transform.position);
         }
 
-        private void CameraMove(Vector2 moveVec)
+        private void CameraMove(Vector2 pos)
         {
-            transform.position = moveVec;
+            mainCamera.transform.position = new Vector3(pos.x, pos.y, -10);
         }
 
         public void Damage(float damage)

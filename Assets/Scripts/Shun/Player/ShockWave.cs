@@ -32,6 +32,13 @@ namespace Shun_Player
 
         public void Damage(EnemyBase target)
         {
+            var rigitbody = target.GetComponent<Rigidbody2D>();
+            Vector2 targetPos = target.transform.position;
+            Vector2 myPos = transform.position;
+
+            var knockBackVector = myPos - targetPos;
+            rigitbody.AddForce(knockBackVector.normalized);
+
             target.Damage((int)damage);
             ////Debug.Log("wave : " + damage);
         }
