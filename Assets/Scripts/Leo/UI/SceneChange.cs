@@ -6,11 +6,8 @@ using System;
 public class SceneChange : MonoBehaviour
 {
     [SerializeField] private CanvasShow canvasShow;
-    [SerializeField] private float delayTime = 4f;
-    //[Header("キャラクター紹介1")] public GameObject characterIntroductionScene1; // Characterの紹介Scene1（待機時間に表示するScene）
-    //[Header("キャラクター紹介2")] public GameObject characterIntroductionScene2; // Characterの紹介Scene2（待機時間に表示するScene）
-    //[Header("キャラクター紹介3")] public GameObject characterIntroductionScene3; // Characterの紹介Scene3（待機時間に表示するScene）
-
+    [SerializeField] private float delayTime = 8f;
+    
     // TitleSceneで使用
     public void OnClickStartButton() // タイトル(スタート)ボタン
     {
@@ -19,7 +16,7 @@ public class SceneChange : MonoBehaviour
 
     private async UniTask EasyButtonSystem()
     {
-        SceneManager.LoadScene("CharacterIntroductionScene1");
+        SceneManager.LoadScene("OperateScene1");
         await UniTask.Delay(TimeSpan.FromSeconds(delayTime)); // 待機処理
         SceneManager.LoadScene("EasyGameScene");
     }
@@ -32,7 +29,7 @@ public class SceneChange : MonoBehaviour
 
     private async UniTask NormalButtonSystem()
     {
-        SceneManager.LoadScene("CharacterIntroductionScene2");
+        SceneManager.LoadScene("OperateScene2");
         await UniTask.Delay(TimeSpan.FromSeconds(delayTime)); // 待機処理
         SceneManager.LoadScene("NormalGameScene");
     }
@@ -45,7 +42,7 @@ public class SceneChange : MonoBehaviour
 
     private async UniTask HardButtonSystem()
     {
-        SceneManager.LoadScene("CharacterIntroductionScene3");
+        SceneManager.LoadScene("OperateScene3");
         await UniTask.Delay(TimeSpan.FromSeconds(delayTime)); // 待機処理
         SceneManager.LoadScene("HardGameScene");
     }
