@@ -14,8 +14,9 @@ namespace Shun_Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerBase : MonoBehaviour
     {
-        [SerializeField] ShockWave wave;
         [SerializeField] GameObject rend;
+
+        [SerializeField] private GameObject[] ice = new GameObject[8];
         private CanvasShow canvasShow;
         public float hp {  get; private set; }
         public float havingRod { get; private set; }
@@ -39,7 +40,7 @@ namespace Shun_Player
         {
             this.mainCamera = mainCamera;
             canvasShow = FindObjectOfType<CanvasShow>().GetComponent<CanvasShow>();
-            wave.gameObject.SetActive(false);
+            ice[0].gameObject.SetActive(false);
 
             animator = rend.GetComponent<Animator>();
 
@@ -176,8 +177,53 @@ namespace Shun_Player
 
         private void Shock(Vector2 vec)
         {
+            switch ((int)chargeRatio/14)
+            {
+                case 0:
+                    IceSizeFix(false, false, false, false, false, false, false);
+                    break;
+                case 1: 
+                    IceSizeFix(true, false, false, false, false, false, false);
+                    break;
+                case 2: 
+                    IceSizeFix(true, true, false, false, false, false, false);
+                    break;
+                case 3: 
+                    IceSizeFix(true, true, true, false, false, false, false);
+                    break;
+                case 4:
+                    IceSizeFix(true, true, true, true, false, false, false);
+                    break;
+                case 5:
+                    IceSizeFix(true, true, true, true, true, false, false);
+                    break;
+                case 6:
+                    IceSizeFix(true, true, true, true, true, true, false);
+                    break;
+                case 7:
+                    IceSizeFix(true, true, true, true, true, true, true);
+                    break;
+                default:
+                    break;
+            }
             Vector2 pos = transform.position;
-            wave.Set(pos, vec, chargeRatio);
+            ice[0].GetComponent<ShockWave>().Set(pos, vec);
+        }
+
+        private void IceSizeFix(bool xxxs, bool xxs, bool xs, bool s, bool m, bool l, bool xl)
+        {
+            for (int i = 1; i < ice.Length; i++)
+            {
+                ice[i].SetActive(false);
+            }
+
+            if (xxxs) ice[1].SetActive(true);
+            if (xxs) ice[2].SetActive(true);
+            if (xs) ice[3].SetActive(true);
+            if (s) ice[4].SetActive(true);
+            if (m) ice[5].SetActive(true);
+            if (l) ice[6].SetActive(true);
+            if (xl) ice[7].SetActive(true);
         }
 
         private async void Dead()
