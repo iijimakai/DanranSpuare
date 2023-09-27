@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5313957643717818871}
   - component: {fileID: 5313957643717818864}
   - component: {fileID: 5313957643717818865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rod1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3872595137130427895}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ShotPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

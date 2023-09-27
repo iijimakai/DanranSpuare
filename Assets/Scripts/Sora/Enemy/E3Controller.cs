@@ -54,8 +54,12 @@ namespace Enemy
             // プレイヤーの方向に移動
             transform.position += directionToPlayer * base.GetTeleportationDistance();
             // attackObjをプレイヤーの方向に向ける
-            //float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-            //attackObj.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle - 90f));
+            float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+            attackObj.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle - 90f));
+
+            // attackObjをE3から一定の距離離れた位置に配置
+            float distanceFromE3 = 1.0f; // この値は適宜調整
+            attackObj.transform.position = transform.position + directionToPlayer * distanceFromE3;
             attackObj.SetActive(true);
             // TODO: アニメーションができ次第消す時間を取得して消す。
             Observable.Timer(TimeSpan.FromSeconds(1f))
@@ -80,15 +84,16 @@ namespace Enemy
             base.AttackFalse();
             attackObj.SetActive(false);
         }
-        //public void Damage(int damage)
-        //{
-        //    Debug.Log("E3"+hp +"->"+ (hp - damage));
-        //    hp -= damage;
-        //    if(hp < 0)
-        //    {
-        //        Dead();
-        //    }
-        //}
+        public void Damage(int damage)
+        {
+            Debug.Log("E3"+hp +"->"+ (hp - damage));
+            hp -= damage;
+            if(hp < 0)
+            {
+                Dead();
+            }
+            ColorChange();
+        }
         public override void Dead()
         {
             base.DisposableClear();
