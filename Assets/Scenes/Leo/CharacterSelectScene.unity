@@ -507,8 +507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasShow: {fileID: 0}
-  nowLoadingAnimation: {fileID: 0}
-  delayTime: 2
+  delayTime: 8
 --- !u!1 &108167497
 GameObject:
   m_ObjectHideFlags: 0
@@ -1601,8 +1600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasShow: {fileID: 0}
-  nowLoadingAnimation: {fileID: 0}
-  delayTime: 2
+  delayTime: 8
 --- !u!1 &1067933200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,8 +1901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasShow: {fileID: 0}
-  nowLoadingAnimation: {fileID: 0}
-  delayTime: 2
+  delayTime: 8
 --- !u!1 &1211955360
 GameObject:
   m_ObjectHideFlags: 0

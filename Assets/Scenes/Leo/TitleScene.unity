@@ -519,6 +519,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2046539599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb4ad1c1d8453142beb9ea8c997cf57, type: 3}
+  m_Script: {fileID: 11500000, guid: 3dc23642f7ed38e4b8b24275a91b5ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasShow: {fileID: 0}
+  nowLoadingAnimation: {fileID: 0}
+  delayTime: 2
