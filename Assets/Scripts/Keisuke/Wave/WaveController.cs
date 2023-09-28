@@ -227,6 +227,7 @@ namespace wave
                 destroyedEnemyCount = 0;
                 OnEnemyDestroyed.OnNext(destroyedEnemyCount);
                 allEnemiesSpawned = false; // フラグをリセット
+                cancelToken = new CancellationTokenSource();
                 await SpawnWave(cancelToken.Token);
             }
             enemyObject.SetActive(false);
