@@ -19,6 +19,8 @@ namespace wave
         [SerializeField,Header("クリアに設定したいWave数")] private int waveClearCount;
         private int waveAdvanceCount = 0; // ウェーブが進行した数
         [SerializeField] private CanvasShow canvasShow;
+        public Subject<int> OnEnemyDestroyed { get; private set; } = new Subject<int>();
+        private int destroyedEnemyCount = 0;
         [System.Serializable]
         public class EnemyType
         {
@@ -35,7 +37,7 @@ namespace wave
         }
         [SerializeField, Header("Wave数")]
         public Wave[] waves; // Waveの配列
-        private int currentWaveIndex = 0; // 現在のWaveのインデックス
+        public int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CancellationTokenSource cancelToken;
@@ -198,7 +200,11 @@ namespace wave
         /// <param name="enemy">破壊する敵</param>
         private async void DestroyEnemy(GameObject enemyObject, IEnemy enemy)
         {
+            Debug.Log("totalActiveEnemies" + totalActiveEnemies.Value);
             totalActiveEnemies.Value--;
+            destroyedEnemyCount++;
+            OnEnemyDestroyed.OnNext(destroyedEnemyCount);
+            Debug.Log(allEnemiesSpawned);
             if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
             {
                 Debug.Log("NextWave");
@@ -207,6 +213,8 @@ namespace wave
                     canvasShow.ClearCanvasShow();
                     SceneManager.LoadScene("ClearScene");
                 }
+                destroyedEnemyCount = 0;
+                OnEnemyDestroyed.OnNext(destroyedEnemyCount);
                 allEnemiesSpawned = false; // フラグをリセット
                 await SpawnWave(cancelToken.Token);
             }
