@@ -10,7 +10,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Shun_Player;
 using UnityEngine.SceneManagement;
-
+using System.Runtime.CompilerServices;
 
 namespace wave
 {
@@ -48,16 +48,18 @@ namespace wave
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
         [SerializeField] private int maxActiveEnemies;
-
+        int count = 0;
+        int spawnCountsDebug = 0;
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
-        public void Init(PlayerBase playerBase)
+        public async void Init(PlayerBase playerBase)
         {
             Debug.Log(playerBase);
             playerObject = playerBase;
             isPlayerSpawn = true;
             OnPlayerSpawned();
+            cancelToken = new CancellationTokenSource();
             enemyPools = new Dictionary<GameObject, EnemyObjPool>();
             foreach (Wave wave in waves)
             {
@@ -71,10 +73,7 @@ namespace wave
                     }
                 }
             }
-            cancelToken = new CancellationTokenSource();
-            totalActiveEnemies
-                .Where(activeEnemies => activeEnemies == 0)
-                .Subscribe(async _ => await SpawnWave(cancelToken.Token));
+            await SpawnWave(cancelToken.Token);
         }
         public void OnPlayerSpawned()
         {
@@ -89,6 +88,15 @@ namespace wave
         /// <returns>ウェーブのスポーンが完了したら完了するタスク</returns>
         private async Task SpawnWave(CancellationToken token)
         {
+            spawnCountsDebug++;
+            //Debug.Log($"SpawnWave called from {callerFilePath}:{callerLineNumber} in {callerMemberName}");
+            Debug.Log("spawnCountsDebug "+spawnCountsDebug);
+            //Debug.Log("SpawnWave called from: " + Environment.StackTrace);
+            if(currentWaveIndex >= waves.Length)
+            {
+                Debug.LogError("Attempted to increment currentWaveIndex beyond the bounds of the waves array.");
+                return;
+            }
             if(currentWaveIndex < waves.Length)
             {
                 //Taskキャンセル時のエラー通知を消す処理
@@ -98,8 +106,7 @@ namespace wave
                     if (await Task.WhenAny(Task.Delay(TimeSpan.FromSeconds(3)), cancellationTask.Task) != cancellationTask.Task)
                     {
                         Wave currentWave = waves[currentWaveIndex];
-                        int i = 0;
-                        while(i < currentWave.totalEnemies)
+                        for(int i = 0; i < currentWave.totalEnemies;)
                         {
                             if (token.IsCancellationRequested)
                             {
@@ -120,12 +127,13 @@ namespace wave
                             {
                                 SpawnEnemy(chosenEnemy);
                                 chosenEnemy.currentSpawnCount++;
-                                if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task) // エネミーのスポーン間隔
-                                {
-                                    return;
-                                }
+                                count++;
+                                i++;
                             }
-                            i++;
+                            if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task) // エネミーのスポーン間隔
+                            {
+                                return;
+                            }
                         }
                         await totalActiveEnemies
                             .Where(activeEnemies => activeEnemies == 0)
@@ -136,6 +144,9 @@ namespace wave
                         allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
                     }
                 }
+            }
+            else{
+                Debug.LogError("Attempted to increment currentWaveIndex beyond the bounds of the waves array.");
             }
         }
         /// <summary>
@@ -168,6 +179,7 @@ namespace wave
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
+            //Debug.Log("totalActiveEnemies" + totalActiveEnemies.Value);
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
@@ -200,7 +212,6 @@ namespace wave
         /// <param name="enemy">破壊する敵</param>
         private async void DestroyEnemy(GameObject enemyObject, IEnemy enemy)
         {
-            Debug.Log("totalActiveEnemies" + totalActiveEnemies.Value);
             totalActiveEnemies.Value--;
             destroyedEnemyCount++;
             OnEnemyDestroyed.OnNext(destroyedEnemyCount);
