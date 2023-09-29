@@ -3267,15 +3267,15 @@ MonoBehaviour:
   waves:
   - totalEnemies: 40
     enemies:
-    - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 0.25
       maxSpawnCount: 80
       currentSpawnCount: 0
-    - enemyPrefab: {fileID: 7824733794820519041, guid: e8009bcb1f56f2e4891f67e097e5f7cb, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 0.25
       maxSpawnCount: 80
       currentSpawnCount: 0
-    - enemyPrefab: {fileID: 2228289916768243146, guid: d82b280cbd698884f818b57e7b5817aa, type: 3}
+    - enemyPrefab: {fileID: 7592025330046263569, guid: 9190d29a2a7666d49ac91548c4a0d6bf, type: 3}
       spawnChance: 0.25
       maxSpawnCount: 80
       currentSpawnCount: 0
@@ -3589,7 +3589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: EnemyCount
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
