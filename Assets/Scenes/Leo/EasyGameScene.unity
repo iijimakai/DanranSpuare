@@ -3265,7 +3265,7 @@ MonoBehaviour:
   waveClearCount: 2
   canvasShow: {fileID: 1013871145}
   waves:
-  - totalEnemies: 1
+  - totalEnemies: 40
     enemies:
     - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
       spawnChance: 0.25
@@ -3652,7 +3652,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -137.69092, w: -82.6145}
+  m_margin: {x: -121.65137, y: 0, z: -460.97083, w: -82.6145}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3683,7 +3683,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 476, y: 469}
+  m_AnchoredPosition: {x: -657, y: 469}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2066731440

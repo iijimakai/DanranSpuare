@@ -20,6 +20,6 @@ public class EnemyCounterDisplay : MonoBehaviour
     private void UpdateDisplay(int destroyedEnemyCount)
     {
         int totalEnemies = waveController.waves[waveController.currentWaveIndex].totalEnemies;
-        enemiesInfoText.text = $"Destroyed: {destroyedEnemyCount} / Total: {totalEnemies}";
+        enemiesInfoText.text = $"{destroyedEnemyCount} / {totalEnemies}";
     }
 }
