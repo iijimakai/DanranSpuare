@@ -6,7 +6,6 @@ using System;
 
 public class BossScript : MonoBehaviour, IEnemy,IDamaged
 {
-    public string bossDataAddress;
     private BossData bossData;
     private float attackCooldown;
     private float prepareAttackCooldown; // 攻撃態勢のクールダウン
@@ -19,9 +18,9 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     private GameObject player;
     private SpriteRenderer spriteRenderer;
     private float hp;
-    private async UniTaskVoid Start()
+    public async UniTask Init()
     {
-        bossData = await AddressLoader.AddressLoad<BossData>(bossDataAddress);
+        bossData = await AddressLoader.AddressLoad<BossData>(AddressableAssetAddress.BOSS_DATA);
         attackCooldown = bossData.firstAttackInterval;
         prepareAttackCooldown = bossData.prepareAttackInterval;
         hp = bossData.hp;

@@ -3,6 +3,7 @@
 /// </summary>
 public static class AddressableAssetAddress
 {
+	public const string BOSS_DATA = "BossData";
 	public const string BULLET_POOL_DATA = "BulletPoolData";
 	public const string E1_BULLET = "E1Bullet";
 	public const string E1_DATA = "E1Data";
