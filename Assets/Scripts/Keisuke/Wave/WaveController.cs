@@ -48,8 +48,7 @@ namespace wave
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
         [SerializeField] private int maxActiveEnemies;
-        int count = 0;
-        int spawnCountsDebug = 0;
+
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
@@ -88,15 +87,6 @@ namespace wave
         /// <returns>ウェーブのスポーンが完了したら完了するタスク</returns>
         private async Task SpawnWave(CancellationToken token)
         {
-            spawnCountsDebug++;
-            //Debug.Log($"SpawnWave called from {callerFilePath}:{callerLineNumber} in {callerMemberName}");
-            Debug.Log("spawnCountsDebug "+spawnCountsDebug);
-            //Debug.Log("SpawnWave called from: " + Environment.StackTrace);
-            if(currentWaveIndex >= waves.Length)
-            {
-                Debug.LogError("Attempted to increment currentWaveIndex beyond the bounds of the waves array.");
-                return;
-            }
             if(currentWaveIndex < waves.Length)
             {
                 //Taskキャンセル時のエラー通知を消す処理
@@ -127,7 +117,6 @@ namespace wave
                             {
                                 SpawnEnemy(chosenEnemy);
                                 chosenEnemy.currentSpawnCount++;
-                                count++;
                                 i++;
                             }
                             if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task) // エネミーのスポーン間隔
@@ -144,9 +133,6 @@ namespace wave
                         allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
                     }
                 }
-            }
-            else{
-                Debug.LogError("Attempted to increment currentWaveIndex beyond the bounds of the waves array.");
             }
         }
         /// <summary>
@@ -179,7 +165,6 @@ namespace wave
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
-            //Debug.Log("totalActiveEnemies" + totalActiveEnemies.Value);
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
