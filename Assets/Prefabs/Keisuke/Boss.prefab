@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1258345095339700554}
   - component: {fileID: 1258345095339700557}
   - component: {fileID: 7237304088947241816}
-  - component: {fileID: 5525538496573695275}
+  - component: {fileID: -6451747776416020323}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5525538496573695275
+--- !u!114 &-6451747776416020323
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,10 +122,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1258345095339700556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1c72f3d7767f45449117cf4a21cc331, type: 3}
+  m_Script: {fileID: 11500000, guid: 03feadcb022081343874bf229ca84eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossDataAddress: BossData
 --- !u!1 &5460806987196707144
 GameObject:
   m_ObjectHideFlags: 0
