@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 1
   <starTime>k__BackingField: 1.5
+  <dashRange>k__BackingField: 5
+  <dashTime>k__BackingField: 0.3
+  <dashCoolTime>k__BackingField: 2
   <rodStock>k__BackingField: 30
   <rodRecastTime>k__BackingField: 10
   <rodSetCoolTime>k__BackingField: 2
@@ -29,6 +32,7 @@ MonoBehaviour:
   <rodHpBuff>k__BackingField: 0.1
   <rodDmg>k__BackingField: 1
   <rodDmgBuff>k__BackingField: 0.1
+  <penetrateCount>k__BackingField: 1
   <shotSpeed>k__BackingField: 10
   <shotSpeedBuff>k__BackingField: 0.1
   <rodRange>k__BackingField: 10
