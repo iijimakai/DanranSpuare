@@ -18,7 +18,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     private GameObject player;
     private SpriteRenderer spriteRenderer;
     private float hp;
-    public async UniTask Init()
+    public async UniTask Start()
     {
         bossData = await AddressLoader.AddressLoad<BossData>(AddressableAssetAddress.BOSS_DATA);
         attackCooldown = bossData.firstAttackInterval;
@@ -41,7 +41,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
                     // 攻撃
                     if (attackCooldown <= 0)
                     {
-                        Attack();
+                        //ClawAttack();
                         // FirstAttackIntervalの時間だけ攻撃を遅らせ、その後は通常の攻撃間隔
                         attackCooldown = isFirstAttack ? bossData.firstAttackInterval : bossData.attackInterval;
                         isFirstAttack = false;
@@ -72,7 +72,11 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
         Debug.Log("攻撃態勢");
         spriteRenderer.color = new Color(255, 0, 0);
     }
-    private void Attack()
+    private void BreathAttack()
+    {
+
+    }
+    private void ClawAttack()
     {
         float step = bossData.moveSpeed * Time.deltaTime;  // 移動スピード
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);

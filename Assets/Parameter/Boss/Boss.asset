@@ -18,4 +18,4 @@ MonoBehaviour:
   <attackInterval>k__BackingField: 1
   <firstAttackInterval>k__BackingField: 1
   <prepareAttackInterval>k__BackingField: 5
-  <trackingRange>k__BackingField: 5
+  <trackingRange>k__BackingField: 8
