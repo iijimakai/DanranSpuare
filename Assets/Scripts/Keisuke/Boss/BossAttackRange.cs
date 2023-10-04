@@ -8,6 +8,7 @@ public class BossAttackRange : MonoBehaviour
     public CompositeDisposable disposables = new CompositeDisposable();
     private GameObject player;
     private GameObject boss;
+    [SerializeField] private GameObject triangleSprite;
     private BossScript bossScript;
     public float rotationSpeed = 5.0f;
     public float lerpFactor = 0f;  // ボスとプレイヤーの間での位置を調整（0がボス、1がプレイヤー）
@@ -46,6 +47,7 @@ public class BossAttackRange : MonoBehaviour
         {
             bossScript.SetPlayerInRange(true);
             bossScript.SetTargetPosition(col.transform.position);
+            triangleSprite.SetActive(true);
         }
     }
 
@@ -54,6 +56,7 @@ public class BossAttackRange : MonoBehaviour
         if (col.gameObject.CompareTag(TagName.Player))
         {
             bossScript.SetPlayerInRange(false);
+            triangleSprite.SetActive(false);
         }
     }
 }
