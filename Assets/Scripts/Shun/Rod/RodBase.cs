@@ -47,7 +47,7 @@ namespace Shun_Rod
 
         public void ShotInit(BulletMove bullet, Transform shotPos)
         {
-            bullet.Init((int)parameter.rodDmg, parameter.shotSpeed, parameter.rodRange, parameter.rodDuration, shotPos);
+            bullet.Init((int)parameter.rodDmg, parameter.shotSpeed, parameter.rodRange, parameter.rodDuration, parameter.penetrateCount, shotPos);
         }
 
         public void Damage(int damage)

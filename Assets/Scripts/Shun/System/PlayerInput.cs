@@ -14,8 +14,9 @@ namespace Shun_System
 
         private Vector2 defaultPos = Vector2.zero;
 
-        private bool isCharging = false;
-        private bool isCoolTime = false;
+        private bool isRodCharging = false;
+        private bool isRodCoolTime = false;
+        private bool isDashCoolTime = false;
 
         private CompositeDisposable moveDisposables = new CompositeDisposable();
         private CompositeDisposable rodDisposables = new CompositeDisposable();
@@ -30,14 +31,14 @@ namespace Shun_System
 
             //ここから
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonDown(0) && !isCharging)
+                .Where(_ => Input.GetMouseButtonDown(0) && !isRodCharging)
                 .Subscribe(_ => { 
                     defaultPos = Input.mousePosition;
                 })
                 .AddTo(moveDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButton(0) && !isCharging)
+                .Where(_ => Input.GetMouseButton(0) && !isRodCharging)
                 .Subscribe(_ => { 
                     playerBase.Move(MouseMove().normalized);
                     //UIにスティックの座標を渡す
@@ -45,17 +46,25 @@ namespace Shun_System
                 .AddTo(moveDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonUp(0) && !isCharging)
+                .Where(_ => Input.GetMouseButtonUp(0) && !isRodCharging)
                 .Subscribe(_ => {
                     plAni.SetBool("Walking", false);
                     plAni.SetBool("Idling", true);
                     defaultPos = Vector2.zero;
                 })
                 .AddTo(moveDisposables);
+
+            this.UpdateAsObservable()
+                .Where(_ => Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.X) && !isRodCharging && !isDashCoolTime)
+                .Subscribe(_ => {
+                    StartCoroutine(playerBase.Dash(MouseMove().normalized));
+                    DashCoolTime(PlayerParameter.dashCoolTime);
+                })
+                .AddTo(moveDisposables);
             //ここまで移動用
 
             this.UpdateAsObservable()
-                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isCharging && !isCoolTime)
+                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isRodCharging && !isRodCoolTime)
                 .Subscribe(_ => {
                     if (playerBase.havingRod <= 0 ) 
                     {
@@ -66,47 +75,51 @@ namespace Shun_System
                         plAni.SetBool("Walking", false);
                         plAni.SetBool("Idling", true);
                         defaultPos = Input.mousePosition;
-                        isCharging = true;
+                        isRodCharging = true;
                     }
                 })
                 .AddTo(rodDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonDown(0) && isCharging)
+                .Where(_ => Input.GetMouseButtonDown(0) && isRodCharging)
                 .Subscribe(_ => { defaultPos = Input.mousePosition; })
                 .AddTo(rodDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButton(0) && isCharging)
+                .Where(_ => Input.GetMouseButton(0) && isRodCharging)
                 .Subscribe(_ => { playerBase.SetChargeRatio(Charge()); })
                 .AddTo(rodDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetMouseButtonUp(0) && isCharging)
+                .Where(_ => Input.GetMouseButtonUp(0) && isRodCharging)
                 .Subscribe(_ => {
                     playerBase.SetRod(MouseMove().normalized);
-                    CoolTime();
+                    RodCoolTime(PlayerParameter.rodSetCoolTime);
                     defaultPos = Vector2.zero;
-                    isCharging = false;
+                    isRodCharging = false;
                 })
                 .AddTo(rodDisposables);
 
             this.UpdateAsObservable()
-                .Where(_ => Input.GetKeyDown(KeyCode.Escape) && isCharging)
+                .Where(_ => Input.GetKeyDown(KeyCode.Escape) && isRodCharging)
                 .Subscribe(_ => {
                     defaultPos = Vector2.zero;
-                    isCharging = false;
+                    isRodCharging = false;
                 })
                 .AddTo(rodDisposables);
         }
 
-        private async void CoolTime()
+        private async void DashCoolTime(float time)
         {
-            isCoolTime = true;
-
-            await UniTask.Delay(TimeSpan.FromSeconds(PlayerParameter.rodSetCoolTime));
-
-            isCoolTime = false;
+            isDashCoolTime = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(time));
+            isDashCoolTime = false;
+        }
+        private async void RodCoolTime(float time)
+        {
+            isRodCoolTime = true;
+            await UniTask.Delay(TimeSpan.FromSeconds(time));
+            isRodCoolTime = false;
         }
 
         /// <summary>

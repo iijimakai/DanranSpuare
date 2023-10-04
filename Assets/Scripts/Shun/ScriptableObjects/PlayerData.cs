@@ -16,6 +16,21 @@ namespace Shun_Constants
         [field: SerializeField, Header("被弾後の無敵時間(秒)")] public float starTime { get; private set; }
 
         /// <summary>
+        /// ダッシュ距離
+        /// </summary>
+        [field: SerializeField, Header("ダッシュの距離")] public float dashRange { get; private set; }
+
+        /// <summary>
+        /// ダッシュにかかる時間
+        /// </summary>
+        [field: SerializeField, Header("ダッシュにかかる時間")] public float dashTime { get; private set; }
+
+        /// <summary>
+        /// ダッシュクールタイム
+        /// </summary>
+        [field: SerializeField, Header("ダッシュのクールタイム")] public float dashCoolTime { get; private set; }
+
+        /// <summary>
         /// 杖の最大ストック数
         /// </summary>
         [field: SerializeField, Header("杖の最大ストック数(個)")] public float rodStock { get; private set; }
@@ -83,6 +98,11 @@ namespace Shun_Constants
         /// 杖ダメージ変化量
         /// </summary>
         [field: SerializeField, Header("杖ダメージ変化量")] public float rodDmgBuff { get; private set; }
+
+        /// <summary>
+        /// 杖攻撃貫通数
+        /// </summary>
+        [field: SerializeField, Header("杖攻撃貫通数")] public int penetrateCount { get; private set; }
 
         /// <summary>
         /// 杖攻撃弾速
