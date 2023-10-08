@@ -3267,7 +3267,7 @@ MonoBehaviour:
   waves:
   - totalEnemies: 1
     enemies:
-    - enemyPrefab: {fileID: 1258345095339700556, guid: bfd676d41ebe2e04d9759bd88ac98840, type: 3}
+    - enemyPrefab: {fileID: 1258345095339700556, guid: 6642e59fc99afdf41b1b5d3e9bc9aaec, type: 3}
       spawnChance: 1
       maxSpawnCount: 80
       currentSpawnCount: 0
