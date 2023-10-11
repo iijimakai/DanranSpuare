@@ -7,13 +7,10 @@ using System;
 public class BossScript : MonoBehaviour, IEnemy,IDamaged
 {
     private BossData bossData;
-    private float attackCooldown;
-    private float prepareAttackCooldown; // 攻撃態勢のクールダウン
     private Subject<Unit> onDestroyed = new Subject<Unit>();
     public IObservable<Unit> OnDestroyed => onDestroyed;
     private CompositeDisposable disposable = new CompositeDisposable();
     private bool playerInRange = false;
-    private bool isFirstAttack = true; // 一発目の攻撃かどうか
     private Vector3 targetPosition;  // プレイヤーの位置
     private GameObject player;
     private SpriteRenderer spriteRenderer;
@@ -22,8 +19,6 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     public async UniTask Start()
     {
         bossData = await AddressLoader.AddressLoad<BossData>(AddressableAssetAddress.BOSS_DATA);
-        attackCooldown = bossData.firstAttackInterval;
-        prepareAttackCooldown = bossData.prepareAttackInterval;
         hp = bossData.hp;
         spriteRenderer = GetComponent<SpriteRenderer>();
         sourceColor = spriteRenderer.color;
@@ -35,30 +30,10 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
         this.UpdateAsObservable()
         .Subscribe(_ =>
         {
-            Debug.Log(playerInRange);
             TrackingPlayerMove();
             if (playerInRange)
             {
-                if (prepareAttackCooldown <= 0)
-                {
-                    // 攻撃
-                    if (attackCooldown <= 0)
-                    {
-                        //ClawAttack();
-                        // FirstAttackIntervalの時間だけ攻撃を遅らせ、その後は通常の攻撃間隔
-                        attackCooldown = isFirstAttack ? bossData.firstAttackInterval : bossData.attackInterval;
-                        isFirstAttack = false;
-                    }
-                    else
-                    {
-                        attackCooldown -= Time.deltaTime;
-                    }
-                }
-                else
-                {
-                    PrepareAttack();
-                    prepareAttackCooldown -= Time.deltaTime;
-                }
+                PrepareAttack();
             }
             else
             {
