@@ -3,23 +3,33 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+using pool;
+using System.Collections;
 
 public class BossScript : MonoBehaviour, IEnemy,IDamaged
 {
+    private int maxActiveBullets;
+    private float hp;
+    private float bulletMoveSpeed;
+    private int activeBulletsCount = 0;
+    [SerializeField] private BossBulletPool bulletPool;
     private BossData bossData;
     private Subject<Unit> onDestroyed = new Subject<Unit>();
     public IObservable<Unit> OnDestroyed => onDestroyed;
+    public Subject<bool> isAttack = new Subject<bool>();
     private CompositeDisposable disposable = new CompositeDisposable();
     private bool playerInRange = false;
     private Vector3 targetPosition;  // プレイヤーの位置
     private GameObject player;
     private SpriteRenderer spriteRenderer;
     private Color sourceColor;
-    private float hp;
     public async UniTask Start()
     {
+        bulletPool = BossBulletPool.Instance;
         bossData = await AddressLoader.AddressLoad<BossData>(AddressableAssetAddress.BOSS_DATA);
         hp = bossData.hp;
+        bulletMoveSpeed = bossData.bulletMoveSpeed;
+        maxActiveBullets = bossData.maxActiveBullets;
         spriteRenderer = GetComponent<SpriteRenderer>();
         sourceColor = spriteRenderer.color;
         CheckAttackRange();
@@ -34,6 +44,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
             if (playerInRange)
             {
                 PrepareAttack();
+                BreathAttack();
             }
             else
             {
@@ -51,6 +62,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     }
     private void PrepareAttack()
     {
+        isAttack.OnNext(true);
         Debug.Log("攻撃態勢");
         spriteRenderer.color = new Color(255, 0, 0);
     }
@@ -60,7 +72,36 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     }
     private void BreathAttack()
     {
+        // 現在アクティブなBulletの数が上限に達しているか確認
+        if (activeBulletsCount < maxActiveBullets)
+        {
+            // PoolからBulletを取得
+            GameObject bullet = bulletPool.GetObject();
 
+            // Bulletの位置をボスの位置にセット
+            bullet.transform.position = transform.position;
+
+            // Bulletのカウンタを増やす
+            activeBulletsCount++;
+
+            // Bulletをプレイヤーの方向に動かす
+            StartCoroutine(MoveBullet(bullet));
+        }
+        isAttack.OnNext(false);
+    }
+    private IEnumerator MoveBullet(GameObject bullet)
+    {
+        Vector3 direction = (player.transform.position - transform.position).normalized; // ボスからプレイヤーに向かう方向ベクトル
+
+        for (float movedDistance = 0; movedDistance < 30f; movedDistance += bulletMoveSpeed * Time.deltaTime) // moveDistanceは射程
+        {
+            bullet.transform.position += direction * bulletMoveSpeed * Time.deltaTime;
+            yield return null;
+        }
+
+        // Bulletが目的地に到達したら、非アクティブにしてPoolに返す
+        bullet.SetActive(false);
+        activeBulletsCount--; // Bulletのカウンタを減少
     }
     private void ClawAttack()
     {
