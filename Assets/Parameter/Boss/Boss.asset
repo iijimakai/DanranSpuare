@@ -19,3 +19,5 @@ MonoBehaviour:
   <firstAttackInterval>k__BackingField: 1
   <prepareAttackInterval>k__BackingField: 5
   <trackingRange>k__BackingField: 8
+  <maxActiveBullets>k__BackingField: 50
+  <bulletMoveSpeed>k__BackingField: 10

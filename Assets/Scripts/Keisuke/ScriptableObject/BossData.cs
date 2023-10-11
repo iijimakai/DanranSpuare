@@ -10,4 +10,6 @@ public class BossData : ScriptableObject
     [field: SerializeField,Header("一発目の攻撃の間隔")] public float firstAttackInterval { get; private set; } // 一発目の攻撃の間隔
     [field: SerializeField,Header("攻撃態勢に入るまでの間隔")] public float prepareAttackInterval { get; private set; } // 攻撃態勢に入るまでの間隔
     [field: SerializeField,Header("追跡中にプレイヤーに近づける間隔")] public float trackingRange { get; private set; }
+    [field: SerializeField,Header("一度にアクティブにできるBulletの最大数")] public int maxActiveBullets { get; private set; } // 一度にアクティブにできるBulletの最大数
+    [field: SerializeField,Header("ブレスの弾速")] public float bulletMoveSpeed { get; private set; } // ブレスの弾速
 }

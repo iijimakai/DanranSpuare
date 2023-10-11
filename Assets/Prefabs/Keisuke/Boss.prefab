@@ -256,6 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c72f3d7767f45449117cf4a21cc331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxActiveBullets: 40
+  bulletPool: {fileID: 0}
 --- !u!1 &6773437824048682191
 GameObject:
   m_ObjectHideFlags: 0

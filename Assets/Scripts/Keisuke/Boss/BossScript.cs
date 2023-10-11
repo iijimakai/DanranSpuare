@@ -3,28 +3,35 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System;
+using pool;
+using System.Collections;
 
 public class BossScript : MonoBehaviour, IEnemy,IDamaged
 {
+    private int maxActiveBullets;
+    private float hp;
+    private float bulletMoveSpeed;
+    private int activeBulletsCount = 0;
+    [SerializeField] private BossBulletPool bulletPool;
     private BossData bossData;
-    private float attackCooldown;
-    private float prepareAttackCooldown; // 攻撃態勢のクールダウン
     private Subject<Unit> onDestroyed = new Subject<Unit>();
     public IObservable<Unit> OnDestroyed => onDestroyed;
+    public Subject<bool> isAttack = new Subject<bool>();
     private CompositeDisposable disposable = new CompositeDisposable();
     private bool playerInRange = false;
-    private bool isFirstAttack = true; // 一発目の攻撃かどうか
     private Vector3 targetPosition;  // プレイヤーの位置
     private GameObject player;
     private SpriteRenderer spriteRenderer;
-    private float hp;
+    private Color sourceColor;
     public async UniTask Start()
     {
+        bulletPool = BossBulletPool.Instance;
         bossData = await AddressLoader.AddressLoad<BossData>(AddressableAssetAddress.BOSS_DATA);
-        attackCooldown = bossData.firstAttackInterval;
-        prepareAttackCooldown = bossData.prepareAttackInterval;
         hp = bossData.hp;
+        bulletMoveSpeed = bossData.bulletMoveSpeed;
+        maxActiveBullets = bossData.maxActiveBullets;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        sourceColor = spriteRenderer.color;
         CheckAttackRange();
         player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
@@ -36,26 +43,12 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
             TrackingPlayerMove();
             if (playerInRange)
             {
-                if (prepareAttackCooldown <= 0)
-                {
-                    // 攻撃
-                    if (attackCooldown <= 0)
-                    {
-                        //ClawAttack();
-                        // FirstAttackIntervalの時間だけ攻撃を遅らせ、その後は通常の攻撃間隔
-                        attackCooldown = isFirstAttack ? bossData.firstAttackInterval : bossData.attackInterval;
-                        isFirstAttack = false;
-                    }
-                    else
-                    {
-                        attackCooldown -= Time.deltaTime;
-                    }
-                }
-                else
-                {
-                    PrepareAttack();
-                    prepareAttackCooldown -= Time.deltaTime;
-                }
+                PrepareAttack();
+                BreathAttack();
+            }
+            else
+            {
+                PrepareAttackCancel();
             }
         }).AddTo(disposable);
     }
@@ -69,12 +62,46 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     }
     private void PrepareAttack()
     {
+        isAttack.OnNext(true);
         Debug.Log("攻撃態勢");
         spriteRenderer.color = new Color(255, 0, 0);
     }
+    private void PrepareAttackCancel(){
+        Debug.Log("攻撃態勢キャンセル");
+        spriteRenderer.color = sourceColor;
+    }
     private void BreathAttack()
     {
+        // 現在アクティブなBulletの数が上限に達しているか確認
+        if (activeBulletsCount < maxActiveBullets)
+        {
+            // PoolからBulletを取得
+            GameObject bullet = bulletPool.GetObject();
 
+            // Bulletの位置をボスの位置にセット
+            bullet.transform.position = transform.position;
+
+            // Bulletのカウンタを増やす
+            activeBulletsCount++;
+
+            // Bulletをプレイヤーの方向に動かす
+            StartCoroutine(MoveBullet(bullet));
+        }
+        isAttack.OnNext(false);
+    }
+    private IEnumerator MoveBullet(GameObject bullet)
+    {
+        Vector3 direction = (player.transform.position - transform.position).normalized; // ボスからプレイヤーに向かう方向ベクトル
+
+        for (float movedDistance = 0; movedDistance < 30f; movedDistance += bulletMoveSpeed * Time.deltaTime) // moveDistanceは射程
+        {
+            bullet.transform.position += direction * bulletMoveSpeed * Time.deltaTime;
+            yield return null;
+        }
+
+        // Bulletが目的地に到達したら、非アクティブにしてPoolに返す
+        bullet.SetActive(false);
+        activeBulletsCount--; // Bulletのカウンタを減少
     }
     private void ClawAttack()
     {

@@ -6,6 +6,7 @@ using UniRx.Triggers;
 public class BossAttackRange : MonoBehaviour
 {
     public CompositeDisposable disposables = new CompositeDisposable();
+
     private GameObject player;
     private GameObject boss;
     [SerializeField] private GameObject triangleSprite;
@@ -41,13 +42,18 @@ public class BossAttackRange : MonoBehaviour
             }
         }).AddTo(disposables);
     }
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerStay2D(Collider2D col)
     {
         if (col.gameObject.CompareTag(TagName.Player))
         {
             bossScript.SetPlayerInRange(true);
             bossScript.SetTargetPosition(col.transform.position);
-            triangleSprite.SetActive(true);
+            bossScript.isAttack.Where(_isAttack => _isAttack == true)
+            .Subscribe(_ => triangleSprite.SetActive(true))
+            .AddTo(disposables);
+            bossScript.isAttack.Where(_isAttack => _isAttack == false)
+            .Subscribe(_ => triangleSprite.SetActive(false))
+            .AddTo(disposables);
         }
     }
 
@@ -56,7 +62,6 @@ public class BossAttackRange : MonoBehaviour
         if (col.gameObject.CompareTag(TagName.Player))
         {
             bossScript.SetPlayerInRange(false);
-            triangleSprite.SetActive(false);
         }
     }
 }
