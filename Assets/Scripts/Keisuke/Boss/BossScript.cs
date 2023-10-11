@@ -17,6 +17,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     private Vector3 targetPosition;  // プレイヤーの位置
     private GameObject player;
     private SpriteRenderer spriteRenderer;
+    private Color sourceColor;
     private float hp;
     public async UniTask Start()
     {
@@ -25,6 +26,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
         prepareAttackCooldown = bossData.prepareAttackInterval;
         hp = bossData.hp;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        sourceColor = spriteRenderer.color;
         CheckAttackRange();
         player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
@@ -33,6 +35,7 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
         this.UpdateAsObservable()
         .Subscribe(_ =>
         {
+            Debug.Log(playerInRange);
             TrackingPlayerMove();
             if (playerInRange)
             {
@@ -57,6 +60,10 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
                     prepareAttackCooldown -= Time.deltaTime;
                 }
             }
+            else
+            {
+                PrepareAttackCancel();
+            }
         }).AddTo(disposable);
     }
     public void SetPlayerInRange(bool inRange)
@@ -71,6 +78,10 @@ public class BossScript : MonoBehaviour, IEnemy,IDamaged
     {
         Debug.Log("攻撃態勢");
         spriteRenderer.color = new Color(255, 0, 0);
+    }
+    private void PrepareAttackCancel(){
+        Debug.Log("攻撃態勢キャンセル");
+        spriteRenderer.color = sourceColor;
     }
     private void BreathAttack()
     {
