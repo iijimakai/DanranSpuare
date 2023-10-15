@@ -15,6 +15,7 @@ public class BossAttack : MonoBehaviour
     private int activeBulletsCount = 0;
     private GameObject player;
     private BossAttackRange bossAttackRange;
+    private BossMovement bossMovement;
     private bool isOnCooldown = false;
     private float warningToBreathDelay;
     private float postBreathInterval;
@@ -29,6 +30,7 @@ public class BossAttack : MonoBehaviour
         bulletPool = BossBulletPool.Instance;
         player = GameObject.FindGameObjectWithTag(TagName.Player);
         bossAttackRange = GetComponentInParent<BossAttack>().GetComponentInChildren<BossAttackRange>();
+        bossMovement = GetComponent<BossMovement>();
         warningToBreathDelay = bossDataLoader.bossData.warningToBreathDelay;
         postBreathInterval = bossDataLoader.bossData.postBreathInterval;
         bulletSpawnInterval = bossDataLoader.bossData.bulletSpawnInterval;
@@ -61,7 +63,7 @@ public class BossAttack : MonoBehaviour
         if(isOnCooldown) return;
 
         isOnCooldown = true;
-
+        bossMovement.isBreathing = true; // BreathAttack開始
         // 警告アラートを表示
         await bossAttackRange.ShowWarningAlert();
 
@@ -95,6 +97,7 @@ public class BossAttack : MonoBehaviour
         // ブレス後のインターバル
         await UniTask.Delay(TimeSpan.FromMilliseconds(postBreathInterval));
         isOnCooldown = false;
+        bossMovement.isBreathing = false; // BreathAttack終了
     }
     private async UniTask MoveBullet(GameObject bullet, Vector3 startPosition, Transform bossTransform)
     {

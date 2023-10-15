@@ -10,8 +10,8 @@ public class BossMovement : MonoBehaviour
     private float moveSpeed;
     private GameObject player;
     private float trackingRange;
-
-    private void Start()
+    public bool isBreathing = false;
+    private async UniTask Start()
     {
         await WaitForPlayerSpawn();
         player = GameObject.FindGameObjectWithTag(TagName.Player);
@@ -31,6 +31,7 @@ public class BossMovement : MonoBehaviour
 
     public void TrackingPlayerMove()
     {
+        if (isBreathing) return; // BreathAttackが行われている場合、移動処理をスキップ
         float distance = Vector3.Distance(player.transform.position, transform.position);
         if (distance >= trackingRange)
         {
