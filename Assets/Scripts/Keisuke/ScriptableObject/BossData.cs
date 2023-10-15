@@ -12,4 +12,10 @@ public class BossData : ScriptableObject
     [field: SerializeField,Header("追跡中にプレイヤーに近づける間隔")] public float trackingRange { get; private set; }
     [field: SerializeField,Header("一度にアクティブにできるBulletの最大数")] public int maxActiveBullets { get; private set; } // 一度にアクティブにできるBulletの最大数
     [field: SerializeField,Header("ブレスの弾速")] public float bulletMoveSpeed { get; private set; } // ブレスの弾速
+    [field: SerializeField, Header("警告アラートの距離")] public float alertDistanceFromPlayer { get; private set; } //
+    [field: SerializeField, Header("警告アラートの表示時間")] public float alertDisplayDuration { get; private set; } //
+    [field: SerializeField, Header("ブレスの持続時間")] public float breathDuration { get; private set; }
+    [field: SerializeField, Header("警告アラートが表示されてから何秒後にブレス攻撃を開始するか")] public float warningToBreathDelay { get; private set; } // 3
+    [field: SerializeField, Header("ブレスの密度")] public float bulletSpawnInterval { get; private set; } // 100
+    [field: SerializeField, Header("ブレス後のインターバル")] public float postBreathInterval { get; private set; } // 1最適
 }

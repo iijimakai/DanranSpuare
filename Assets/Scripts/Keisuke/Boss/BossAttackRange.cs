@@ -7,6 +7,7 @@ using System.Collections;
 
 public class BossAttackRange : MonoBehaviour
 {
+    private BossDataLoader bossDataLoader;
     public CompositeDisposable disposables = new CompositeDisposable();
     private GameObject player;
     private GameObject boss;
@@ -16,15 +17,29 @@ public class BossAttackRange : MonoBehaviour
     public float someFixedDistance = 0;
     private bool isOnCooldown = false;
     private float alertCooldownDuration = 0f;
+    private float alertDisplayDuration;
     [SerializeField] private GameObject warningAlert;
 
-    void Start()
+    private async UniTask Start()
     {
+        bossDataLoader = GetComponent<BossDataLoader>();
+        await bossDataLoader.LoadBossData();
+
+        await WaitForPlayerSpawn();
+
         boss = transform.parent.gameObject;
         player = GameObject.FindGameObjectWithTag(TagName.Player);
         bossScript = boss.GetComponent<BossScript>();
         LookAtPlayer();
         warningAlert.SetActive(false);
+        alertDisplayDuration = bossDataLoader.bossData.alertDisplayDuration;
+    }
+    private async UniTask WaitForPlayerSpawn()
+    {
+        while (GameObject.FindGameObjectWithTag(TagName.Player) == null)
+        {
+            await UniTask.Delay(500); // 0.5秒ごとに再試行
+        }
     }
     private void LookAtPlayer()
     {
@@ -49,23 +64,21 @@ public class BossAttackRange : MonoBehaviour
     }
     public async UniTask ShowWarningAlert()
     {
-        //if (isOnCooldown) return;
-
-        //isOnCooldown = true;
-
         // 警告アラートをプレイヤーの方向を向くように設定
         Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
         float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
         warningAlert.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
 
+        // プレイヤーの近くの位置を計算
+        float distanceFromPlayer = bossDataLoader.bossData.alertDistanceFromPlayer;; // プレイヤーからの距離を調整
+        Vector3 alertPosition = player.transform.position - (directionToPlayer * distanceFromPlayer);
+        warningAlert.transform.position = alertPosition;
+
         // 警告アラートを表示
         warningAlert.SetActive(true);
-        await UniTask.Delay(TimeSpan.FromSeconds(1));
-        warningAlert.SetActive(false);
-
-        // クールダウン
-        //await UniTask.Delay(TimeSpan.FromSeconds(alertCooldownDuration));
-        //isOnCooldown = false;
+        Observable.Timer(TimeSpan.FromSeconds(1))
+            .Subscribe(_ => warningAlert.SetActive(false))
+            .AddTo(disposables);
     }
     private void OnTriggerStay2D(Collider2D col)
     {
@@ -73,10 +86,6 @@ public class BossAttackRange : MonoBehaviour
         {
             bossScript.SetPlayerInRange(true);
             bossScript.SetTargetPosition(col.transform.position);
-            // if(!warningAlert.activeSelf && !isOnCooldown)
-            // {
-            //     ShowWarningAlert().Forget();
-            // }
         }
     }
 

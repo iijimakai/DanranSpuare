@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9192695630182784287}
   - component: {fileID: 8998037554360843140}
   - component: {fileID: 46786791805804856}
+  - component: {fileID: 4494713347109441727}
   m_Layer: 0
   m_Name: AttackRange
   m_TagString: Untagged
@@ -131,6 +132,19 @@ MonoBehaviour:
   lerpFactor: 1
   someFixedDistance: 7
   warningAlert: {fileID: 4778425598762510808}
+--- !u!114 &4494713347109441727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 829558994311007441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9693ea6393a48e94b9fed2a01fd03ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossData: {fileID: 0}
 --- !u!1 &1258345095339700556
 GameObject:
   m_ObjectHideFlags: 0
