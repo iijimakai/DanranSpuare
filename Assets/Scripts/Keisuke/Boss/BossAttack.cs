@@ -13,11 +13,13 @@ public class BossAttack : MonoBehaviour
     private float bulletMoveSpeed;
     private int activeBulletsCount = 0;
     private GameObject player;
-
+    private BossAttackRange bossAttackRange;
+    private bool isOnCooldown = false;
     private void Start()
     {
         bulletPool = BossBulletPool.Instance;
         player = GameObject.FindGameObjectWithTag(TagName.Player);
+        bossAttackRange = GetComponentInParent<BossAttack>().GetComponentInChildren<BossAttackRange>();
     }
 
     public void InitializeAttackData(float bulletSpeed, int maxBullets)
@@ -38,14 +40,22 @@ public class BossAttack : MonoBehaviour
 
     public async UniTask BreathAttack(Transform bossTransform)
     {
-        if (activeBulletsCount < maxActiveBullets)
+        if(isOnCooldown) return;
+        isOnCooldown = true;
+        await bossAttackRange.ShowWarningAlert();
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        while (activeBulletsCount < maxActiveBullets)
         {
             GameObject bullet = bulletPool.GetObject();
             bullet.transform.position = bossTransform.position;
             activeBulletsCount++;
 
-            await MoveBullet(bullet, bossTransform);
+            _ = MoveBullet(bullet, bossTransform);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(1));
         }
+        await UniTask.WaitUntil(() => activeBulletsCount == 0);
+        isOnCooldown = false;
     }
 
     private async UniTask MoveBullet(GameObject bullet, Transform bossTransform)
