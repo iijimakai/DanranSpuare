@@ -143,6 +143,10 @@ GameObject:
   - component: {fileID: 1258345095339700557}
   - component: {fileID: 7237304088947241816}
   - component: {fileID: 3036066565845402222}
+  - component: {fileID: 3263292737830804030}
+  - component: {fileID: -8433269983751109903}
+  - component: {fileID: 8529750825385001038}
+  - component: {fileID: 4384818539524018261}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -256,8 +260,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c72f3d7767f45449117cf4a21cc331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxActiveBullets: 40
+--- !u!114 &3263292737830804030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258345095339700556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6244848e1ae9b445992ccbcf474d040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   bulletPool: {fileID: 0}
+--- !u!114 &-8433269983751109903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258345095339700556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70354c9cae8d95943bcba3e09c523214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8529750825385001038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258345095339700556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a191146609e7c5b46bc391c23d3e3cd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4384818539524018261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258345095339700556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9693ea6393a48e94b9fed2a01fd03ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossData: {fileID: 0}
 --- !u!1 &6773437824048682191
 GameObject:
   m_ObjectHideFlags: 0
