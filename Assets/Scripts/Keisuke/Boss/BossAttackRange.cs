@@ -22,6 +22,7 @@ public class BossAttackRange : MonoBehaviour
 
     private async UniTask Start()
     {
+        warningAlert.SetActive(false);
         bossDataLoader = GetComponent<BossDataLoader>();
         await bossDataLoader.LoadBossData();
 
@@ -31,7 +32,6 @@ public class BossAttackRange : MonoBehaviour
         player = GameObject.FindGameObjectWithTag(TagName.Player);
         bossScript = boss.GetComponent<BossScript>();
         LookAtPlayer();
-        warningAlert.SetActive(false);
         alertDisplayDuration = bossDataLoader.bossData.alertDisplayDuration;
     }
     private async UniTask WaitForPlayerSpawn()

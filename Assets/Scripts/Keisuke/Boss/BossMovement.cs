@@ -13,9 +13,16 @@ public class BossMovement : MonoBehaviour
 
     private void Start()
     {
+        await WaitForPlayerSpawn();
         player = GameObject.FindGameObjectWithTag(TagName.Player);
     }
-
+    private async UniTask WaitForPlayerSpawn()
+    {
+        while (GameObject.FindGameObjectWithTag(TagName.Player) == null)
+        {
+            await UniTask.Delay(500); // 0.5秒ごとに再試行
+        }
+    }
     public void InitializeMovementData(float moveSpeed, float trackingRange)
     {
         this.moveSpeed = moveSpeed;
