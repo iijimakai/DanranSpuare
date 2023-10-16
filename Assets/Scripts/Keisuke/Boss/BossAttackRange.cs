@@ -70,7 +70,7 @@ public class BossAttackRange : MonoBehaviour
         warningAlert.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
 
         // プレイヤーの近くの位置を計算
-        float distanceFromPlayer = bossDataLoader.bossData.alertDistanceFromPlayer;; // プレイヤーからの距離を調整
+        float distanceFromPlayer = bossDataLoader.bossData.alertDistanceFromPlayer; // プレイヤーからの距離を調整
         Vector3 alertPosition = player.transform.position - (directionToPlayer * distanceFromPlayer);
         warningAlert.transform.position = alertPosition;
 
