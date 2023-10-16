@@ -102,6 +102,10 @@ public class BossAttack : MonoBehaviour
     private async UniTask MoveBullet(GameObject bullet, Vector3 startPosition, Transform bossTransform)
     {
         bullet.transform.position = startPosition;
+        if (bullet.GetComponent<BossBulletDamage>() == null) // 例外処理
+        {
+            bullet.AddComponent<BossBulletDamage>();
+        }
         Vector3 direction = (player.transform.position - bossTransform.position).normalized;
 
         for (float movedDistance = 0; movedDistance < 30f; movedDistance += bulletMoveSpeed * Time.deltaTime)

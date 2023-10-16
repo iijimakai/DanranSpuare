@@ -20,4 +20,11 @@ MonoBehaviour:
   <prepareAttackInterval>k__BackingField: 5
   <trackingRange>k__BackingField: 8
   <maxActiveBullets>k__BackingField: 50
+  <initialDamage>k__BackingField: 5
   <bulletMoveSpeed>k__BackingField: 10
+  <alertDistanceFromPlayer>k__BackingField: 0
+  <alertDisplayDuration>k__BackingField: 1
+  <breathDuration>k__BackingField: 4
+  <warningToBreathDelay>k__BackingField: 3
+  <bulletSpawnInterval>k__BackingField: 100
+  <postBreathInterval>k__BackingField: 1
