@@ -13,6 +13,8 @@ namespace Shun_System
         [field: SerializeField, Header("キャラクターの種類")] public CharacterType characterType { get; private set; }
         [field: SerializeField, Header("Wave Controller")] public  WaveController waveController { get; private set; }
         [field: SerializeField, Header("Main Camera")] public Camera mainCamera { get; private set; }
+        [field: SerializeField, Header("MiniMap Camera")] public MiniMapController miniMapController { get; private set; }
+
 
         private PlayerBase _playerBase;
         private PlayerInput _playerInput;
@@ -49,6 +51,7 @@ namespace Shun_System
 
             _playerBase = Instantiate(playerBase).GetComponent<PlayerBase>();
             _playerInput = Instantiate(playerInput).GetComponent<PlayerInput>();
+            miniMapController.player = _playerBase.gameObject.transform;
 
             _playerInput.Init(_playerBase);
             _playerBase.Init(playerData, rodType, mainCamera);

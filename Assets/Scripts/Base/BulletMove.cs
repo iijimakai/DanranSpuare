@@ -11,6 +11,7 @@ namespace Bullet
     public class BulletMove : MonoBehaviour
     {
         private int attackPoint = 5;
+        //private float enemyAttackPoint = 5f;
         private float bulletSpeed;
         private float firingRange;
         private float deleteTime;
@@ -22,6 +23,7 @@ namespace Bullet
         private Subject<Unit> isRangeOutSide = new Subject<Unit>();
         private CompositeDisposable disposables = new CompositeDisposable();
         private CompositeDisposable deleteTimedisposables = new CompositeDisposable();
+        //[SerializeField] private PlayerHPController playerHPController;
 
         /// <summary>
         /// 生成時の初期化
@@ -31,6 +33,7 @@ namespace Bullet
         /// <param name="_firingRange">射程</param>
         public void Init(int _attackPoint, float _bulletSpeed, float _firingRange, float _deleteTime, int _penetrateCount, Transform pos)
         {
+            //enemyAttackPoint = _enemyAttackPoint;
             attackPoint = _attackPoint;
             bulletSpeed = _bulletSpeed;
             firingRange = _firingRange;
@@ -98,6 +101,7 @@ namespace Bullet
                 if (other.CompareTag(TagName.Player))
                 {
                     //TODO: プレイヤーの被弾処理
+                    //other.GetComponent<PlayerHPController>().PlayerTakeDamage(enemyAttackPoint);
                     other.GetComponent<PlayerBase>().Damage(attackPoint);
                     RemoveBullet();
                 }
