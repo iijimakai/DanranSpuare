@@ -15,7 +15,6 @@ namespace Shun_Player
     public class PlayerBase : MonoBehaviour
     {
         [SerializeField] GameObject rend;
-
         [SerializeField] private GameObject[] ice = new GameObject[8];
         private CanvasShow canvasShow;
         public float hp {  get; private set; }

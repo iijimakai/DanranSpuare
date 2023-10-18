@@ -22,12 +22,14 @@ namespace Shun_System
         private CompositeDisposable rodDisposables = new CompositeDisposable();
 
         private Animator plAni;
+        private SpriteRenderer plRend;
 
         public void Init(PlayerBase _playerBase)
         {
             playerBase = _playerBase;
 
             plAni = playerBase.GetRend.GetComponent<Animator>();
+            plRend = playerBase.GetRend.GetComponent<SpriteRenderer>();
 
             //‚±‚±‚©‚ç
             this.UpdateAsObservable()
@@ -72,8 +74,7 @@ namespace Shun_System
                     }
                     else
                     {
-                        plAni.SetBool("Walking", false);
-                        plAni.SetBool("Idling", true);
+                        plAni.SetBool("Charging", true);
                         defaultPos = Input.mousePosition;
                         isRodCharging = true;
                     }
@@ -96,6 +97,9 @@ namespace Shun_System
                     playerBase.SetRod(MouseMove().normalized);
                     RodCoolTime(PlayerParameter.rodSetCoolTime);
                     defaultPos = Vector2.zero;
+                    plAni.SetBool("Walking", false);
+                    plAni.SetBool("Idling", true);
+                    plAni.SetBool("Charging", false);
                     isRodCharging = false;
                 })
                 .AddTo(rodDisposables);
@@ -104,6 +108,9 @@ namespace Shun_System
                 .Where(_ => Input.GetKeyDown(KeyCode.Escape) && isRodCharging)
                 .Subscribe(_ => {
                     defaultPos = Vector2.zero;
+                    plAni.SetBool("Walking", false);
+                    plAni.SetBool("Idling", true);
+                    plAni.SetBool("Charging", false);
                     isRodCharging = false;
                 })
                 .AddTo(rodDisposables);
