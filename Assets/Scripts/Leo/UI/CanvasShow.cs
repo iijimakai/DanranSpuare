@@ -44,9 +44,9 @@ public class CanvasShow : MonoBehaviour
     public async UniTask GameOverCanvasShow()
     {
         // 以下3行は必要に応じてコメントアウトして
-        //youLoseCanvas.SetActive(true);
-        //await UniTask.Delay(TimeSpan.FromSeconds(3)); // 待機処理
-        //youLoseCanvas.SetActive(false);
+        youLoseCanvas.SetActive(true);
+        await UniTask.Delay(TimeSpan.FromSeconds(3)); // 待機処理
+        youLoseCanvas.SetActive(false);
         // ここまで
 
         gameOverCanvas.SetActive(true);

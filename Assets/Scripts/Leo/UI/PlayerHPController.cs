@@ -1,28 +1,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Shun_Player;
 
 public class PlayerHPController : MonoBehaviour
 {
     [SerializeField] private SceneChange sceneChange;
-    public Slider playerHpSlider;
+    public GameObject hpSlider;
+    private Slider playerHpSlider;
     [SerializeField] private TextMeshProUGUI playerHpText;
-    [SerializeField, Header("プレイヤーの最大HP量")] private float playerMaxHp = 100f; // プレイヤーHPの最大値
-    [SerializeField, Header("現在のプレイヤーHP")] private float currentPlayerHp; // プレイヤーの現在のHP
+    [Header("プレイヤーの最大HP量")] private float playerMaxHp = 100f; // プレイヤーHPの最大値
+    [Header("現在のプレイヤーHP")] private float currentPlayerHp; // プレイヤーの現在のHP
+    //private TextMeshProUGUI playerHpText;
+    //private Slider playerHpSlider;
+
+
 
     private void Awake()
     {
-        playerHpSlider = GetComponent<Slider>();
-        currentPlayerHp = playerMaxHp; // HPを最大値で初期化
-        playerHpSlider.maxValue = playerMaxHp; // HPの最大値を設定
-        UpdatePlayerHpUI();
+        //playerHpText = Instantiate(_playerHpText);
+        //playerHpSlider = Instantiate(_playerHpSlider);
+
+        playerHpSlider = hpSlider.GetComponent<Slider>();
+        playerHpText.text = PlayerParameter.maxHp.ToString();
+        //playerHpSlider = GetComponent<Slider>();
+        currentPlayerHp = PlayerParameter.maxHp; // HPを最大値で初期化
+        Debug.Log("HP"+currentPlayerHp);
+        playerHpSlider.maxValue = PlayerParameter.maxHp; // HPの最大値を設定
+        UpdatePlayerHpUI(currentPlayerHp);
     }
 
     // プレイヤーのダメージ
-    public void PlayerTakeDamage(float damage)
+    public void PlayerTakeDamage(float hp)
     {
-        currentPlayerHp -= damage;
-        UpdatePlayerHpUI();
+        currentPlayerHp = hp;
+        UpdatePlayerHpUI(hp);
 
         if (currentPlayerHp <= 0)
         {
@@ -38,13 +50,15 @@ public class PlayerHPController : MonoBehaviour
         {
             currentPlayerHp = playerMaxHp;
         }
-        UpdatePlayerHpUI();
+        UpdatePlayerHpUI(currentPlayerHp);
     }
 
     // PlayerHPテキストを更新する
-    private void UpdatePlayerHpUI()
+    public void UpdatePlayerHpUI(float hp)
     {
-        playerHpSlider.value = currentPlayerHp;
+        Debug.Log(hp);
+        playerHpSlider.value = hp;
+
         if (currentPlayerHp > 0)
         {
             playerHpText.text = currentPlayerHp.ToString() + "/100"; // テキストにプレイヤーHPを表示

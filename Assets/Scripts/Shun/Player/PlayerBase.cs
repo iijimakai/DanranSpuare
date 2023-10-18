@@ -14,11 +14,16 @@ namespace Shun_Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerBase : MonoBehaviour
     {
+        [SerializeField] private GameObject _playerHPController;
+        private PlayerHPController playerHPController;
+
         [SerializeField] GameObject rend;
 
         [SerializeField] private GameObject[] ice = new GameObject[8];
         private CanvasShow canvasShow;
+        private SceneChange sceneChange;
         public float hp {  get; private set; }
+        public float maxHp { get; private set; }
         public float havingRod { get; private set; }
 
         private string rodAddress;
@@ -46,6 +51,7 @@ namespace Shun_Player
 
             parameter.Init(_data);
             ParameterBuff.Init();
+            playerHPController = Instantiate(_playerHPController).GetComponent<PlayerHPController>();
 
             ParameterBuff.hpLevel.Subscribe(_ => hp += _data.hp * _data.hpBuff).AddTo(disposables);
 
@@ -107,7 +113,7 @@ namespace Shun_Player
             BulletPoolUtile.RemoveBullet(rod.gameObject);
         }
 
-        public void SetChargeRatio(float charge)
+        public void SetChargeRatio(float charge) //ˆø”‚Évector2“ü‚ê‚Ä–îˆó‚Ì•ûŒü‚ð‰æ–Ê‚É‰ž‚¶‚ÄŒü‚«‚ª•Ï‚í‚é‚æ‚¤‚É‚·‚é
         {
             charge = charge > parameter.chargeMax ? parameter.chargeMax : charge;
             chargeRatio = charge / parameter.chargeMax * 100;
@@ -158,9 +164,11 @@ namespace Shun_Player
         public void Damage(float damage)
         {
             if (isStar) return;
-            Debug.Log("P1 : "+hp +"->"+ (hp - damage));
-            
+            Debug.Log("P1 : " + hp + "->" + (hp - damage));
+
             hp -= damage;
+            Debug.Log(hp);
+            playerHPController.PlayerTakeDamage(hp);
             if (hp <= 0)
             {
                 Dead();
@@ -232,6 +240,7 @@ namespace Shun_Player
             canvasShow.GameOverCanvasShow();
             rend.SetActive(false);
             Destroy(gameObject);
+            //sceneChange.ToGameOverScene();
         }
 
         private void OnDestroy()
