@@ -173,7 +173,7 @@ namespace Enemy
         /// <param name="bullet">弾のスクリプト</param>
         public void ShotInit(BulletMove bullet, Transform shotPos)
         {
-            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, data.deleteTime, shotPos);
+            bullet.Init(data.attackPoint, data.bulletSpeed, data.firingRange, data.deleteTime, 0, shotPos);
         }
 
         /// <summary>
@@ -248,11 +248,11 @@ namespace Enemy
                 other.GetComponent<PlayerBase>().Damage(touchDamage);
             }
 
-            //if (other.gameObject.CompareTag(TagName.Wave))
-            //{
-            //    other.GetComponent<IceCollision>().Damage(this);
-            //    //Debug.Log("Wave");
-            //}
+            if (other.gameObject.CompareTag(TagName.Wave))
+            {
+                other.GetComponent<IceCollision>().Damage(this);
+                //Debug.Log("Wave");
+            }
         }
     }
 }

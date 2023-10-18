@@ -15,6 +15,7 @@ namespace Bullet
         private float bulletSpeed;
         private float firingRange;
         private float deleteTime;
+        private int penetrateCount;
         [SerializeField, Header("敵かプレイヤーか"), Tooltip("プレイヤーならチェックを入れない")] private bool isEnemy;
 
         private Vector3 initalPosition = new Vector3();
@@ -30,13 +31,14 @@ namespace Bullet
         /// <param name="_attackPoint">攻撃力</param>
         /// <param name="_bulletSpeed">スピード</param>
         /// <param name="_firingRange">射程</param>
-        public void Init(int _attackPoint, float _bulletSpeed, float _firingRange, float _deleteTime, Transform pos)
+        public void Init(int _attackPoint, float _bulletSpeed, float _firingRange, float _deleteTime, int _penetrateCount, Transform pos)
         {
             //enemyAttackPoint = _enemyAttackPoint;
             attackPoint = _attackPoint;
             bulletSpeed = _bulletSpeed;
             firingRange = _firingRange;
             deleteTime = _deleteTime;
+            penetrateCount = _penetrateCount;
             isRangeOutSide.Subscribe(_ => RemoveBullet())
                 .AddTo(disposables);
             Shot(pos);
@@ -108,10 +110,11 @@ namespace Bullet
             {
                 if (other.CompareTag(TagName.Enemy))
                 {
-                    Debug.Log("Bullet");
-                    RemoveBullet();
+                    //Debug.Log("Bullet");
                     //TODO: エネミーの被弾処理
-                    Debug.Log("attackPoint"+attackPoint);
+                    //Debug.Log("attackPoint"+attackPoint);
+                    penetrateCount--;
+                    if (penetrateCount < 0) RemoveBullet();
                     other.GetComponent<IDamaged>().Damage(attackPoint);
                 }
             }

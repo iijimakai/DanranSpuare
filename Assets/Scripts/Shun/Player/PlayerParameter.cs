@@ -22,6 +22,9 @@ namespace Shun_Player
         public static CharacterType characterType { get; private set; }
 
         public static float starTime { get; private set; }
+        public static float dashRange { get; private set; }
+        public static float dashTime { get; private set; }
+        public static float dashCoolTime { get; private set; }
         public static float rodStock { get; private set; }
         public static float rodRecastTime { get; private set; }
         public static float rodSetCoolTime { get; private set; }
@@ -32,6 +35,7 @@ namespace Shun_Player
         public static float speed { get; private set; }
         public static float maxRodHp { get; private set; }
         public static float rodDmg { get; private set; }
+        public static int penetrateCount { get; private set; }
         public static float shotSpeed { get; private set; }
         public static float rodRange { get; private set; }
         public static float rodInterval { get; private set; }
@@ -49,6 +53,9 @@ namespace Shun_Player
         {
             characterType = _data.characterType;
             starTime = _data.starTime;
+            dashRange = _data.dashRange;
+            dashTime = _data.dashTime;
+            dashCoolTime = _data.dashCoolTime;
             rodStock = _data.rodStock;
             rodRecastTime = _data.rodRecastTime;
             rodSetCoolTime = _data.rodSetCoolTime;
@@ -59,6 +66,7 @@ namespace Shun_Player
             speed = _data.speed;
             maxRodHp = _data.rodHp;
             rodDmg = _data.rodDmg;
+            penetrateCount = _data.penetrateCount;
             shotSpeed = _data.shotSpeed;
             rodRange = _data.rodRange;
             rodInterval = _data.rodInterval;

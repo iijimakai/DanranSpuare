@@ -18,7 +18,6 @@ namespace Shun_Player
         private PlayerHPController playerHPController;
 
         [SerializeField] GameObject rend;
-
         [SerializeField] private GameObject[] ice = new GameObject[8];
         private CanvasShow canvasShow;
         private SceneChange sceneChange;
@@ -156,6 +155,29 @@ namespace Shun_Player
             CameraMove(transform.position);
         }
 
+        public IEnumerator Dash(Vector2 dashVec)
+        {
+            if (dashVec == Vector2.zero) yield break;
+
+            var startTime = Time.timeSinceLevelLoad;
+            Vector2 startPos = transform.position;
+            Vector2 endPos = startPos + (dashVec * parameter.dashRange);
+            var diff = Time.timeSinceLevelLoad - startTime;
+            var rate = diff / parameter.dashTime;
+
+            isStar = true;
+            while (rate <= 1)
+            {
+                diff = Time.timeSinceLevelLoad - startTime;
+                rate = diff / parameter.dashTime;
+
+                transform.position = Vector2.Lerp(startPos, endPos, rate);
+                //Debug.Log(Vector2.Lerp(startPos, endPos, rate));
+                yield return new WaitForFixedUpdate();
+            }
+            isStar = false;
+        }
+
         private void CameraMove(Vector2 pos)
         {
             mainCamera.transform.position = new Vector3(pos.x, pos.y, -10);
@@ -173,13 +195,13 @@ namespace Shun_Player
             {
                 Dead();
             }
-            Delay();
+            Delay(starTime);
         }
 
-        private async void Delay()
+        private async void Delay(float time)
         {
             isStar = true;
-            await Task.Delay(TimeSpan.FromSeconds(starTime));
+            await Task.Delay(TimeSpan.FromSeconds(time));
             isStar = false;
         }
 

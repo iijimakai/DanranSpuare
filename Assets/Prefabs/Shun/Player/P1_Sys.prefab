@@ -141,6 +141,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerHPController: {fileID: 1716206922435638937, guid: 43aa158eb37cc8a41b2bbb758dd740e4, type: 3}
   rend: {fileID: 5577577751248994091}
+  rodUp: {fileID: 21300000, guid: 705f154aa53221946a20925302cc2717, type: 3}
+  rodDown: {fileID: 21300000, guid: 700e5e64bbaa73d4da75df6252c226ad, type: 3}
   ice:
   - {fileID: 3615486168178109046}
   - {fileID: 912006109085714624}
