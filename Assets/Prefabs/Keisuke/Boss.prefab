@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4293975149654236906}
   - component: {fileID: 9192695630182784287}
-  - component: {fileID: 8998037554360843140}
+  - component: {fileID: 6769078440748355919}
   - component: {fileID: 46786791805804856}
   - component: {fileID: 4494713347109441727}
   m_Layer: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &8998037554360843140
+--- !u!60 &6769078440748355919
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 5
-  lerpFactor: 1
+  lerpFactor: 3
   someFixedDistance: 7
   warningAlert: {fileID: 4778425598762510808}
 --- !u!114 &4494713347109441727
@@ -352,8 +352,8 @@ Transform:
   m_GameObject: {fileID: 4778425598762510808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -9.891701, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 9}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 2.57, y: 9, z: 9}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1258345095339700554}
   m_RootOrder: 1
