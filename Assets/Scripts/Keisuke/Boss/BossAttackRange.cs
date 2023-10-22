@@ -65,14 +65,16 @@ public class BossAttackRange : MonoBehaviour
     public async UniTask ShowWarningAlert()
     {
         // 警告アラートをプレイヤーの方向を向くように設定
-        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+        Vector3 directionToPlayer = (player.transform.position - boss.transform.position).normalized;
         float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-        warningAlert.transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        warningAlert.transform.rotation = Quaternion.Euler(0, 0, angle + 90);
+        Debug.Log("Angle to Player: " + angle);
 
         // プレイヤーの近くの位置を計算
         float distanceFromPlayer = bossDataLoader.bossData.alertDistanceFromPlayer; // プレイヤーからの距離を調整
         Vector3 alertPosition = player.transform.position - (directionToPlayer * distanceFromPlayer);
         warningAlert.transform.position = alertPosition;
+        Debug.DrawLine(boss.transform.position, boss.transform.position + directionToPlayer * 10, Color.red, 3f);
 
         // 警告アラートを表示
         warningAlert.SetActive(true);
