@@ -22,6 +22,8 @@ MonoBehaviour:
   <maxActiveBullets>k__BackingField: 50
   <initialDamage>k__BackingField: 5
   <bulletMoveSpeed>k__BackingField: 10
+  <bulletLeftSideWidth>k__BackingField: -2
+  <bulletRightSideWidth>k__BackingField: 2
   <alertDistanceFromPlayer>k__BackingField: 0
   <alertDisplayDuration>k__BackingField: 1
   <breathDuration>k__BackingField: 4

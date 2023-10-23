@@ -20,6 +20,8 @@ public class BossAttack : MonoBehaviour
     private float warningToBreathDelay;
     private float postBreathInterval;
     private float bulletSpawnInterval;
+    private float bulletLeftSideWidth;
+    private float bulletRightSideWidth;
     private async UniTask Start()
     {
         bossDataLoader = GetComponent<BossDataLoader>();
@@ -34,6 +36,8 @@ public class BossAttack : MonoBehaviour
         warningToBreathDelay = bossDataLoader.bossData.warningToBreathDelay;
         postBreathInterval = bossDataLoader.bossData.postBreathInterval;
         bulletSpawnInterval = bossDataLoader.bossData.bulletSpawnInterval;
+        bulletLeftSideWidth = bossDataLoader.bossData.bulletLeftSideWidth;
+        bulletRightSideWidth = bossDataLoader.bossData.bulletRightSideWidth;
     }
     private async UniTask WaitForPlayerSpawn()
     {
@@ -79,8 +83,8 @@ public class BossAttack : MonoBehaviour
             if (activeBulletsCount < maxActiveBullets)
             {
                 // 三つの弾を一度に発射
-                Vector3 offsetLeft = new Vector3(-1, 0, 0);
-                Vector3 offsetRight = new Vector3(1, 0, 0);
+                Vector3 offsetLeft = new Vector3(bulletLeftSideWidth, 0, 0);
+                Vector3 offsetRight = new Vector3(bulletRightSideWidth, 0, 0);
 
                 // 中央の弾
                 _ = MoveBullet(bulletPool.GetObject(), bossTransform.position, bossTransform);

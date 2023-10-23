@@ -13,6 +13,8 @@ public class BossData : ScriptableObject
     [field: SerializeField,Header("一度にアクティブにできるBulletの最大数")] public int maxActiveBullets { get; private set; } // 一度にアクティブにできるBulletの最大数
     [field: SerializeField,Header("ブレスのダメージ")] public int initialDamage { get; private set; }
     [field: SerializeField,Header("ブレスの弾速")] public float bulletMoveSpeed { get; private set; } // ブレスの弾速
+    [field: SerializeField,Header("ブレスの左側の幅")] public float bulletLeftSideWidth { get; private set; } // -2
+    [field: SerializeField,Header("ブレスの右側の幅")] public float bulletRightSideWidth { get; private set; } // 2
     [field: SerializeField, Header("警告アラートの距離")] public float alertDistanceFromPlayer { get; private set; } //
     [field: SerializeField, Header("警告アラートの表示時間")] public float alertDisplayDuration { get; private set; } //
     [field: SerializeField, Header("ブレスの持続時間")] public float breathDuration { get; private set; }
