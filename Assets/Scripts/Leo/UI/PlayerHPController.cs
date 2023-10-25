@@ -16,17 +16,13 @@ public class PlayerHPController : MonoBehaviour
 
 
 
-    private void Awake()
+    public void Initialize(float maxHp)
     {
-        //playerHpText = Instantiate(_playerHpText);
-        //playerHpSlider = Instantiate(_playerHpSlider);
-
         playerHpSlider = hpSlider.GetComponent<Slider>();
-        playerHpText.text = PlayerParameter.maxHp.ToString();
-        //playerHpSlider = GetComponent<Slider>();
-        currentPlayerHp = PlayerParameter.maxHp; // HPを最大値で初期化
-        Debug.Log("HP"+currentPlayerHp);
-        playerHpSlider.maxValue = PlayerParameter.maxHp; // HPの最大値を設定
+        playerHpText.text = maxHp.ToString();
+        currentPlayerHp = maxHp;
+        Debug.Log("HP" + currentPlayerHp);
+        playerHpSlider.maxValue = maxHp;
         UpdatePlayerHpUI(currentPlayerHp);
     }
 
@@ -56,17 +52,17 @@ public class PlayerHPController : MonoBehaviour
     // PlayerHPテキストを更新する
     public void UpdatePlayerHpUI(float hp)
     {
-        Debug.Log(hp);
         playerHpSlider.value = hp;
+        playerMaxHp = playerHpSlider.maxValue;
 
         if (currentPlayerHp > 0)
         {
-            playerHpText.text = currentPlayerHp.ToString() + "/100"; // テキストにプレイヤーHPを表示
+            playerHpText.text = currentPlayerHp.ToString() + "/" + playerMaxHp.ToString();
         }
         if (currentPlayerHp < 0)
         {
             currentPlayerHp = 0;
-            playerHpText.text = currentPlayerHp.ToString() + "/100"; // テキストにプレイヤーHPを表示
+            playerHpText.text = currentPlayerHp.ToString() + "/" + playerMaxHp.ToString();
         }
     }
 }
