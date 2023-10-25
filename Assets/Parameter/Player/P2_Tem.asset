@@ -25,12 +25,12 @@ MonoBehaviour:
   <hpBuff>k__BackingField: 1
   <chargeDmg>k__BackingField: 1
   <chargeDmgBuff>k__BackingField: 1
-  <waveTime>k__BackingField: 1
-  <speed>k__BackingField: 2
+  <waveTime>k__BackingField: 0.8
+  <speed>k__BackingField: 8
   <speedBuff>k__BackingField: 1
   <rodHp>k__BackingField: 1
   <rodHpBuff>k__BackingField: 1
-  <rodDmg>k__BackingField: 1
+  <rodDmg>k__BackingField: 300
   <rodDmgBuff>k__BackingField: 1
   <penetrateCount>k__BackingField: 1
   <shotSpeed>k__BackingField: 1
