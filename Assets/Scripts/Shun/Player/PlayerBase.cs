@@ -51,7 +51,7 @@ namespace Shun_Player
             parameter.Init(_data);
             ParameterBuff.Init();
             playerHPController = Instantiate(_playerHPController).GetComponent<PlayerHPController>();
-
+            playerHPController.Initialize(parameter.maxHp);
             ParameterBuff.hpLevel.Subscribe(_ => hp += _data.hp * _data.hpBuff).AddTo(disposables);
 
             hp = parameter.maxHp;

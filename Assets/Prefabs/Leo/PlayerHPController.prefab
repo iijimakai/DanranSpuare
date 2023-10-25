@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneChange: {fileID: 2431385319340968230, guid: fea742adb5db4d6409a647b5e50395a8, type: 3}
-  playerHpSlider: {fileID: 7262076482131584551}
+  hpSlider: {fileID: 7262076482131584549}
   playerHpText: {fileID: 5678377397523956824}
 --- !u!1001 &3064245447020596516
 PrefabInstance:
@@ -177,14 +177,8 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5455380289966441035, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
   m_PrefabInstance: {fileID: 3064245447020596516}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7262076482131584551 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5642578131197799171, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
+--- !u!1 &7262076482131584549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5642578131197799169, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
   m_PrefabInstance: {fileID: 3064245447020596516}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
