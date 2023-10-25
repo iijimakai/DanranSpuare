@@ -11,7 +11,7 @@ namespace Shun_Player
         {
             if (other.gameObject.CompareTag(TagName.Enemy))
             {
-                other.GetComponent<EnemyBase>().Damage((int)PlayerParameter.chargeDmg);
+                //other.gameObject.GetComponent<EnemyBase>().Damage((int)PlayerParameter.chargeDmg);
             }
         }
         public void Damage(EnemyBase target)
