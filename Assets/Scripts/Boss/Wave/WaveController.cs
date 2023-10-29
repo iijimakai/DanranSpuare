@@ -48,6 +48,8 @@ namespace wave
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
         [SerializeField] private int maxActiveEnemies;
+        public Vector2 stageMinBounds; // ステージの左下
+        public Vector2 stageMaxBounds; // ステージの右上
 
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
@@ -174,6 +176,9 @@ namespace wave
                 UnityEngine.Random.Range(-spawnRadius, spawnRadius),UnityEngine.Random.Range(-spawnRadius, spawnRadius),0
             );
             Vector3 spawnPosition = playerPosition + spawnOffset;
+            // ステージの境界内に収まるようにスポーン位置を調整
+            spawnPosition.x = Mathf.Clamp(spawnPosition.x, stageMinBounds.x, stageMaxBounds.x);
+            spawnPosition.y = Mathf.Clamp(spawnPosition.y, stageMinBounds.y, stageMaxBounds.y);
             Vector3 cameraPosition = mainCamera.transform.position;
             float distanceToCamera = Vector3.Distance(spawnPosition, cameraPosition);
             // カメラの範囲外のしきい値(範囲)を計算する
