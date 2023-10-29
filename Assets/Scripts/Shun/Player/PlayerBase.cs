@@ -39,6 +39,8 @@ namespace Shun_Player
 
         private Animator animator;
         private Camera mainCamera;
+        private Vector2 stageBottomLeft = new Vector2(-28, -16); // 左範囲
+        private Vector2 stageTopRight = new Vector2(28, 16);   // 右範囲
 
         public void Init(PlayerData _data, string _rodAddress, Camera mainCamera)
         {
@@ -57,7 +59,7 @@ namespace Shun_Player
             hp = parameter.maxHp;
             havingRod = parameter.rodStock;
             starTime = parameter.starTime;
- 
+
             rodAddress = _rodAddress;
 
             direction.Value = Direction.Right;
@@ -135,6 +137,13 @@ namespace Shun_Player
         /// <param name="moveVec">移動ベクトル</param>
         public void Move(Vector2 moveVec)
         {
+            // 移動後の位置を計算
+            Vector2 newPosition = (Vector2)transform.position + moveVec * parameter.speed * Time.deltaTime;
+
+            // 移動後の位置が範囲外の場合、範囲内に調整
+            newPosition.x = Mathf.Clamp(newPosition.x, stageBottomLeft.x, stageTopRight.x);
+            newPosition.y = Mathf.Clamp(newPosition.y, stageBottomLeft.y, stageTopRight.y);
+
             animator.SetBool("Idling", false);
             animator.SetBool("Walking", true);
             if (moveVec == Vector2.zero)
@@ -151,7 +160,7 @@ namespace Shun_Player
             {
                 direction.Value = Direction.Left;
             }
-            transform.Translate(moveVec * parameter.speed * Time.deltaTime);
+            transform.position = newPosition;
             CameraMove(transform.position);
         }
 
