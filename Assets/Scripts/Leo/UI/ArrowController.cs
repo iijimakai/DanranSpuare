@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour
 {
     [SerializeField] SpriteRenderer arrow;
-    [SerializeField] float arrowScele = 80f;  // 矢印の表示倍率
+    [SerializeField] float arrowScele = 300f;  // 矢印の表示倍率
 
     private void Start()
     {
@@ -19,40 +19,38 @@ public class ArrowController : MonoBehaviour
 
     public void ArrowMove()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        //条件を追加予定
+        if (Input.GetMouseButton(0))
         {
-            if (Input.GetMouseButton(0))
+            arrow.gameObject.SetActive(true);
+
+            // mouseとplayerの距離を計算してその長さを使用
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = 0;
+
+            float scale = (transform.position - pos).magnitude / Screen.width * arrowScele;
+            if (scale < 1.20f)
             {
-                arrow.gameObject.SetActive(true);
-
-                // mouseとplayerの距離を計算してその長さを使用
-                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                pos.z = 0;
-
-                float scale = (transform.position - pos).magnitude / Screen.width * arrowScele;
-                if (scale < 1.20f)
-                {
-                    arrow.transform.localScale = new Vector3(scale, scale, 1);
-                }
-                if (scale >= 1.20f)
-                {
-                    arrow.transform.localScale = new Vector3(1.20f, 1.20f, 1);
-                }
-
-                float angle = Vector3.Angle(transform.position - pos, Vector3.up);
-
-                Vector3 cross = Vector3.Cross(transform.position - pos, Vector3.up);
-                if (cross.z > 0)
-                {
-                    angle *= -1;
-                }
-                arrow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                arrow.transform.localScale = new Vector3(scale, scale, 1);
+            }
+            if (scale >= 1.20f)
+            {
+                arrow.transform.localScale = new Vector3(1.20f, 1.20f, 1);
             }
 
-            if(Input.GetMouseButtonUp(0))
+            float angle = Vector3.Angle(transform.position - pos, Vector3.up);
+
+            Vector3 cross = Vector3.Cross(transform.position - pos, Vector3.up);
+            if (cross.z > 0)
             {
-                arrow.gameObject.SetActive(false);
+                angle *= -1;
             }
+            arrow.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            arrow.gameObject.SetActive(false);
         }
     }
 }
