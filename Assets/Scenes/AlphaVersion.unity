@@ -2216,7 +2216,7 @@ PrefabInstance:
     - target: {fileID: 7133647357138933633, guid: ba83de7270f14414982806d4d11dee1b, type: 3}
       propertyPath: <miniMapController>k__BackingField
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1390843627}
     - target: {fileID: 7133647357138933634, guid: ba83de7270f14414982806d4d11dee1b, type: 3}
       propertyPath: m_Name
       value: PlayerEntryPoint
@@ -4265,6 +4265,8 @@ MonoBehaviour:
   playerObject: {fileID: 0}
   mainCamera: {fileID: 1209319260}
   maxActiveEnemies: 20
+  stageMinBounds: {x: 0, y: 0}
+  stageMaxBounds: {x: 0, y: 0}
 --- !u!4 &1846541363
 Transform:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ using System;
 public class CanvasShow : MonoBehaviour
 {
     [SerializeField] private GameObject canvasDifficulty; // 難易度Canvas
+    [SerializeField] private GameObject characterSelectFreamL; // キャラクター選択フレームL
+    [SerializeField] private GameObject characterSelectFreamR; // キャラクター選択フレームR
     [SerializeField] private GameObject canvasMenu; // メニューCanvas
     [SerializeField] private GameObject youLoseCanvas; // 負けCanvas
     [SerializeField] private GameObject gameOverCanvas; // ゲームオーバーCanvas
@@ -17,6 +19,20 @@ public class CanvasShow : MonoBehaviour
     public void OnClickConfirmButton() // 確定ボタン
     {
         canvasDifficulty.SetActive(true);
+    }
+
+    // CharacterSceneで使用
+    public void OnClickCharacterButtonL() // キャラクターLボタン
+    {
+        characterSelectFreamR.SetActive(false);
+        characterSelectFreamL.SetActive(true);
+    }
+
+    // CharacterSceneで使用
+    public void OnClickCharacterButtonR() // キャラクターRボタン
+    {
+        characterSelectFreamL.SetActive(false);
+        characterSelectFreamR.SetActive(true);
     }
 
     // CharacterScene(難易度選択画面)で使用
