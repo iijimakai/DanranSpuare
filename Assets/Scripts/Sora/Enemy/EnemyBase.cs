@@ -247,12 +247,6 @@ namespace Enemy
             {
                 other.GetComponent<PlayerBase>().Damage(touchDamage);
             }
-
-            if (other.gameObject.CompareTag(TagName.Wave))
-            {
-                other.GetComponent<IceCollision>().Damage(this);
-                //Debug.Log("Wave");
-            }
         }
     }
 }
