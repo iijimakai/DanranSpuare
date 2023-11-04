@@ -597,6 +597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 815147365}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
@@ -2600,10 +2602,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1081556443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc2c168c924010f4f92cb088de6a684a, type: 3}
+  m_Script: {fileID: 11500000, guid: d8d6e51fe4f10bd428724078b42ada27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 7928314737692965651, guid: 446256bca7edd704c932ecb9215cbeb0, type: 3}
+  objectPrefab: {fileID: 4859780632823858289, guid: 446256bca7edd704c932ecb9215cbeb0, type: 3}
 --- !u!1 &1088419531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3748,6 +3750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 815147365}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
@@ -4244,7 +4248,7 @@ MonoBehaviour:
   waves:
   - totalEnemies: 1
     enemies:
-    - enemyPrefab: {fileID: 1258345095339700556, guid: 6642e59fc99afdf41b1b5d3e9bc9aaec, type: 3}
+    - enemyPrefab: {fileID: 8411390453103420787, guid: 6642e59fc99afdf41b1b5d3e9bc9aaec, type: 3}
       spawnChance: 1
       maxSpawnCount: 80
       currentSpawnCount: 0
@@ -4825,6 +4829,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 815147365}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
