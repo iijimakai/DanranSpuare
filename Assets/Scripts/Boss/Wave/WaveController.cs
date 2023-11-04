@@ -40,7 +40,6 @@ namespace wave
         public int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
-        private CancellationTokenSource cancelToken;
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
         [SerializeField] private PlayerBase playerObject;
         private bool isPlayerSpawn = false;
@@ -60,7 +59,6 @@ namespace wave
             playerObject = playerBase;
             isPlayerSpawn = true;
             OnPlayerSpawned();
-            cancelToken = new CancellationTokenSource();
             enemyPools = new Dictionary<GameObject, EnemyObjPool>();
             foreach (Wave wave in waves)
             {
@@ -74,7 +72,7 @@ namespace wave
                     }
                 }
             }
-            await SpawnWave(cancelToken.Token);
+            await SpawnWave();
         }
         public void OnPlayerSpawned()
         {
@@ -87,54 +85,76 @@ namespace wave
         /// </summary>
         /// <param name="token">非同期タスクのキャンセルトークン</param>
         /// <returns>ウェーブのスポーンが完了したら完了するタスク</returns>
-        private async Task SpawnWave(CancellationToken token)
+        private async UniTask SpawnWave()
         {
             if(currentWaveIndex < waves.Length)
             {
-                //Taskキャンセル時のエラー通知を消す処理
-                var cancellationTask = new TaskCompletionSource<bool>();
-                using (token.Register(() => cancellationTask.TrySetResult(true))) // usingスコープから外れたら自動的にオブジェクトをDispose();
+                // コンポーネントが破壊されるとキャンセルされるトークン
+                var ct = this.GetCancellationTokenOnDestroy();
+
+                await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: ct);
+
+                Wave currentWave = waves[currentWaveIndex];
+                for (int i = 0; i < currentWave.totalEnemies;)
                 {
-                    if (await Task.WhenAny(Task.Delay(TimeSpan.FromSeconds(3)), cancellationTask.Task) != cancellationTask.Task)
+                    if (ct.IsCancellationRequested)
                     {
-                        Wave currentWave = waves[currentWaveIndex];
-                        for(int i = 0; i < currentWave.totalEnemies;)
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                Debug.Log("task cancel.");
-                                return;
-                            }
-                            if (totalActiveEnemies.Value >= maxActiveEnemies)
-                            {
-                                await Observable.EveryUpdate()
-                                    .Where(_ => totalActiveEnemies.Value < maxActiveEnemies && !token.IsCancellationRequested)
-                                    .First()
-                                    .ToTask(token)
-                                    .ConfigureAwait(false); // エラー通知を無効にする
-                            }
-                            int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
-                            EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
-                            if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
-                            {
-                                SpawnEnemy(chosenEnemy);
-                                chosenEnemy.currentSpawnCount++;
-                                i++;
-                            }
-                            if (await Task.WhenAny(Task.Delay(2000), cancellationTask.Task) == cancellationTask.Task) // エネミーのスポーン間隔
-                            {
-                                return;
-                            }
-                        }
-                        await totalActiveEnemies
-                            .Where(activeEnemies => activeEnemies == 0)
-                            .First()
-                            .ToTask(token);
-                        currentWaveIndex++;
-                        // 全ての敵がスポーンした後に遅延を入れてからフラグを更新
-                        allEnemiesSpawned = true; // 全ての敵がスポーンしたのでフラグを更新
+                        return;
                     }
+
+                    if (totalActiveEnemies.Value >= maxActiveEnemies)
+                    {
+                        await UniTask.WaitUntil(() => totalActiveEnemies.Value < maxActiveEnemies, cancellationToken: ct);
+                    }
+
+                    int enemyIndex = GetRandomEnemyIndex(currentWave.enemies);
+                    EnemyType chosenEnemy = currentWave.enemies[enemyIndex];
+                    if (chosenEnemy.currentSpawnCount < chosenEnemy.maxSpawnCount)
+                    {
+                        SpawnEnemy(chosenEnemy);
+                        chosenEnemy.currentSpawnCount++;
+                        i++;
+                    }
+
+                    await UniTask.Delay(2000, cancellationToken: ct); // エネミーのスポーン間隔
                 }
+
+                allEnemiesSpawned = true;
+                OnAllEnemiesSpawned();
+                Debug.Log(allEnemiesSpawned);
+
+                // 全ての敵が破壊されるのを待つ
+                await UniTask.WaitUntil(() => totalActiveEnemies.Value == 0, cancellationToken: ct);
+
+                currentWaveIndex++;
+            }
+        }
+        // すべての敵がスポーンされた後に呼び出されるメソッド
+        private void OnAllEnemiesSpawned()
+        {
+            // 敵の数が0になるのを監視する
+            totalActiveEnemies
+                .Where(activeEnemies => activeEnemies == 0 && allEnemiesSpawned)
+                .Take(1) // 一回だけ処理する
+                .Subscribe(_ => ProceedToNextWave())
+                .AddTo(this);
+        }
+        // 次のウェーブに進む処理
+        private async void ProceedToNextWave()
+        {
+            Debug.Log("NextWave");
+            waveAdvanceCount++;
+            if(waveAdvanceCount == waveClearCount)
+            {
+                canvasShow.ClearCanvasShow();
+                SceneManager.LoadScene("ClearScene");
+            }
+            else
+            {
+                destroyedEnemyCount = 0;
+                OnEnemyDestroyed.OnNext(destroyedEnemyCount);
+                allEnemiesSpawned = false; // フラグをリセット
+                await SpawnWave();
             }
         }
         /// <summary>
@@ -162,6 +182,7 @@ namespace wave
         /// 指定されたタイプの敵をスポーン
         /// </summary>
         /// <param name="enemyType">スポーンさせる敵のタイプ</param>
+        int count = 0;
         private void SpawnEnemy(EnemyType enemyType)
         {
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
@@ -192,6 +213,8 @@ namespace wave
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
+                count++;
+                Debug.Log("DestroyCount"+count);
                 DestroyEnemy(spawnedEnemyObject, spawnedEnemy);
             }).AddTo(this);
         }
@@ -205,30 +228,8 @@ namespace wave
             totalActiveEnemies.Value--;
             destroyedEnemyCount++;
             OnEnemyDestroyed.OnNext(destroyedEnemyCount);
-            Debug.Log(allEnemiesSpawned);
-            if (allEnemiesSpawned && totalActiveEnemies.Value == 0)
-            {
-                Debug.Log("NextWave");
-                waveAdvanceCount++;
-                if(waveAdvanceCount == waveClearCount){
-                    canvasShow.ClearCanvasShow();
-                    SceneManager.LoadScene("ClearScene");
-                }
-                destroyedEnemyCount = 0;
-                OnEnemyDestroyed.OnNext(destroyedEnemyCount);
-                allEnemiesSpawned = false; // フラグをリセット
-                cancelToken = new CancellationTokenSource();
-                await SpawnWave(cancelToken.Token);
-            }
             enemyObject.SetActive(false);
             enemy.ResetSubscription();
-        }
-        /// <summary>
-        /// ゲームオブジェクトが無効になったときに呼び出され、進行中のウェーブのスポーンをキャンセルする処理。
-        /// </summary>
-        void OnDisable()  // ゲーム停止時に呼び出されるメソッド
-        {
-            cancelToken.Cancel();  // 非同期タスクを停止する
         }
     }
 }
