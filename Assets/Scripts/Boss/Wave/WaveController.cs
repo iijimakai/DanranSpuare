@@ -53,7 +53,7 @@ namespace wave
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
-        public async void Init(PlayerBase playerBase)
+        public async UniTask Init(PlayerBase playerBase)
         {
             Debug.Log(playerBase);
             playerObject = playerBase;
@@ -72,7 +72,17 @@ namespace wave
                     }
                 }
             }
-            await SpawnWave();
+            // このキャンセルトークンはこの MonoBehaviourが破棄されたときにキャンセルされる
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+            try
+            {
+                await SpawnWave().AttachExternalCancellation(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時の例外をキャッチし、処理を中断または適切なクリーンアップを行います
+                Debug.Log("Init was cancelled due to scene unload.");
+            }
         }
         public void OnPlayerSpawned()
         {
@@ -121,7 +131,6 @@ namespace wave
 
                 allEnemiesSpawned = true;
                 OnAllEnemiesSpawned();
-                Debug.Log(allEnemiesSpawned);
 
                 // 全ての敵が破壊されるのを待つ
                 await UniTask.WaitUntil(() => totalActiveEnemies.Value == 0, cancellationToken: ct);
@@ -140,21 +149,29 @@ namespace wave
                 .AddTo(this);
         }
         // 次のウェーブに進む処理
-        private async void ProceedToNextWave()
+        private async UniTask ProceedToNextWave()
         {
-            Debug.Log("NextWave");
-            waveAdvanceCount++;
-            if(waveAdvanceCount == waveClearCount)
+            var ct = this.GetCancellationTokenOnDestroy();
+            try
             {
-                canvasShow.ClearCanvasShow();
-                SceneManager.LoadScene("ClearScene");
+                Debug.Log("NextWave");
+                waveAdvanceCount++;
+                if(waveAdvanceCount == waveClearCount)
+                {
+                    canvasShow.ClearCanvasShow();
+                    SceneManager.LoadScene("ClearScene");
+                }
+                else
+                {
+                    destroyedEnemyCount = 0;
+                    OnEnemyDestroyed.OnNext(destroyedEnemyCount);
+                    allEnemiesSpawned = false; // フラグをリセット
+                    await SpawnWave().AttachExternalCancellation(ct);
+                }
             }
-            else
+            catch (OperationCanceledException)
             {
-                destroyedEnemyCount = 0;
-                OnEnemyDestroyed.OnNext(destroyedEnemyCount);
-                allEnemiesSpawned = false; // フラグをリセット
-                await SpawnWave();
+                Debug.Log("cancel");
             }
         }
         /// <summary>
