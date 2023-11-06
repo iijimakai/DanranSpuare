@@ -53,7 +53,7 @@ namespace wave
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
         /// </summary>
-        public async void Init(PlayerBase playerBase)
+        public async UniTask Init(PlayerBase playerBase)
         {
             Debug.Log(playerBase);
             playerObject = playerBase;
@@ -72,7 +72,17 @@ namespace wave
                     }
                 }
             }
-            await SpawnWave();
+            // このキャンセルトークンはこの MonoBehaviourが破棄されたときにキャンセルされる
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+            try
+            {
+                await SpawnWave().AttachExternalCancellation(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時の例外をキャッチし、処理を中断または適切なクリーンアップを行います
+                Debug.Log("Init was cancelled due to scene unload.");
+            }
         }
         public void OnPlayerSpawned()
         {

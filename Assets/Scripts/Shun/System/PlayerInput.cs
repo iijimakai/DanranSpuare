@@ -42,8 +42,11 @@ namespace Shun_System
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButton(0) && !isRodCharging)
                 .Subscribe(_ => { 
-                    playerBase.Move(MouseMove().normalized);
-                    //UIにスティックの座標を渡す
+                    if (playerBase != null)
+                    {
+                        playerBase.Move(MouseMove().normalized);
+                        // UIにスティックの座標を渡す
+                    }
                 })
                 .AddTo(moveDisposables);
 
@@ -118,15 +121,37 @@ namespace Shun_System
 
         private async void DashCoolTime(float time)
         {
-            isDashCoolTime = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(time));
-            isDashCoolTime = false;
+            try
+            {
+                var cancellationToken = this.GetCancellationTokenOnDestroy();
+                isDashCoolTime = true;
+                await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセルされた時の処理
+            }
+            finally
+            {
+                isDashCoolTime = false;
+            }
         }
         private async void RodCoolTime(float time)
         {
-            isRodCoolTime = true;
-            await UniTask.Delay(TimeSpan.FromSeconds(time));
-            isRodCoolTime = false;
+            try
+            {
+                var cancellationToken = this.GetCancellationTokenOnDestroy();
+                isRodCoolTime = true;
+                await UniTask.Delay(TimeSpan.FromSeconds(time), cancellationToken: cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセルされた時の処理
+            }
+            finally
+            {
+                isRodCoolTime = false;
+            }
         }
 
         /// <summary>

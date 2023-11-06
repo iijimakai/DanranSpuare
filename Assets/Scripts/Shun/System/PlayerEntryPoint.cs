@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using wave;
+using System;
 
 namespace Shun_System
 {
@@ -20,11 +21,13 @@ namespace Shun_System
         private PlayerInput _playerInput;
         void Awake()
         {
-            Init(characterType);
+            Init(characterType).Forget();
         }
 
-        private async void Init(CharacterType type)
+        private async UniTask Init(CharacterType type)
         {
+            // ????????????MonoBehaviour?????????????????
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
             string playerType = "";
             string rodType = "";
             switch (type)
@@ -56,9 +59,26 @@ namespace Shun_System
             _playerInput.Init(_playerBase);
             _playerBase.Init(playerData, rodType, mainCamera);
 
-            waveController.Init(_playerBase);
-
-            Destroy(gameObject);
+            try
+            {
+                await waveController.Init(_playerBase).AttachExternalCancellation(cancellationToken);
+                // gameObject?????????????????????????
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    // ????????????????????????
+                    Destroy(gameObject);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // ???????????????
+                Debug.Log("Initialization was canceled.");
+            }
+            catch (Exception ex)
+            {
+                // ?????????
+                Debug.LogError($"Error initialize {ex}");
+            }
         }
     }
 }

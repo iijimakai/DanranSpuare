@@ -61,9 +61,19 @@ public class BossAttack : MonoBehaviour
     {
         spriteRenderer.color = originalColor;
     }
-
+    // BulletPoolからオブジェクトを取得し、nullでないことを確認
+    private GameObject GetBullet()
+    {
+        var bullet = bulletPool.GetObject();
+        if (bullet == null) {
+            Debug.LogWarning("Bullet object is destroyed or pool is empty.");
+        }
+        return bullet;
+    }
     public async UniTask BreathAttack(Transform bossTransform)
     {
+        // このキャンセルトークンはこの MonoBehaviour が破棄されたときにキャンセルされる
+        var cancellationToken = this.GetCancellationTokenOnDestroy();
         if(isOnCooldown) return;
 
         isOnCooldown = true;
@@ -78,10 +88,12 @@ public class BossAttack : MonoBehaviour
         float breathDuration = bossDataLoader.bossData.breathDuration; // 例: ブレスを2秒間続ける
         float startTime = Time.time;
 
-        while(Time.time - startTime < breathDuration)
+        while(Time.time - startTime < breathDuration && !cancellationToken.IsCancellationRequested)
         {
             if (activeBulletsCount < maxActiveBullets)
             {
+                var bullet = GetBullet();
+                if(bullet == null) return;
                 // 三つの弾を一度に発射
                 Vector3 offsetLeft = new Vector3(bulletLeftSideWidth, 0, 0);
                 Vector3 offsetRight = new Vector3(bulletRightSideWidth, 0, 0);
@@ -105,20 +117,37 @@ public class BossAttack : MonoBehaviour
     }
     private async UniTask MoveBullet(GameObject bullet, Vector3 startPosition, Transform bossTransform)
     {
+        // bullet または player が破棄されているかを確認
+        if (bullet == null || player == null) return;
         bullet.transform.position = startPosition;
         if (bullet.GetComponent<BossBulletDamage>() == null) // 例外処理
         {
             bullet.AddComponent<BossBulletDamage>();
         }
         Vector3 direction = (player.transform.position - bossTransform.position).normalized;
+        // ここでキャンセルトークンを取得します
+        var cancellationToken = this.GetCancellationTokenOnDestroy();
 
-        for (float movedDistance = 0; movedDistance < 30f; movedDistance += bulletMoveSpeed * Time.deltaTime)
+        try
         {
-            bullet.transform.position += direction * bulletMoveSpeed * Time.deltaTime;
-            await UniTask.Yield();
-        }
+            for (float movedDistance = 0; movedDistance < 30f; movedDistance += bulletMoveSpeed * Time.deltaTime)
+            {
+                // オブジェクトが破棄されていないか&キャンセルされていないかを確認
+                if (bullet == null || player == null || cancellationToken.IsCancellationRequested) break;
 
-        bullet.SetActive(false);
-        activeBulletsCount--;
+                bullet.transform.position += direction * bulletMoveSpeed * Time.deltaTime;
+                // 次のフレームまで待機
+                await UniTask.NextFrame(cancellationToken);
+            }
+        }
+        finally
+        {
+            // 安全なクリーンアップ
+            if (bullet != null)
+            {
+                bullet.SetActive(false);
+            }
+            activeBulletsCount--;
+        }
     }
 }
