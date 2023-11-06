@@ -57,11 +57,25 @@ namespace Enemy
             speed = data.speed;
             touchDamage = data.touchDamage;
         }
-        public async void ColorChange()
+        public async UniTaskVoid ColorChange()
         {
-            spriteRenderer.color = new Color(255,0,0);
-            await UniTask.Delay(TimeSpan.FromSeconds(0.2));
-            spriteRenderer.color = sorceColor;
+            // オブジェクトが破棄された時に処理をキャンセルするためのトークンを取得
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+
+            try
+            {
+                spriteRenderer.color = new Color(255, 0, 0);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2), cancellationToken: cancellationToken);
+                // 破棄されていないか再度チェック
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.color = sorceColor;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("ColorChange was cancelled.");
+            }
         }
         /// <summary>
         /// Subscribleの購読を開始する

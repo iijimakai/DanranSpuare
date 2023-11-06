@@ -26,7 +26,7 @@ namespace Shun_System
 
         private async UniTask Init(CharacterType type)
         {
-            // ????????????MonoBehaviour?????????????????
+            // Cancel token, canceled when monobehavior is destroyed
             var cancellationToken = this.GetCancellationTokenOnDestroy();
             string playerType = "";
             string rodType = "";
@@ -62,22 +62,20 @@ namespace Shun_System
             try
             {
                 await waveController.Init(_playerBase).AttachExternalCancellation(cancellationToken);
-                // gameObject?????????????????????????
+                // Ensure asynchronous processing is complete before destroying object
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    // ????????????????????????
+                    // Destroy this object after necessary initialization is complete
                     Destroy(gameObject);
                 }
             }
             catch (OperationCanceledException)
             {
-                // ???????????????
-                Debug.Log("Initialization was canceled.");
+                Debug.Log("Initialization was canceled."); // normal state
             }
             catch (Exception ex)
             {
-                // ?????????
-                Debug.LogError($"Error initialize {ex}");
+                Debug.LogError($"Error initialize {ex}"); // other
             }
         }
     }
