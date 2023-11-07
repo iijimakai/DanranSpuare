@@ -2391,7 +2391,7 @@ PrefabInstance:
       objectReference: {fileID: 1419245197}
     - target: {fileID: 7133647357138933633, guid: ba83de7270f14414982806d4d11dee1b, type: 3}
       propertyPath: <characterType>k__BackingField
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7133647357138933633, guid: ba83de7270f14414982806d4d11dee1b, type: 3}
       propertyPath: <waveController>k__BackingField
@@ -3494,9 +3494,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9980a8c1b3da0504e9628b58f80f4361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
-  hpSlider: {fileID: 633286175}
+  sceneChange: {fileID: 0}
+  hpSlider: {fileID: 0}
+  playerHpText: {fileID: 0}
 --- !u!4 &1455916677
 Transform:
   m_ObjectHideFlags: 0
@@ -4333,6 +4333,8 @@ MonoBehaviour:
   playerObject: {fileID: 0}
   mainCamera: {fileID: 1419245197}
   maxActiveEnemies: 20
+  stageMinBounds: {x: 0, y: 0}
+  stageMaxBounds: {x: 0, y: 0}
 --- !u!4 &1846541363
 Transform:
   m_ObjectHideFlags: 0

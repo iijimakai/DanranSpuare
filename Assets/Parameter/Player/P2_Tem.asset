@@ -30,14 +30,14 @@ MonoBehaviour:
   <speedBuff>k__BackingField: 1
   <rodHp>k__BackingField: 1
   <rodHpBuff>k__BackingField: 1
-  <rodDmg>k__BackingField: 300
+  <rodDmg>k__BackingField: 1
   <rodDmgBuff>k__BackingField: 1
-  <penetrateCount>k__BackingField: 1
-  <shotSpeed>k__BackingField: 1
+  <penetrateCount>k__BackingField: 3
+  <shotSpeed>k__BackingField: 3
   <shotSpeedBuff>k__BackingField: 1
-  <rodRange>k__BackingField: 1
+  <rodRange>k__BackingField: 5
   <rodRangeBuff>k__BackingField: 1
-  <rodInterval>k__BackingField: 1
+  <rodInterval>k__BackingField: 0.1
   <rodIntervalBuff>k__BackingField: 1
   <rodDuration>k__BackingField: 1
   <rodDurationBuff>k__BackingField: 1
