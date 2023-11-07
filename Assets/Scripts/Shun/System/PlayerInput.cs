@@ -17,6 +17,7 @@ namespace Shun_System
         private bool isRodCharging = false;
         private bool isRodCoolTime = false;
         private bool isDashCoolTime = false;
+        private bool isArrow = false;
 
         private CompositeDisposable moveDisposables = new CompositeDisposable();
         private CompositeDisposable rodDisposables = new CompositeDisposable();
@@ -24,12 +25,16 @@ namespace Shun_System
         private Animator plAni;
         private SpriteRenderer plRend;
 
+        ArrowController arrowController;
+
         public void Init(PlayerBase _playerBase)
         {
             playerBase = _playerBase;
 
             plAni = playerBase.GetRend.GetComponent<Animator>();
             plRend = playerBase.GetRend.GetComponent<SpriteRenderer>();
+            arrowController = gameObject.GetComponent<ArrowController>();
+
 
             //‚±‚±‚©‚ç
             this.UpdateAsObservable()
@@ -66,7 +71,7 @@ namespace Shun_System
             //‚±‚±‚Ü‚ÅˆÚ“®—p
 
             this.UpdateAsObservable()
-                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isRodCharging && !isRodCoolTime)
+                .Where(_ =>  Input.GetKeyDown(KeyCode.Z) && !isRodCharging && !isRodCoolTime && !isArrow)
                 .Subscribe(_ => {
                     if (playerBase.havingRod <= 0 ) 
                     {
@@ -77,6 +82,9 @@ namespace Shun_System
                         plAni.SetBool("Charging", true);
                         defaultPos = Input.mousePosition;
                         isRodCharging = true;
+                        //ˆÈ‰º2s’Ç‰Á
+                        //arrowController.ArrowMove();
+                        //isArrow = true;
                     }
                 })
                 .AddTo(rodDisposables);
@@ -101,6 +109,7 @@ namespace Shun_System
                     plAni.SetBool("Idling", true);
                     plAni.SetBool("Charging", false);
                     isRodCharging = false;
+                    //isArrow = false;
                 })
                 .AddTo(rodDisposables);
 
@@ -112,6 +121,7 @@ namespace Shun_System
                     plAni.SetBool("Idling", true);
                     plAni.SetBool("Charging", false);
                     isRodCharging = false;
+                    //isArrow = false;
                 })
                 .AddTo(rodDisposables);
         }

@@ -19,8 +19,9 @@ namespace Shun_Player
 
         [SerializeField] GameObject rend;
         [SerializeField] private GameObject[] ice = new GameObject[8];
-        private CanvasShow canvasShow;
-        private SceneChange sceneChange;
+        [SerializeField] private GameObject arrow;
+        [SerializeField] private CanvasShow canvasShow;
+        [SerializeField] private SceneChange sceneChange;
         public float hp {  get; private set; }
         public float maxHp { get; private set; }
         public float havingRod { get; private set; }
@@ -47,6 +48,7 @@ namespace Shun_Player
             this.mainCamera = mainCamera;
             canvasShow = FindObjectOfType<CanvasShow>().GetComponent<CanvasShow>();
             ice[0].gameObject.SetActive(false);
+            //arrow.gameObject.SetActive(false);
 
             animator = rend.GetComponent<Animator>();
 
@@ -90,6 +92,7 @@ namespace Shun_Player
         public async void SetRod(Vector2 vec)
         {
             Shock(vec);
+            //Arrow(vec);
 
             havingRod--;
             GiveRod();
@@ -249,6 +252,13 @@ namespace Shun_Player
             ice[0].GetComponent<ShockWave>().Set(pos, vec);
         }
 
+        //private void Arrow(Vector2 vec)
+        //{
+        //    ArrowShow();
+        //    Vector2 pos = transform.position;
+        //    arrow.GetComponent<ArrowController2>().Set(pos, vec);
+        //}
+
         private void IceSizeFix(bool xxxs, bool xxs, bool xs, bool s, bool m, bool l, bool xl)
         {
             for (int i = 1; i < ice.Length; i++)
@@ -265,13 +275,18 @@ namespace Shun_Player
             if (xl) ice[7].SetActive(true);
         }
 
+        //private void ArrowShow()
+        //{
+        //    arrow.SetActive(true);
+        //}
+
         private async void Dead()
         {
             Debug.Log("GameOver");
-            canvasShow.GameOverCanvasShow();
+            //canvasShow.GameOverCanvasShow();
             rend.SetActive(false);
             Destroy(gameObject);
-            //sceneChange.ToGameOverScene();
+            sceneChange.ToGameOverScene();
         }
 
         private void OnDestroy()

@@ -2,12 +2,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using System;
+using Shun_System;
+using Shun_Constants;
+using System.Threading;
+
 
 public class SceneChange : MonoBehaviour
 {
     [SerializeField] private CanvasShow canvasShow;
-    [SerializeField] private float delayTime = 8f;
-    
+    [SerializeField] private float delayTime;
+
+    private CancellationToken cancellationToken;
+
+
+    private void Awake()
+    {
+        cancellationToken = this.GetCancellationTokenOnDestroy();
+    }
+
     // TitleSceneで使用
     public void OnClickStartButton() // タイトル(スタート)ボタン
     {
@@ -56,6 +68,7 @@ public class SceneChange : MonoBehaviour
     // GameScene(menu画面) & GameOverSceneで使用
     public void OnClickRetireButton() // 諦めるボタン
     {
+        //ToTitleScene();
         SceneManager.LoadScene("TitleScene");
     }
 
@@ -86,9 +99,47 @@ public class SceneChange : MonoBehaviour
     }
 
     // EasyGameScene & NormalGameScene & HardGameSceneで使用
-    public void ToTitleScene()
+    private async void ToTitleScene()
     {
-        canvasShow.GiveUpCanvasShow().Forget();
+        canvasShow.GiveUpCanvasShow();
+        await UniTask.Delay(TimeSpan.FromSeconds(4),cancellationToken: cancellationToken); // 待機処理
         SceneManager.LoadScene("TitleScene");
     }
+
+
+    /// <summary>
+    /// 今回のみ使用
+    /// </summary>
+    //今回のみ使用するGameScene
+    private async UniTask ToAlphaVersionSystem()
+    {
+        SceneManager.LoadScene("OperateScene1");
+        await UniTask.Delay(TimeSpan.FromSeconds(delayTime)); // 待機処理
+        SceneManager.LoadScene("AlphaVersion");
+    }
+
+    private void ToOparateScene()
+    {
+        SceneManager.LoadScene("OperateScene1");
+    }
+
+
+    //少し変更予定
+    // CharacterSceneで使用
+    public void OnClickConfirmSystem(CharacterType pType)
+    {
+        PlayerEntryPoint.characterType = pType;
+    }
+
+    public void OnClickConfirmButton() // 確定ボタン
+    {
+        ToAlphaVersionSystem().Forget();
+        //ToOparateScene();
+    }
+
+    public void OnClickOparateSceneStartButton() // Startボタン
+    {
+        SceneManager.LoadScene("AlphaVersion");
+    }
+
 }
