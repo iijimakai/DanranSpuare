@@ -11,7 +11,7 @@ namespace Shun_System
 {
     public class PlayerEntryPoint : MonoBehaviour
     {
-        [field: SerializeField, Header("キャラクターの種類")] public CharacterType characterType { get; private set; }
+        [field: SerializeField, Header("キャラクターの種類")] public static CharacterType characterType { get; set; }        
         [field: SerializeField, Header("Wave Controller")] public  WaveController waveController { get; private set; }
         [field: SerializeField, Header("Main Camera")] public Camera mainCamera { get; private set; }
         [field: SerializeField, Header("MiniMap Camera")] public MiniMapController miniMapController { get; private set; }
@@ -21,10 +21,10 @@ namespace Shun_System
         private PlayerInput _playerInput;
         void Awake()
         {
-            Init(characterType).Forget();
+            Init(PlayerEntryPoint.characterType).Forget();
         }
 
-        private async UniTask Init(CharacterType type)
+        public async UniTask Init(CharacterType type)
         {
             // Cancel token, canceled when monobehavior is destroyed
             var cancellationToken = this.GetCancellationTokenOnDestroy();

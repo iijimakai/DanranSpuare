@@ -16,7 +16,7 @@ MonoBehaviour:
   <speed>k__BackingField: 3
   <accelerationSpeed>k__BackingField: 0
   <attackPoint>k__BackingField: 3
-  <touchDamage>k__BackingField: 70
+  <touchDamage>k__BackingField: 2
   <bulletSpeed>k__BackingField: 3
   <firingRange>k__BackingField: 50
   <attackInterval>k__BackingField: 3

@@ -19,8 +19,9 @@ namespace Shun_Player
 
         [SerializeField] GameObject rend;
         [SerializeField] private GameObject[] ice = new GameObject[8];
-        private CanvasShow canvasShow;
-        private SceneChange sceneChange;
+        [SerializeField] private GameObject arrow;
+        [SerializeField] private CanvasShow canvasShow;
+        [SerializeField] private SceneChange sceneChange;
         public float hp {  get; private set; }
         public float maxHp { get; private set; }
         public float havingRod { get; private set; }
@@ -268,10 +269,10 @@ namespace Shun_Player
         private async void Dead()
         {
             Debug.Log("GameOver");
-            canvasShow.GameOverCanvasShow();
+            //canvasShow.GameOverCanvasShow();
             rend.SetActive(false);
             Destroy(gameObject);
-            //sceneChange.ToGameOverScene();
+            sceneChange.ToGameOverScene();
         }
 
         private void OnDestroy()

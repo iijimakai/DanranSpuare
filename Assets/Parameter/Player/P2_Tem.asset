@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: P2_Tem
   m_EditorClassIdentifier: 
   <characterType>k__BackingField: 2
-  <starTime>k__BackingField: 0
+  <starTime>k__BackingField: 1.5
   <dashRange>k__BackingField: 1
   <dashTime>k__BackingField: 0.3
   <dashCoolTime>k__BackingField: 2

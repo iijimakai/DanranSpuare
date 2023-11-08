@@ -49,6 +49,8 @@ namespace wave
         [SerializeField] private int maxActiveEnemies;
         public Vector2 stageMinBounds; // ステージの左下
         public Vector2 stageMaxBounds; // ステージの右上
+        public float _spawnRadius;
+        public int spawnInterval;
 
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
@@ -126,7 +128,7 @@ namespace wave
                         i++;
                     }
 
-                    await UniTask.Delay(2000, cancellationToken: ct); // エネミーのスポーン間隔
+                    await UniTask.Delay(spawnInterval, cancellationToken: ct); // エネミーのスポーン間隔, 500で0.5秒
                 }
 
                 allEnemiesSpawned = true;
@@ -159,6 +161,7 @@ namespace wave
                 if(waveAdvanceCount == waveClearCount)
                 {
                     canvasShow.ClearCanvasShow();
+                    await UniTask.Delay(5000, cancellationToken: ct);
                     SceneManager.LoadScene("ClearScene");
                 }
                 else
@@ -208,7 +211,7 @@ namespace wave
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
             //敵の出現位置をランダムに設定
             //ここでスポーン位置を設定
-            float spawnRadius = 15.0f;
+            float spawnRadius = _spawnRadius;
             Vector3 playerPosition = playerObject.transform.position;
             Vector3 spawnOffset = new Vector3(
                 UnityEngine.Random.Range(-spawnRadius, spawnRadius),UnityEngine.Random.Range(-spawnRadius, spawnRadius),0
