@@ -37,7 +37,7 @@ namespace wave
         }
         [SerializeField, Header("Wave数")]
         public Wave[] waves; // Waveの配列
-        private int currentWaveIndex = 0; // 現在のWaveのインデックス
+        [HideInInspector] public int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
