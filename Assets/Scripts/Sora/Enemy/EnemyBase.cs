@@ -64,11 +64,11 @@ namespace Enemy
 
             try
             {
-                spriteRenderer.color = new Color(255, 0, 0);
-                await UniTask.Delay(TimeSpan.FromSeconds(0.2), cancellationToken: cancellationToken);
                 // 破棄されていないか再度チェック
                 if (spriteRenderer != null)
                 {
+                    spriteRenderer.color = new Color(255, 0, 0);
+                    await UniTask.Delay(TimeSpan.FromSeconds(0.2), cancellationToken: cancellationToken);
                     spriteRenderer.color = sorceColor;
                 }
             }
