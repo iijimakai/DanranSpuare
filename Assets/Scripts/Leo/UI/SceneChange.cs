@@ -69,6 +69,7 @@ public class SceneChange : MonoBehaviour
     public void OnClickRetireButton() // ’ú‚ß‚éƒ{ƒ^ƒ“
     {
         //ToTitleScene();
+        canvasShow.GetRetireFlag();
         SceneManager.LoadScene("TitleScene");
     }
 

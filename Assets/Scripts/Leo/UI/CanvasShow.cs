@@ -26,6 +26,7 @@ public class CanvasShow : MonoBehaviour
         {
             OnClickCharacterButtonL();
         }
+        isPaused = false;
     }
 
 
@@ -38,6 +39,7 @@ public class CanvasShow : MonoBehaviour
     // CharacterSceneで使用
     public void OnClickCharacterButtonL() // キャラクターLボタン
     {
+        isPaused = false;
         characterSelectFreamR.SetActive(false);
         characterSelectFreamL.SetActive(true);
         playerType = CharacterType.P1;
@@ -47,6 +49,7 @@ public class CanvasShow : MonoBehaviour
     // CharacterSceneで使用
     public void OnClickCharacterButtonR() // キャラクターRボタン
     {
+        isPaused = false;
         characterSelectFreamL.SetActive(false);
         characterSelectFreamR.SetActive(true);
         playerType = CharacterType.P2;
@@ -97,5 +100,11 @@ public class CanvasShow : MonoBehaviour
     {
         menuCanvas.SetActive(false);
         giveUpCanvas.SetActive(true);
+    }
+
+    public void GetRetireFlag()
+    {
+        isPaused = false;
+        Debug.Log("isPaused" + isPaused);
     }
 }
