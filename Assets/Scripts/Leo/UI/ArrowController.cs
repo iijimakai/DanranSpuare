@@ -5,7 +5,7 @@ using UnityEngine;
 public class ArrowController : MonoBehaviour
 {
     [SerializeField] SpriteRenderer arrow;
-    [SerializeField] float arrowScele = 300f;  // –îˆó‚Ì•\¦”{—¦
+    [SerializeField] float arrowScele;  // –îˆó‚Ì•\¦”{—¦
 
     private void Start()
     {
@@ -19,8 +19,7 @@ public class ArrowController : MonoBehaviour
 
     public void ArrowMove()
     {
-        //ğŒ‚ğ’Ç‰Á—\’è
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.Z))
         {
             arrow.gameObject.SetActive(true);
 

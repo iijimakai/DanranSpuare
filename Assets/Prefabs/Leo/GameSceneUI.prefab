@@ -1122,6 +1122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 6640422730556389244}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
@@ -1715,6 +1717,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 6640422730556389244}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
@@ -2315,6 +2319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasDifficulty: {fileID: 0}
+  characterSelectFreamL: {fileID: 0}
+  characterSelectFreamR: {fileID: 0}
   canvasMenu: {fileID: 6640422730556389244}
   youLoseCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}

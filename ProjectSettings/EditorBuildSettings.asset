@@ -15,18 +15,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Leo/OperateScene1.unity
     guid: ad0dc1301cbdb0d48831eeaecc1973d4
   - enabled: 1
+    path: Assets/Scenes/AlphaVersion.unity
+    guid: 006fd1e9abaf20446b9340847201415a
+  - enabled: 0
     path: Assets/Scenes/Leo/OperateScene2.unity
     guid: 1c21975e162d1ab44af1b5c7c4db5766
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Leo/OperateScene3.unity
     guid: 7e9e2b709905d7949906a83ac714a152
-  - enabled: 1
-    path: Assets/Scenes/Leo/EasyGameScene.unity
-    guid: 67fc979eb66c39646acef7dbb935f33a
-  - enabled: 1
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Leo/NormalGameScene.unity
     guid: 94a787c9ebc138f4082891df6e71ae0c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Leo/HardGameScene.unity
     guid: 689473f483716654fb9cadde8209b61f
   - enabled: 1

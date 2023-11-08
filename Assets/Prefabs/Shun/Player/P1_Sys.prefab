@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 4700194991622613948}
   - component: {fileID: 6887152843768493248}
   - component: {fileID: 1514146589992687569}
+  - component: {fileID: 6090904532450166960}
   - component: {fileID: -2951708716138473305}
   m_Layer: 6
   m_Name: P1_Sys
@@ -141,8 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerHPController: {fileID: 1716206922435638937, guid: 43aa158eb37cc8a41b2bbb758dd740e4, type: 3}
   rend: {fileID: 5577577751248994091}
-  rodUp: {fileID: 21300000, guid: 705f154aa53221946a20925302cc2717, type: 3}
-  rodDown: {fileID: 21300000, guid: 700e5e64bbaa73d4da75df6252c226ad, type: 3}
   ice:
   - {fileID: 3615486168178109046}
   - {fileID: 912006109085714624}
@@ -152,6 +151,23 @@ MonoBehaviour:
   - {fileID: 3573325359451160437}
   - {fileID: 4878815905133397667}
   - {fileID: 7545013336890602380}
+  arrow: {fileID: 1467707833219988547}
+  canvasShow: {fileID: 7860871235729418019, guid: de339476d358c4249a3aba706ef1e3cb, type: 3}
+  sceneChange: {fileID: 2431385319340968230, guid: fea742adb5db4d6409a647b5e50395a8, type: 3}
+--- !u!114 &6090904532450166960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081565991272496456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329a6480a55ec4848ba1306e3fc7d34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrow: {fileID: 9172024036033427533}
+  arrowScele: 150
 --- !u!61 &-2951708716138473305
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -188,14 +204,13 @@ GameObject:
   m_Component:
   - component: {fileID: 8135951040939998650}
   - component: {fileID: 9172024036033427533}
-  - component: {fileID: 5016884704880965505}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8135951040939998650
 Transform:
   m_ObjectHideFlags: 0
@@ -263,20 +278,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5016884704880965505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1467707833219988547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329a6480a55ec4848ba1306e3fc7d34f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrow: {fileID: 9172024036033427533}
-  arrowScele: 80
 --- !u!1 &1960383814000197303
 GameObject:
   m_ObjectHideFlags: 0
