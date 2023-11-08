@@ -14,15 +14,24 @@ namespace Enemy
         public IObservable<Unit> OnDestroyed => onDestroyed;
         [SerializeField] private GameObject attackObj;
         private GameObject player;
-        private async void Awake()
+        private async UniTaskVoid Awake()
         {
-            await Task.Delay(500);
-            // TODO: EnemyPoolができたら変更
-            attackObj.SetActive(false);
-            player = GameObject.FindGameObjectWithTag(TagName.Player);
-            await base.Init(EnemyType.E3);
-            await UniTask.WaitUntil(() => player != null);
-            Spawn();
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+            try
+            {
+                // ゲーム開始から500ミリ秒待機
+                await UniTask.Delay(500, cancellationToken: cancellationToken);
+                attackObj.SetActive(false);
+                player = GameObject.FindGameObjectWithTag(TagName.Player);
+                await base.Init(EnemyType.E3).AttachExternalCancellation(cancellationToken); // こうすることで外部からキャンセルトークンをEnemyBaseのInitに付け加えることができる
+                await UniTask.WaitUntil(() => player != null, cancellationToken: cancellationToken);
+                Spawn();
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時の処理
+                Debug.Log("Initialization was canceled due to the MonoBehaviour being destroyed.");
+            }
         }
 
         /// <summary>
@@ -112,6 +121,11 @@ namespace Enemy
         {
             onDestroyed.Dispose();
             onDestroyed = new Subject<Unit>();
+        }
+        private void OnDestroy()
+        {
+            // すべての非同期操作をキャンセル
+            disposables.Clear();
         }
     }
 }
