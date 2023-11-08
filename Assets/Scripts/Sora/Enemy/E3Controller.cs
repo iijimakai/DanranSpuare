@@ -72,7 +72,7 @@ namespace Enemy
         /// </summary>
         private async void AttackIntervalClear()
         {
-            await UniTask.WaitUntil(() => !attackObj.activeSelf);
+            await UniTask.WaitUntil(() => attackObj != null && !attackObj.activeSelf);
             // AttackIntervalを止めるため
             base.DisposableClear();
             Spawn();
