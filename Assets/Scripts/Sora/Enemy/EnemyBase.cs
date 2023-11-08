@@ -18,7 +18,7 @@ namespace Enemy
 
         private float speed;
         private bool isMove = true;
-        private EnemyData data;
+        protected private EnemyData data; // protectedで子クラスからのアクセスを可能にする
 
         private Color sorceColor;
 
