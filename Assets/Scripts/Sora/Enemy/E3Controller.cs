@@ -5,6 +5,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Lean.Pool;
 using System.Threading.Tasks;
+using Shun_Player;
 
 namespace Enemy
 {
@@ -70,6 +71,18 @@ namespace Enemy
             float distanceFromE3 = 1.0f; // この値は適宜調整
             attackObj.transform.position = transform.position + directionToPlayer * distanceFromE3;
             attackObj.SetActive(true);
+
+            // 攻撃オブジェクトがアクティブになっている場合はプレイヤーにダメージを与える
+            if (attackObj.activeInHierarchy)
+            {
+                // プレイヤーにダメージを与える
+                PlayerBase playerBase = player.GetComponent<PlayerBase>();
+                if (playerBase != null)
+                {
+                    playerBase.Damage(data.attackPoint);
+                }
+            }
+
             // TODO: アニメーションができ次第消す時間を取得して消す。
             Observable.Timer(TimeSpan.FromSeconds(1f))
                 .Subscribe(_ => AttackEnd())
