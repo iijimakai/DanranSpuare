@@ -47,10 +47,9 @@ namespace wave
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
         [SerializeField] private int maxActiveEnemies;
-        public Vector2 stageMinBounds; // ステージの左下
-        public Vector2 stageMaxBounds; // ステージの右上
-        public float _spawnRadius;
-        public int spawnInterval;
+        [SerializeField,Header("ステージの左下からのx,y")]private Vector2 stageMinBounds; // ステージの左下
+        [SerializeField,Header("ステージの右上からのx,y")]private Vector2 stageMaxBounds; // ステージの右上
+        [SerializeField,Header("敵のスポーン間隔、1000で1秒")] private int spawnInterval;
 
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
@@ -208,27 +207,15 @@ namespace wave
             if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
-            //敵の出現位置をランダムに設定
-            //ここでスポーン位置を設定
-            float spawnRadius = _spawnRadius;
-            Vector3 playerPosition = playerObject.transform.position;
-            Vector3 spawnOffset = new Vector3(
-                UnityEngine.Random.Range(-spawnRadius, spawnRadius),UnityEngine.Random.Range(-spawnRadius, spawnRadius),0
+
+            // ステージ内でランダムなスポーン位置を生成
+            Vector2 spawnPosition = new Vector2(
+                UnityEngine.Random.Range(stageMinBounds.x, stageMaxBounds.x),
+                UnityEngine.Random.Range(stageMinBounds.y, stageMaxBounds.y)
             );
-            Vector3 spawnPosition = playerPosition + spawnOffset;
-            // ステージの境界内に収まるようにスポーン位置を調整
-            spawnPosition.x = Mathf.Clamp(spawnPosition.x, stageMinBounds.x, stageMaxBounds.x);
-            spawnPosition.y = Mathf.Clamp(spawnPosition.y, stageMinBounds.y, stageMaxBounds.y);
-            Vector3 cameraPosition = mainCamera.transform.position;
-            float distanceToCamera = Vector3.Distance(spawnPosition, cameraPosition);
-            // カメラの範囲外のしきい値(範囲)を計算する
-            float spawnThreshold = mainCamera.orthographicSize + spawnRadius;
-            // カメラの範囲内に敵がいる場合、出現位置を調整する
-            if (distanceToCamera < spawnThreshold)
-            {
-                spawnPosition += (spawnPosition - cameraPosition).normalized * (spawnThreshold - distanceToCamera);
-            }
+
             spawnedEnemyObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
+
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
