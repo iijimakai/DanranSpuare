@@ -19,6 +19,10 @@ namespace wave
         [SerializeField,Header("クリアに設定したいWave数")] private int waveClearCount;
         private int waveAdvanceCount = 0; // ウェーブが進行した数
         [SerializeField] private CanvasShow canvasShow;
+        [SerializeField,Header("敵の最大アクティブ数")] private int maxActiveEnemies;
+        [SerializeField,Header("ステージ左上の座標x,y")] private Vector2 stageBottomLeft; // ステージの左下
+        [SerializeField,Header("ステージ右上の座標x,y")] private Vector2 stageTopRight; // ステージ右上の座標
+        [SerializeField,Header("敵のスポーン間隔、1000で1秒")] private int spawnInterval;
         public Subject<int> OnEnemyDestroyed { get; private set; } = new Subject<int>();
         private int destroyedEnemyCount = 0;
         [System.Serializable]
@@ -46,10 +50,6 @@ namespace wave
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
-        [SerializeField] private int maxActiveEnemies;
-        [SerializeField,Header("ステージの左下からのx,y")]private Vector2 stageMinBounds; // ステージの左下
-        [SerializeField,Header("ステージの右上からのx,y")]private Vector2 stageMaxBounds; // ステージの右上
-        [SerializeField,Header("敵のスポーン間隔、1000で1秒")] private int spawnInterval;
 
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
@@ -210,8 +210,8 @@ namespace wave
 
             // ステージ内でランダムなスポーン位置を生成
             Vector2 spawnPosition = new Vector2(
-                UnityEngine.Random.Range(stageMinBounds.x, stageMaxBounds.x),
-                UnityEngine.Random.Range(stageMinBounds.y, stageMaxBounds.y)
+                UnityEngine.Random.Range(stageBottomLeft.x, stageTopRight.x),
+                UnityEngine.Random.Range(stageBottomLeft.y, stageTopRight.y)
             );
 
             spawnedEnemyObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
