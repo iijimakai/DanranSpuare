@@ -59,6 +59,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: HP_UI
       objectReference: {fileID: 0}
+    - target: {fileID: 1005063451028288589, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005063451028288589, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005063451028288589, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 5455380289966441035, guid: 46b1401226349964bbf1c2c9e81ff585, type: 3}
       propertyPath: m_Pivot.x
       value: 0
