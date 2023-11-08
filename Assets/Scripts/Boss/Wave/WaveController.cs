@@ -37,7 +37,7 @@ namespace wave
         }
         [SerializeField, Header("Wave数")]
         public Wave[] waves; // Waveの配列
-        public int currentWaveIndex = 0; // 現在のWaveのインデックス
+        private int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
@@ -202,7 +202,6 @@ namespace wave
         /// 指定されたタイプの敵をスポーン
         /// </summary>
         /// <param name="enemyType">スポーンさせる敵のタイプ</param>
-        int count = 0;
         private void SpawnEnemy(EnemyType enemyType)
         {
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
@@ -233,8 +232,6 @@ namespace wave
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
-                count++;
-                Debug.Log("DestroyCount"+count);
                 DestroyEnemy(spawnedEnemyObject, spawnedEnemy);
             }).AddTo(this);
         }
