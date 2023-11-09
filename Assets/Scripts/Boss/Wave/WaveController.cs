@@ -19,6 +19,10 @@ namespace wave
         [SerializeField,Header("クリアに設定したいWave数")] private int waveClearCount;
         private int waveAdvanceCount = 0; // ウェーブが進行した数
         [SerializeField] private CanvasShow canvasShow;
+        [SerializeField,Header("敵の最大アクティブ数")] private int maxActiveEnemies;
+        [SerializeField,Header("ステージ左上の座標x,y")] private Vector2 stageBottomLeft; // ステージの左下
+        [SerializeField,Header("ステージ右上の座標x,y")] private Vector2 stageTopRight; // ステージ右上の座標
+        [SerializeField,Header("敵のスポーン間隔、1000で1秒")] private int spawnInterval;
         public Subject<int> OnEnemyDestroyed { get; private set; } = new Subject<int>();
         private int destroyedEnemyCount = 0;
         [System.Serializable]
@@ -37,7 +41,7 @@ namespace wave
         }
         [SerializeField, Header("Wave数")]
         public Wave[] waves; // Waveの配列
-        public int currentWaveIndex = 0; // 現在のWaveのインデックス
+        [HideInInspector] public int currentWaveIndex = 0; // 現在のWaveのインデックス
         [SerializeField] private int poolSize = 5; // プールサイズ
         private Dictionary<GameObject, EnemyObjPool> enemyPools = new Dictionary<GameObject, EnemyObjPool>(); //敵のプレハブごとのオブジェクトプール
         private CompositeDisposable enemySubscriptions = new CompositeDisposable();
@@ -46,11 +50,6 @@ namespace wave
         private ReactiveProperty<int> totalActiveEnemies = new ReactiveProperty<int>(0);
         private bool allEnemiesSpawned = false; // ウェーブ内の全ての敵がスポーンしたかどうかを示すフラグ
         public Camera mainCamera; // メインカメラ
-        [SerializeField] private int maxActiveEnemies;
-        public Vector2 stageMinBounds; // ステージの左下
-        public Vector2 stageMaxBounds; // ステージの右上
-        public float _spawnRadius;
-        public int spawnInterval;
 
         /// <summary>
         /// ゲーム開始時に呼ばれ、ウェーブと敵の初期化
@@ -202,39 +201,24 @@ namespace wave
         /// 指定されたタイプの敵をスポーン
         /// </summary>
         /// <param name="enemyType">スポーンさせる敵のタイプ</param>
-        int count = 0;
         private void SpawnEnemy(EnemyType enemyType)
         {
             GameObject spawnedEnemyObject = enemyPools[enemyType.enemyPrefab].GetObject(); // プールから敵を取得
             if(spawnedEnemyObject == null) return;
             totalActiveEnemies.Value++;
             IEnemy spawnedEnemy = spawnedEnemyObject.GetComponent<IEnemy>();
-            //敵の出現位置をランダムに設定
-            //ここでスポーン位置を設定
-            float spawnRadius = _spawnRadius;
-            Vector3 playerPosition = playerObject.transform.position;
-            Vector3 spawnOffset = new Vector3(
-                UnityEngine.Random.Range(-spawnRadius, spawnRadius),UnityEngine.Random.Range(-spawnRadius, spawnRadius),0
+
+            // ステージ内でランダムなスポーン位置を生成
+            Vector2 spawnPosition = new Vector2(
+                UnityEngine.Random.Range(stageBottomLeft.x, stageTopRight.x),
+                UnityEngine.Random.Range(stageBottomLeft.y, stageTopRight.y)
             );
-            Vector3 spawnPosition = playerPosition + spawnOffset;
-            // ステージの境界内に収まるようにスポーン位置を調整
-            spawnPosition.x = Mathf.Clamp(spawnPosition.x, stageMinBounds.x, stageMaxBounds.x);
-            spawnPosition.y = Mathf.Clamp(spawnPosition.y, stageMinBounds.y, stageMaxBounds.y);
-            Vector3 cameraPosition = mainCamera.transform.position;
-            float distanceToCamera = Vector3.Distance(spawnPosition, cameraPosition);
-            // カメラの範囲外のしきい値(範囲)を計算する
-            float spawnThreshold = mainCamera.orthographicSize + spawnRadius;
-            // カメラの範囲内に敵がいる場合、出現位置を調整する
-            if (distanceToCamera < spawnThreshold)
-            {
-                spawnPosition += (spawnPosition - cameraPosition).normalized * (spawnThreshold - distanceToCamera);
-            }
+
             spawnedEnemyObject.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0);
+
             //敵が破壊されたときにプールに戻るように設定
             spawnedEnemy.OnDestroyed.Subscribe(async _ =>
             {
-                count++;
-                Debug.Log("DestroyCount"+count);
                 DestroyEnemy(spawnedEnemyObject, spawnedEnemy);
             }).AddTo(this);
         }
