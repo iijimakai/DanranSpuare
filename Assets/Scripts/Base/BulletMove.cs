@@ -125,10 +125,18 @@ namespace Bullet
         /// </summary>
         private void RemoveBullet()
         {
+            if (this == null) return;
+
             disposables.Clear();
             deleteTimedisposables.Clear();
             //TODO: ObjectPoolを実装したら追加
             BulletPoolUtile.RemoveBullet(gameObject);
         }
+        private void OnDestroy()
+        {
+            disposables.Dispose();
+            deleteTimedisposables.Dispose();
+        }
+
     }
 }

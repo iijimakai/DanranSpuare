@@ -17,7 +17,7 @@ MonoBehaviour:
   <dashRange>k__BackingField: 5
   <dashTime>k__BackingField: 0.3
   <dashCoolTime>k__BackingField: 2
-  <rodStock>k__BackingField: 30
+  <rodStock>k__BackingField: 100
   <rodRecastTime>k__BackingField: 10
   <rodSetCoolTime>k__BackingField: 2
   <chargeMax>k__BackingField: 500
@@ -30,14 +30,14 @@ MonoBehaviour:
   <speedBuff>k__BackingField: 0.1
   <rodHp>k__BackingField: 100
   <rodHpBuff>k__BackingField: 0.1
-  <rodDmg>k__BackingField: 1
+  <rodDmg>k__BackingField: 2
   <rodDmgBuff>k__BackingField: 0.1
   <penetrateCount>k__BackingField: 1
   <shotSpeed>k__BackingField: 10
   <shotSpeedBuff>k__BackingField: 0.1
   <rodRange>k__BackingField: 10
   <rodRangeBuff>k__BackingField: 0.1
-  <rodInterval>k__BackingField: 1
+  <rodInterval>k__BackingField: 4
   <rodIntervalBuff>k__BackingField: -0.1
   <rodDuration>k__BackingField: 10
   <rodDurationBuff>k__BackingField: 0.1

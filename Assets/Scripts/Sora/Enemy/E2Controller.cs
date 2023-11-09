@@ -6,7 +6,6 @@ using Lean.Pool;
 using System;
 using UniRx;
 using UniRx.Triggers;
-using System.Threading.Tasks;
 
 namespace Enemy
 {
@@ -16,12 +15,21 @@ namespace Enemy
         public IObservable<Unit> OnDestroyed => onDestroyed;
         private GameObject player;
         [SerializeField] private GameObject shotPos;
-        private async void Awake()
+        private async UniTaskVoid Awake()
         {
-            await Task.Delay(500);
-            player = GameObject.FindGameObjectWithTag(TagName.Player);
-            await base.Init(EnemyType.E2);
-            StartSubscriptions();
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+            try
+            {
+                await UniTask.Delay(500);
+                player = GameObject.FindGameObjectWithTag(TagName.Player);
+                await base.Init(EnemyType.E2).AttachExternalCancellation(cancellationToken);
+                StartSubscriptions();
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時の処理
+                Debug.Log("E3 Initialization was canceled due to the MonoBehaviour being destroyed.");
+            }
         }
         private void OnBecameVisible()
         {

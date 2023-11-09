@@ -70,7 +70,7 @@ namespace Enemy
             // attackObjをE3から一定の距離離れた位置に配置
             float distanceFromE3 = 1.0f; // この値は適宜調整
             attackObj.transform.position = transform.position + directionToPlayer * distanceFromE3;
-            attackObj.SetActive(true);
+            //attackObj.SetActive(true);
 
             // 攻撃オブジェクトがアクティブになっている場合はプレイヤーにダメージを与える
             if (attackObj.activeInHierarchy)
