@@ -17,16 +17,16 @@ MonoBehaviour:
   <dashRange>k__BackingField: 1
   <dashTime>k__BackingField: 0.3
   <dashCoolTime>k__BackingField: 2
-  <rodStock>k__BackingField: 10
+  <rodStock>k__BackingField: 100
   <rodRecastTime>k__BackingField: 1
   <rodSetCoolTime>k__BackingField: 1
   <chargeMax>k__BackingField: 1
-  <hp>k__BackingField: 150
+  <hp>k__BackingField: 70
   <hpBuff>k__BackingField: 1
   <chargeDmg>k__BackingField: 1
   <chargeDmgBuff>k__BackingField: 1
   <waveTime>k__BackingField: 0.8
-  <speed>k__BackingField: 8
+  <speed>k__BackingField: 6
   <speedBuff>k__BackingField: 1
   <rodHp>k__BackingField: 1
   <rodHpBuff>k__BackingField: 1

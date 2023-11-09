@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: E3
   m_EditorClassIdentifier: 
   <hp>k__BackingField: 10
-  <speed>k__BackingField: 3
+  <speed>k__BackingField: 2
+  <accelerationSpeed>k__BackingField: 0
   <attackPoint>k__BackingField: 3
+  <touchDamage>k__BackingField: 3
   <bulletSpeed>k__BackingField: 3
   <firingRange>k__BackingField: 5
   <attackInterval>k__BackingField: 2
   <teleportationDistance>k__BackingField: 1
+  <deleteTime>k__BackingField: 0

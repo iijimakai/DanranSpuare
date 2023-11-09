@@ -6,7 +6,6 @@ using Lean.Pool;
 using System;
 using UniRx;
 using UniRx.Triggers;
-using System.Threading.Tasks;
 
 namespace Enemy
 {
@@ -16,12 +15,21 @@ namespace Enemy
         public IObservable<Unit> OnDestroyed => onDestroyed;
         private GameObject player;
         [SerializeField] private GameObject shotPos;
-        private async void Awake()
+        private async UniTaskVoid Awake()
         {
-            await Task.Delay(500);
-            player = GameObject.FindGameObjectWithTag(TagName.Player);
-            await base.Init(EnemyType.E2);
-            StartSubscriptions();
+            var cancellationToken = this.GetCancellationTokenOnDestroy();
+            try
+            {
+                await UniTask.Delay(500);
+                player = GameObject.FindGameObjectWithTag(TagName.Player);
+                await base.Init(EnemyType.E2).AttachExternalCancellation(cancellationToken);
+                StartSubscriptions();
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時の処理
+                Debug.Log("E2 Initialization was canceled due to the MonoBehaviour being destroyed.");
+            }
         }
         private void OnBecameVisible()
         {
@@ -43,6 +51,10 @@ namespace Enemy
         /// </summary>
         private void TargetLockShotPos()
         {
+            if (player == null || shotPos == null)
+            {
+                return;
+            }
             Vector3 direction = player.transform.position - shotPos.transform.position;
             shotPos.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
         }
@@ -67,7 +79,7 @@ namespace Enemy
         }
         public void Damage(int damage)
         {
-            Debug.Log("E2"+hp +"->"+ (hp - damage));
+            //Debug.Log("E2"+hp +"->"+ (hp - damage));
             hp -= damage;
             if(hp < 0)
             {
@@ -96,6 +108,19 @@ namespace Enemy
         {
             onDestroyed.Dispose();
             onDestroyed = new Subject<Unit>();
+            if (data != null)
+            {
+                hp = data.hp;
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to reset subscriptions on an uninitialized enemy.");
+            }
+        }
+        private void OnDestroy()
+        {
+            // すべての非同期操作をキャンセル
+            disposables.Clear();
         }
     }
 }

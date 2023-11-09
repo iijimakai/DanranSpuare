@@ -70,7 +70,7 @@ namespace Enemy
             // attackObjをE3から一定の距離離れた位置に配置
             float distanceFromE3 = 1.0f; // この値は適宜調整
             attackObj.transform.position = transform.position + directionToPlayer * distanceFromE3;
-            attackObj.SetActive(true);
+            //attackObj.SetActive(true);
 
             // 攻撃オブジェクトがアクティブになっている場合はプレイヤーにダメージを与える
             if (attackObj.activeInHierarchy)
@@ -108,7 +108,7 @@ namespace Enemy
         }
         public void Damage(int damage)
         {
-            Debug.Log("E3"+hp +"->"+ (hp - damage));
+            //Debug.Log("E3"+hp +"->"+ (hp - damage));
             hp -= damage;
             if(hp < 0)
             {
@@ -119,14 +119,13 @@ namespace Enemy
         public override void Dead()
         {
             base.DisposableClear();
-            Debug.Log("DaedE3");
+            //Debug.Log("DaedE3");
             DestroyEnemy();
         }
         // 敵が破壊されたときに呼ばれる関数
         public void DestroyEnemy()
         {
             onDestroyed.OnNext(Unit.Default);
-            //onDestroyed.OnCompleted();
 
             gameObject.SetActive(false);
         }
@@ -134,6 +133,14 @@ namespace Enemy
         {
             onDestroyed.Dispose();
             onDestroyed = new Subject<Unit>();
+            if (data != null)
+            {
+                hp = data.hp;
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to reset subscriptions on an uninitialized enemy.");
+            }
         }
         private void OnDestroy()
         {
