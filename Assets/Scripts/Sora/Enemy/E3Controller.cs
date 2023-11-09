@@ -133,6 +133,14 @@ namespace Enemy
         {
             onDestroyed.Dispose();
             onDestroyed = new Subject<Unit>();
+            if (data != null)
+            {
+                hp = data.hp;
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to reset subscriptions on an uninitialized enemy.");
+            }
         }
         private void OnDestroy()
         {
