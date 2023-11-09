@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7446980520149237805}
   - component: {fileID: 4767136963539844743}
   - component: {fileID: -4508588667009308151}
-  - component: {fileID: 8808953907945119675}
+  - component: {fileID: 7977923092357694798}
   m_Layer: 0
   m_Name: E2Bullet
   m_TagString: Untagged
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemy: 1
---- !u!61 &8808953907945119675
-BoxCollider2D:
+--- !u!58 &7977923092357694798
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -134,16 +134,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1.06}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.000000029802322, y: 0.020278454}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.20698795
