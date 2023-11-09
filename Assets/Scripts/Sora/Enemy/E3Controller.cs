@@ -108,7 +108,7 @@ namespace Enemy
         }
         public void Damage(int damage)
         {
-            Debug.Log("E3"+hp +"->"+ (hp - damage));
+            //Debug.Log("E3"+hp +"->"+ (hp - damage));
             hp -= damage;
             if(hp < 0)
             {
@@ -119,14 +119,13 @@ namespace Enemy
         public override void Dead()
         {
             base.DisposableClear();
-            Debug.Log("DaedE3");
+            //Debug.Log("DaedE3");
             DestroyEnemy();
         }
         // 敵が破壊されたときに呼ばれる関数
         public void DestroyEnemy()
         {
             onDestroyed.OnNext(Unit.Default);
-            //onDestroyed.OnCompleted();
 
             gameObject.SetActive(false);
         }

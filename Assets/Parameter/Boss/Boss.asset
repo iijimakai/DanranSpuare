@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dabe36e9317875e45a69d48e8d32605f, type: 3}
   m_Name: Boss
   m_EditorClassIdentifier: 
-  <hp>k__BackingField: 350
+  <hp>k__BackingField: 450
   <moveSpeed>k__BackingField: 1000
   <attackPower>k__BackingField: 1
   <attackInterval>k__BackingField: 1

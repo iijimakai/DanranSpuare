@@ -28,7 +28,7 @@ namespace Enemy
             catch (OperationCanceledException)
             {
                 // キャンセル時の処理
-                Debug.Log("E3 Initialization was canceled due to the MonoBehaviour being destroyed.");
+                Debug.Log("E2 Initialization was canceled due to the MonoBehaviour being destroyed.");
             }
         }
         private void OnBecameVisible()
@@ -51,6 +51,10 @@ namespace Enemy
         /// </summary>
         private void TargetLockShotPos()
         {
+            if (player == null || shotPos == null)
+            {
+                return;
+            }
             Vector3 direction = player.transform.position - shotPos.transform.position;
             shotPos.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
         }
@@ -75,7 +79,7 @@ namespace Enemy
         }
         public void Damage(int damage)
         {
-            Debug.Log("E2"+hp +"->"+ (hp - damage));
+            //Debug.Log("E2"+hp +"->"+ (hp - damage));
             hp -= damage;
             if(hp < 0)
             {

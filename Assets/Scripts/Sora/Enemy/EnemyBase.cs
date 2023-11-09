@@ -59,22 +59,25 @@ namespace Enemy
         }
         public async UniTaskVoid ColorChange()
         {
-            // オブジェクトが破棄された時に処理をキャンセルするためのトークンを取得
             var cancellationToken = this.GetCancellationTokenOnDestroy();
 
-            try
+            if (spriteRenderer != null && gameObject.activeInHierarchy)
             {
-                // 破棄されていないか再度チェック
-                if (spriteRenderer != null)
+                spriteRenderer.color = new Color(255, 0, 0);
+                try
                 {
-                    spriteRenderer.color = new Color(255, 0, 0);
                     await UniTask.Delay(TimeSpan.FromSeconds(0.2), cancellationToken: cancellationToken);
-                    spriteRenderer.color = sorceColor;
+                    // 再度オブジェクトが存在するかチェック
+                    if (spriteRenderer != null && gameObject.activeInHierarchy)
+                    {
+                        spriteRenderer.color = sorceColor;
+                    }
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.Log("ColorChange was cancelled.");
+                catch (OperationCanceledException)
+                {
+                    // キャンセル時の処理をここに書く
+                    Debug.Log("ColorChange was cancelled.");
+                }
             }
         }
         /// <summary>
@@ -112,6 +115,12 @@ namespace Enemy
         /// <returns>攻撃範囲内か</returns>
         public bool IsAattackRange(GameObject player)
         {
+            // プレイヤーオブジェクトが破棄されていないかチェック
+            if (player == null)
+            {
+                return false;
+            }
+
             float distance = Vector3.Distance(player.transform.position, transform.position);
             if (distance <= data.firingRange)
             {
