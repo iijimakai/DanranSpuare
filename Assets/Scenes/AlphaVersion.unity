@@ -5264,15 +5264,15 @@ MonoBehaviour:
   stageTopRight: {x: 18, y: 11}
   spawnInterval: 300
   waves:
-  - totalEnemies: 25
+  - totalEnemies: 35
     enemies:
     - enemyPrefab: {fileID: 3663951043678429359, guid: 07534725cd82e54449c2b82f049234e0, type: 3}
-      spawnChance: 0.7
-      maxSpawnCount: 80
+      spawnChance: 0.5
+      maxSpawnCount: 45
       currentSpawnCount: 0
     - enemyPrefab: {fileID: 7824733794820519041, guid: e8009bcb1f56f2e4891f67e097e5f7cb, type: 3}
-      spawnChance: 0.3
-      maxSpawnCount: 80
+      spawnChance: 0.5
+      maxSpawnCount: 45
       currentSpawnCount: 0
   - totalEnemies: 80
     enemies:
@@ -5295,7 +5295,7 @@ MonoBehaviour:
       maxSpawnCount: 1
       currentSpawnCount: 0
   currentWaveIndex: 0
-  poolSize: 5
+  poolSize: 127
   playerObject: {fileID: 0}
   mainCamera: {fileID: 1209319260}
 --- !u!4 &1846541363
